@@ -4,7 +4,7 @@
 
 @section('content')
 
-<section class="section-header pb-6 pb-lg-10 bg-primary text-white">
+<section class="section-header pb-6 pb-lg-10 bg-secondary text-white">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 text-center">
@@ -20,7 +20,7 @@
     <div class="pattern bottom"></div>
 </section>
 
-<section class="section section-ld">
+<!--<section class="section section-ld">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -58,6 +58,6 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 @endsection

@@ -19,6 +19,9 @@ if (user_registration()) {
     Route::post('/register', [RegisteredUserController::class, 'store'])
                     ->middleware('guest');
 }
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+                ->middleware('guest')
+                ->name('guest.login');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
                 ->middleware('guest')

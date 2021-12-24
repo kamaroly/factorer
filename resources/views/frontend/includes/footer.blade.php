@@ -1,6 +1,6 @@
 @include ('frontend.includes.footer-comment-area')
 
-<footer class="footer section pt-6 pt-md-8 pt-lg-10 pb-3 bg-primary text-white overflow-hidden">
+<footer class="footer section pt-6 pt-md-8 pt-lg-10 pb-3 bg-secondary text-white overflow-hidden">
     <div class="pattern pattern-soft top"></div>
     <div class="container">
         <div class="row">
@@ -79,7 +79,7 @@
 
         <div class="row">
             <div class="col pb-4 mb-md-0">
-                <div class="d-flex text-center justify-content-center align-items-center">
+                 <div class="d-flex text-center justify-content-center align-items-center">
                     <p class="font-weight-normal mb-0">
                         &copy; {{ app_name() }}, {!! setting('footer_text') !!}
                     </p>

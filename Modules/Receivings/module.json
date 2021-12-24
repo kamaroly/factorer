@@ -1,0 +1,13 @@
+{
+    "name": "Receivings",
+    "alias": "receivings",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Receivings\\Providers\\ReceivingsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

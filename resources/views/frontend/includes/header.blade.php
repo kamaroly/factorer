@@ -1,5 +1,5 @@
 <header class="header-global">
-    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark navbar-theme-primary">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark navbar-theme-green">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img class="navbar-brand-dark common" src="{{asset('img/backend-logo.jpg')}}" height="35" alt="Logo light">
@@ -23,7 +23,7 @@
                 <ul class="navbar-nav navbar-nav-hover justify-content-center">
                     <li class="nav-item">
                         <a href="/" class="nav-link">
-                            <span class="fas fa-home mr-2"></span> Home
+                            <span class="fas fa-home mr-2"></span> HomeS
                         </a>
                     </li>
                     <li class="nav-item">

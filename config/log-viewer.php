@@ -97,7 +97,7 @@ return [
      */
 
     'icons' => [
-        /**
+        /*
          * Font awesome >= 4.3
          * http://fontawesome.io/icons/.
          */

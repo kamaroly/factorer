@@ -1,6 +1,6 @@
 <section class="section section-lg pb-5 bg-soft">
     <div class="container">
-        <div class="row justify-content-center">
+ <!--       <div class="row justify-content-center">
             <div class="col-12 text-gray text-center mb-4 mb-lg-5">
                 <h2 class="mb-3 mb-lg-4 text-black">
                     Email Newsletters
@@ -25,6 +25,6 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>-->
     </div>
 </section>

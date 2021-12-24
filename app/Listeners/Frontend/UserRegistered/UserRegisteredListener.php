@@ -32,7 +32,7 @@ class UserRegisteredListener implements ShouldQueue
         $user = $event->user;
 
         // Create Log
-        Log::info('New User Registered as '.$user->name);
+        Log::info('New User Registered as ' . $user->name);
 
         // Send Email To Registered User
         if ($user->password == '') {

@@ -1,5 +1,9 @@
 {
     "Article": true,
     "Tag": true,
-    "Comment": true
+    "Comment": true,
+    "Client": true,
+    "Billing": true,
+    "Receivings": true,
+    "Purchase": true
 }

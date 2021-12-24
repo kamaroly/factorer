@@ -27,7 +27,7 @@ trait UserPresenter
                 break;
 
             default:
-                return '<span class="badge badge-primary">Status:'.$this->status.'</span>';
+                return '<span class="badge badge-primary">Status:' . $this->status . '</span>';
                 break;
         }
     }

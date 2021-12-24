@@ -45,10 +45,10 @@ class AuthPermissionCommand extends Command
         // check if its remove
         if ($is_remove = $this->option('remove')) {
             // remove permission
-            if (Permission::where('name', 'LIKE', '%'.$this->getNameArgument())->delete()) {
-                $this->warn('Permissions '.implode(', ', $permissions).' deleted.');
+            if (Permission::where('name', 'LIKE', '%' . $this->getNameArgument())->delete()) {
+                $this->warn('Permissions ' . implode(', ', $permissions) . ' deleted.');
             } else {
-                $this->warn('No permissions for '.$this->getNameArgument().' found!');
+                $this->warn('No permissions for ' . $this->getNameArgument() . ' found!');
             }
         } else {
             // create permissions
@@ -56,7 +56,7 @@ class AuthPermissionCommand extends Command
                 Permission::firstOrCreate(['name' => $permission]);
             }
 
-            $this->info('Permissions '.implode(', ', $permissions).' created.');
+            $this->info('Permissions ' . implode(', ', $permissions) . ' created.');
         }
 
         // sync role for admin
@@ -72,7 +72,7 @@ class AuthPermissionCommand extends Command
         $name = $this->getNameArgument();
 
         return array_map(function ($val) use ($name) {
-            return $val.'_'.$name;
+            return $val . '_' . $name;
         }, $abilities);
     }
 

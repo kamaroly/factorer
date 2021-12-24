@@ -44,7 +44,7 @@ class UserCreatedProfileCreate implements ShouldQueue
         $userprofile->status = ($user->status > 0) ? $user->status : 0;
         $userprofile->save();
 
-        Log::info('UserCreatedProfileCreate: '.$userprofile->name.'(Id:'.$userprofile->user_id.')');
+        Log::info('UserCreatedProfileCreate: ' . $userprofile->name . '(Id:' . $userprofile->user_id . ')');
 
         // Clear Cache
         \Artisan::call('cache:clear');

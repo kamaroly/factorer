@@ -10,9 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Autho Routes
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Language Switch
 Route::get('language/{language}', 'LanguageController@switch')->name('language.switch');
@@ -24,7 +25,10 @@ Route::get('language/{language}', 'LanguageController@switch')->name('language.s
 * --------------------------------------------------------------------
 */
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
-    Route::get('/', 'FrontendController@index')->name('index');
+    Route::get('/', [AuthenticatedSessionController::class, 'create'])
+                ->middleware('guest')
+                ->name('index');
+
     Route::get('home', 'FrontendController@index')->name('home');
     Route::get('privacy', 'FrontendController@privacy')->name('privacy');
     Route::get('terms', 'FrontendController@terms')->name('terms');
@@ -56,7 +60,7 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 */
 Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'backend.', 'middleware' => ['auth', 'can:view_backend']], function () {
 
-    /**
+    /*
      * Backend Dashboard
      * Namespaces indicate folder structure.
      */

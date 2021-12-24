@@ -49,6 +49,26 @@ class LoginPageTest extends TestCase
     }
 
     /**
+     * Ensure that customer is redirected to the admin/dashboard
+     * After successful login.
+     */
+    public function testUserIsRedirectedToDashboardAfterLogin()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/login', [
+            'email'    => $user->email,
+            'password' => $user->password,
+        ]);
+
+        $response->assertStatus(302);
+
+        $response = $this->actingAs($user, 'web');
+
+        $this->assertTrue(url()->current() === 'admin/dashboard');
+    }
+
+    /**
      * Remember Me Check.
      */
     public function test_remember_me_functionality()

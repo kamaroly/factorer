@@ -104,10 +104,10 @@ if (!function_exists('show_column_value')) {
             $img_path = asset($value);
 
             $return_text = '<figure class="figure">
-                                <a href="'.$img_path.'" data-lightbox="image-set" data-title="Path: '.$value.'">
-                                    <img src="'.$img_path.'" style="max-width:200px;" class="figure-img img-fluid rounded img-thumbnail" alt="">
+                                <a href="' . $img_path . '" data-lightbox="image-set" data-title="Path: ' . $value . '">
+                                    <img src="' . $img_path . '" style="max-width:200px;" class="figure-img img-fluid rounded img-thumbnail" alt="">
                                 </a>
-                                <figcaption class="figure-caption">Path: '.$value.'</figcaption>
+                                <figcaption class="figure-caption">Path: ' . $value . '</figcaption>
                             </figure>';
         } else {
             $return_text = $value;
@@ -180,7 +180,7 @@ if (!function_exists('humanFilesize')) {
             $i++;
         }
 
-        return round($size, $precision).$units[$i];
+        return round($size, $precision) . $units[$i];
     }
 }
 
@@ -270,7 +270,7 @@ if (!function_exists('icon')) {
      */
     function icon($string = 'fas fa-check')
     {
-        $return_string = "<i class='".$string."'></i>";
+        $return_string = "<i class='" . $string . "'></i>";
 
         return $return_string;
     }
@@ -294,10 +294,10 @@ if (!function_exists('logUserAccess')) {
         $auth_text = '';
 
         if (\Auth::check()) {
-            $auth_text = 'User:'.\Auth::user()->name.' (ID:'.\Auth::user()->id.')';
+            $auth_text = 'User:' . \Auth::user()->name . ' (ID:' . \Auth::user()->id . ')';
         }
 
-        \Log::debug(label_case($text)." | $auth_text");
+        \Log::debug(label_case($text) . " | $auth_text");
     }
 }
 
@@ -435,7 +435,7 @@ if (!function_exists('banglaDate')) {
             $bn_year -= 1;
         }
 
-        $return_bn_date = $bn_day.' '.$bn_month.' '.$bn_year;
+        $return_bn_date = $bn_day . ' ' . $bn_month . ' ' . $bn_year;
         $return_bn_date = en2bnNumber($return_bn_date);
 
         return $return_bn_date;

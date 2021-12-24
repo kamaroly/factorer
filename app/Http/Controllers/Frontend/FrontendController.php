@@ -15,6 +15,8 @@ class FrontendController extends Controller
     {
         $body_class = '';
 
+        // Redirect to login instead of guest page
+
         return view('frontend.index', compact('body_class'));
     }
 

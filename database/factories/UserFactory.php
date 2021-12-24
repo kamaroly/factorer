@@ -25,7 +25,7 @@ class UserFactory extends Factory
     {
         $first_name = $this->faker->firstName;
         $last_name = $this->faker->lastName;
-        $name = $first_name.' '.$last_name;
+        $name = $first_name . ' ' . $last_name;
 
         return [
             'first_name'    => $first_name,

@@ -29,17 +29,15 @@
     <x-google-analytics config="{{ setting('google_analytics') }}" />
 </head>
 
-<body class="bg-white">
+<body class="bg-green">
 
     <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img src="{{asset('img/logo-with-text.jpg')}}" height="30">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+           
+          <!---  <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
@@ -108,7 +106,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </nav>
 

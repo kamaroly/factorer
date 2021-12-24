@@ -50,7 +50,7 @@ class NotificationsController extends Controller
         $$module_name = auth()->user()->notifications()->paginate();
         $unread_notifications_count = auth()->user()->unreadNotifications()->count();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return view(
             "backend.$module_path.index",
@@ -84,11 +84,11 @@ class NotificationsController extends Controller
                 $$module_name_singular->save();
             }
         } else {
-            Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+            Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
             abort(404);
         }
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return view(
             "backend.$module_name.show",
@@ -120,7 +120,7 @@ class NotificationsController extends Controller
 
         Flash::success("<i class='fas fa-check'></i> All Notifications Deleted")->important();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return back();
     }
@@ -147,7 +147,7 @@ class NotificationsController extends Controller
 
         Flash::success("<i class='fas fa-check'></i> All Notifications Marked As Read")->important();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return back();
     }

@@ -20,7 +20,7 @@ class Notification extends Model
      */
     public function getTableColumns()
     {
-        $table_info_columns = DB::select(DB::raw('SHOW COLUMNS FROM '.$this->getTable()));
+        $table_info_columns = DB::select(DB::raw('SHOW COLUMNS FROM ' . $this->getTable()));
 
         return $table_info_columns;
     }

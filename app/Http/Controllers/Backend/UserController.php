@@ -62,11 +62,11 @@ class UserController extends Controller
         $module_action = 'List';
 
         $page_heading = ucfirst($module_title);
-        $title = $page_heading.' '.ucfirst($module_action);
+        $title = $page_heading . ' ' . ucfirst($module_action);
 
         $$module_name = $module_model::paginate();
 
-        Log::info("'$title' viewed by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info("'$title' viewed by User:" . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return view(
             "backend.$module_path.index",
@@ -103,7 +103,7 @@ class UserController extends Controller
                         ->editColumn('name', '<strong>{{$name}}</strong>')
                         ->editColumn('status', function ($data) {
                             $return_data = $data->status_label;
-                            $return_data .= '<br>'.$data->confirmed_label;
+                            $return_data .= '<br>' . $data->confirmed_label;
 
                             return $return_data;
                         })
@@ -140,7 +140,7 @@ class UserController extends Controller
         $module_action = 'List';
 
         $page_heading = label_case($module_title);
-        $title = $page_heading.' '.label_case($module_action);
+        $title = $page_heading . ' ' . label_case($module_action);
 
         $term = trim($request->q);
 
@@ -155,7 +155,7 @@ class UserController extends Controller
         foreach ($query_data as $row) {
             $$module_name[] = [
                 'id'   => $row->id,
-                'text' => $row->name.' (Email: '.$row->email.')',
+                'text' => $row->name . ' (Email: ' . $row->email . ')',
             ];
         }
 
@@ -213,7 +213,7 @@ class UserController extends Controller
         ]);
 
         $data_array = $request->except('_token', 'roles', 'permissions', 'password_confirmation');
-        $data_array['name'] = $request->first_name.' '.$request->last_name;
+        $data_array['name'] = $request->first_name . ' ' . $request->last_name;
         $data_array['password'] = Hash::make($request->password);
 
         if ($request->confirmed == 1) {
@@ -251,7 +251,7 @@ class UserController extends Controller
 
         event(new UserCreated($$module_name_singular));
 
-        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Created")->important();
+        Flash::success("<i class='fas fa-check'></i> New '" . Str::singular($module_title) . "' Created")->important();
 
         if ($request->email_credentials == 1) {
             $data = [
@@ -259,10 +259,10 @@ class UserController extends Controller
             ];
             $$module_name_singular->notify(new UserAccountCreated($data));
 
-            Flash::success(icon('fas fa-envelope').' Account Credentials Sent to User.')->important();
+            Flash::success(icon('fas fa-envelope') . ' Account Credentials Sent to User.')->important();
         }
 
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . " | '" . $$module_name_singular->name . '(ID:' . $$module_name_singular->id . ") ' by User:" . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return redirect("admin/$module_name");
     }
@@ -288,7 +288,7 @@ class UserController extends Controller
         $$module_name_singular = $module_model::findOrFail($id);
         $userprofile = Userprofile::where('user_id', $$module_name_singular->id)->first();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return view(
             "backend.$module_name.show",
@@ -318,11 +318,11 @@ class UserController extends Controller
         if ($$module_name_singular) {
             $userprofile = Userprofile::where('user_id', $id)->first();
         } else {
-            Log::error('UserProfile Exception for Username: '.$username);
+            Log::error('UserProfile Exception for Username: ' . $username);
             abort(404);
         }
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return view("backend.$module_name.profile", compact('module_name', 'module_name_singular', "$module_name_singular", 'module_icon', 'module_action', 'module_title', 'userprofile'));
     }
@@ -352,7 +352,7 @@ class UserController extends Controller
         $$module_name_singular = $module_model::findOrFail($id);
         $userprofile = Userprofile::where('user_id', $$module_name_singular->id)->first();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return view(
             "backend.$module_name.profileEdit",
@@ -407,16 +407,16 @@ class UserController extends Controller
 
         $data_array = $request->except('avatar');
         $data_array['avatar'] = $$module_name_singular->avatar;
-        $data_array['name'] = $request->first_name.' '.$request->last_name;
+        $data_array['name'] = $request->first_name . ' ' . $request->last_name;
 
         $user_profile = Userprofile::where('user_id', '=', $$module_name_singular->id)->first();
         $user_profile->update($data_array);
 
         event(new UserProfileUpdated($user_profile));
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
+        Flash::success('<i class="fas fa-check"></i> ' . label_case($module_name_singular) . ' Updated Successfully!')->important();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return redirect(route('backend.users.profile', $$module_name_singular->id));
     }
@@ -478,7 +478,7 @@ class UserController extends Controller
 
         $$module_name_singular->update($request_data);
 
-        Flash::success(icon()." '".Str::singular($module_title)."' Updated Successfully")->important();
+        Flash::success(icon() . " '" . Str::singular($module_title) . "' Updated Successfully")->important();
 
         return redirect("admin/$module_name/profile/$id");
     }
@@ -502,7 +502,7 @@ class UserController extends Controller
         $module_action = 'Change Password';
 
         $page_heading = label_case($module_title);
-        $title = $page_heading.' '.label_case($module_action);
+        $title = $page_heading . ' ' . label_case($module_action);
 
         if (!auth()->user()->can('edit_users')) {
             $id = auth()->user()->id;
@@ -548,7 +548,7 @@ class UserController extends Controller
 
         $$module_name_singular->update($request_data);
 
-        Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
+        Flash::success("<i class='fas fa-check'></i> '" . Str::singular($module_title) . "' Updated Successfully")->important();
 
         return redirect("admin/$module_name");
     }
@@ -583,7 +583,7 @@ class UserController extends Controller
         $roles = Role::get();
         $permissions = Permission::select('name', 'id')->get();
 
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . " | '" . $$module_name_singular->name . '(ID:' . $$module_name_singular->id . ") ' by User:" . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return view(
             "backend.$module_name.edit",
@@ -655,9 +655,9 @@ class UserController extends Controller
 
         event(new UserUpdated($$module_name_singular));
 
-        Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
+        Flash::success("<i class='fas fa-check'></i> '" . Str::singular($module_title) . "' Updated Successfully")->important();
 
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        Log::info(label_case($module_title . ' ' . $module_action) . " | '" . $$module_name_singular->name . '(ID:' . $$module_name_singular->id . ") ' by User:" . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
         return redirect("admin/$module_name");
     }
@@ -683,7 +683,7 @@ class UserController extends Controller
         if (auth()->user()->id == $id || $id == 1) {
             Flash::warning("<i class='fas fa-exclamation-triangle'></i> You can not delete this user!")->important();
 
-            Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+            Log::notice(label_case($module_title . ' ' . $module_action) . ' Failed | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
             return redirect()->back();
         }
@@ -694,9 +694,9 @@ class UserController extends Controller
 
         event(new UserUpdated($$module_name_singular));
 
-        flash('<i class="fas fa-check"></i> '.$$module_name_singular->name.' User Successfully Deleted!')->success();
+        flash('<i class="fas fa-check"></i> ' . $$module_name_singular->name . ' User Successfully Deleted!')->success();
 
-        Log::info(label_case($module_action)." '$module_name': '".$$module_name_singular->name.', ID:'.$$module_name_singular->id." ' by User:".auth()->user()->name);
+        Log::info(label_case($module_action) . " '$module_name': '" . $$module_name_singular->name . ', ID:' . $$module_name_singular->id . " ' by User:" . auth()->user()->name);
 
         return redirect("admin/$module_name");
     }
@@ -721,7 +721,7 @@ class UserController extends Controller
 
         $$module_name = $module_model::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate();
 
-        Log::info(label_case($module_action).' '.label_case($module_name).' by User:'.auth()->user()->name);
+        Log::info(label_case($module_action) . ' ' . label_case($module_name) . ' by User:' . auth()->user()->name);
 
         return view(
             "backend.$module_name.trash",
@@ -753,9 +753,9 @@ class UserController extends Controller
 
         event(new UserUpdated($$module_name_singular));
 
-        flash('<i class="fas fa-check"></i> '.$$module_name_singular->name.' Successfully Restoreded!')->success();
+        flash('<i class="fas fa-check"></i> ' . $$module_name_singular->name . ' Successfully Restoreded!')->success();
 
-        Log::info(label_case($module_action)." '$module_name': '".$$module_name_singular->name.', ID:'.$$module_name_singular->id." ' by User:".auth()->user()->name);
+        Log::info(label_case($module_action) . " '$module_name': '" . $$module_name_singular->name . ', ID:' . $$module_name_singular->id . " ' by User:" . auth()->user()->name);
 
         return redirect("admin/$module_name");
     }
@@ -781,7 +781,7 @@ class UserController extends Controller
         if (auth()->user()->id == $id || $id == 1) {
             Flash::warning("<i class='fas fa-exclamation-triangle'></i> You can not 'Block' this user!")->important();
 
-            Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+            Log::notice(label_case($module_title . ' ' . $module_action) . ' Failed | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
             return redirect()->back();
         }
@@ -795,7 +795,7 @@ class UserController extends Controller
 
             event(new UserUpdated($$module_name_singular));
 
-            flash('<i class="fas fa-check"></i> '.$$module_name_singular->name.' User Successfully Blocked!')->success();
+            flash('<i class="fas fa-check"></i> ' . $$module_name_singular->name . ' User Successfully Blocked!')->success();
 
             return redirect()->back();
         } catch (Exception $e) {
@@ -824,7 +824,7 @@ class UserController extends Controller
         if (auth()->user()->id == $id || $id == 1) {
             Flash::warning("<i class='fas fa-exclamation-triangle'></i> You can not 'Unblock' this user!")->important();
 
-            Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+            Log::notice(label_case($module_title . ' ' . $module_action) . ' Failed | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
             return redirect()->back();
         }
@@ -837,15 +837,15 @@ class UserController extends Controller
 
             event(new UserUpdated($$module_name_singular));
 
-            flash('<i class="fas fa-check"></i> '.$$module_name_singular->name.' User Successfully Unblocked!')->success();
+            flash('<i class="fas fa-check"></i> ' . $$module_name_singular->name . ' User Successfully Unblocked!')->success();
 
-            Log::notice(label_case($module_title.' '.$module_action).' Success | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+            Log::notice(label_case($module_title . ' ' . $module_action) . ' Success | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
 
             return redirect()->back();
         } catch (Exception $e) {
             flash('<i class="fas fa-check"></i> There was a problem updating this user. Please try again.!')->error();
 
-            Log::error(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
+            Log::error(label_case($module_title . ' ' . $module_action) . ' | User:' . auth()->user()->name . '(ID:' . auth()->user()->id . ')');
             Log::error($e);
         }
     }
@@ -878,7 +878,7 @@ class UserController extends Controller
             if ($user_id == $user_provider->user->id) {
                 $user_provider->delete();
 
-                flash('<i class="fas fa-exclamation-triangle"></i> Unlinked from User, "'.$user_provider->user->name.'"!')->success();
+                flash('<i class="fas fa-exclamation-triangle"></i> Unlinked from User, "' . $user_provider->user->name . '"!')->success();
 
                 return redirect()->back();
             } else {
@@ -902,9 +902,9 @@ class UserController extends Controller
     {
         if ($id != auth()->user()->id) {
             if (auth()->user()->hasAnyRole(['administrator', 'super admin'])) {
-                Log::info(auth()->user()->name.' ('.auth()->user()->id.') - User Requested for Email Verification.');
+                Log::info(auth()->user()->name . ' (' . auth()->user()->id . ') - User Requested for Email Verification.');
             } else {
-                Log::warning(auth()->user()->name.' ('.auth()->user()->id.') - User trying to confirm another users email.');
+                Log::warning(auth()->user()->name . ' (' . auth()->user()->id . ') - User trying to confirm another users email.');
 
                 abort('404');
             }
@@ -914,7 +914,7 @@ class UserController extends Controller
 
         if ($user) {
             if ($user->email_verified_at == null) {
-                Log::info($user->name.' ('.$user->id.') - User Requested for Email Verification.');
+                Log::info($user->name . ' (' . $user->id . ') - User Requested for Email Verification.');
 
                 // Send Email To Registered User
                 $user->sendEmailVerificationNotification();
@@ -923,9 +923,9 @@ class UserController extends Controller
 
                 return redirect()->back();
             } else {
-                Log::info($user->name.' ('.$user->id.') - User Requested but Email already verified at.'.$user->email_verified_at);
+                Log::info($user->name . ' (' . $user->id . ') - User Requested but Email already verified at.' . $user->email_verified_at);
 
-                flash($user->name.', You already confirmed your email address at '.$user->email_verified_at->isoFormat('LL'))->success()->important();
+                flash($user->name . ', You already confirmed your email address at ' . $user->email_verified_at->isoFormat('LL'))->success()->important();
 
                 return redirect()->back();
             }

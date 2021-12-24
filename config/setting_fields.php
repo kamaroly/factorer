@@ -2,7 +2,7 @@
 
 return [
     'app' => [
-        'title' => 'General',
+        'title' => 'IIS',
         'desc'  => 'All the general settings for application.',
         'icon'  => 'fas fa-cube',
 
@@ -14,7 +14,7 @@ return [
                 'label' => 'App Name', // you know what label it is
                 'rules' => 'required|min:2|max:50', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'Laravel Starter', // default value if you want
+                'value' => 'IIS', // default value if you want
             ],
             [
                 'type'  => 'text', // input fields type
@@ -23,7 +23,7 @@ return [
                 'label' => 'Footer Text', // you know what label it is
                 'rules' => 'required|min:2', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => '<a href="https://github.com/nasirkhan/laravel-starter/">Built with ♥ from Bangladesh</a>', // default value if you want
+                'value' => '<a href="https://igihe.com/" target="_blank">Olivier with ♥ from Kigali</a>', // default value if you want
             ],
             [
                 'type'  => 'checkbox', // input fields type
@@ -49,7 +49,7 @@ return [
                 'label' => 'Email', // you know what label it is
                 'rules' => 'required|email', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'info@example.com', // default value if you want
+                'value' => 'olivierbite@gmail.com', // default value if you want
             ],
         ],
 
@@ -121,7 +121,7 @@ return [
                 'label' => 'Meta Site Name', // you know what label it is
                 'rules' => 'required', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'Awesome Laravel | A Laravel Starter Project', // default value if you want
+                'value' => 'olivier |  Project', // default value if you want
             ],
             [
                 'type'  => 'text', // input fields type
@@ -130,7 +130,7 @@ return [
                 'label' => 'Meta Description', // you know what label it is
                 'rules' => 'required', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'A CMS like modular starter application project built with Laravel.', // default value if you want
+                'value' => 'Welcome to official webste of Informatics IT  Solutions ', // default value if you want
             ],
             [
                 'type'  => 'text', // input fields type

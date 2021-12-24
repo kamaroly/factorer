@@ -37,6 +37,7 @@ if(!isset($meta_page_type)){
     <!-- Facebook Meta -->
     <meta property="og:url" content="{{url()->full()}}" />
     <meta property="og:title" content="@yield('title') | {{ config('app.name') }}" />
+     <meta property="og:app_name" content="{{setting('meta_app_name')}}" />
     <meta property="og:site_name" content="{{setting('meta_site_name')}}" />
     <meta property="og:description" content="{{ setting('meta_description') }}" />
     <meta property="og:image" content="{{ asset(setting('meta_image')) }}" />

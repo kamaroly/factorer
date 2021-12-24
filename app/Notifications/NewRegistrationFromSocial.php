@@ -64,9 +64,9 @@ class NewRegistrationFromSocial extends Notification
 
         return (new MailMessage())
                     ->subject('Thank you for registration!')
-                    ->line('Thank you for registration at '.app_name().'.')
+                    ->line('Thank you for registration at ' . app_name() . '.')
                     ->action('Vist Application', url('/'))
-                    ->line('We are really happy that you started to use '.app_name().'!');
+                    ->line('We are really happy that you started to use ' . app_name() . '!');
     }
 
     /**
@@ -80,7 +80,7 @@ class NewRegistrationFromSocial extends Notification
     {
         $user = $notifiable;
 
-        $text = 'Registration Completed! | New registration completed for <strong>'.$user->name.'</strong>';
+        $text = 'Registration Completed! | New registration completed for <strong>' . $user->name . '</strong>';
 
         $url_backend = route('backend.users.profile', $user->id);
         $url_frontend = route('frontend.users.profile', $user->id);
