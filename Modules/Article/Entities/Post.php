@@ -66,7 +66,11 @@ class Post extends BaseModel
     {
         $this->attributes['created_by_name'] = trim(label_case($value));
 
-        if (empty($value)) {
+        // Ensure the user is Authenticated before proceeding 
+        // With adding the name from the current logged in
+        // user
+        
+        if (empty($value) && auth()->check()) {
             $this->attributes['created_by_name'] = auth()->user()->name;
         }
     }

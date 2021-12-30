@@ -28,6 +28,11 @@ class BillingServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+
+        // Adding global middleware
+        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+        $kernel->pushMiddleware('Modules\Billing\Http\Middleware\GenerateMenus');
+
     }
 
     /**
