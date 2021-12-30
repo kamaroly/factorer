@@ -25,14 +25,14 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // comments
-            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Receivings', [
-                'route' => 'backend.comments.index',
+            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Receiving', [
+                'route' => 'backend.receivings.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
                 'order'         => 85,
-                'activematches' => ['admin/comments*'],
-                'permission'    => ['view_comments'],
+                'activematches' => ['admin/receivings*'],
+                'permission'    => ['view_receivings'],
             ])
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',
