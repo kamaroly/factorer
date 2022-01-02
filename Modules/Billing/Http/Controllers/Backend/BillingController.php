@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Purchase\Http\Controllers\Backend;
+namespace Modules\Billing\Http\Controllers\Backend;
 
 use App\Authorizable;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 
 
-class PurchaseController extends Controller
+class BillingController extends Controller
 {
 
     use Authorizable;
@@ -15,20 +15,20 @@ class PurchaseController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Purchase';
+        $this->module_title = 'Bills';
 
         // module name
-        $this->module_name = 'Purchase';
+        $this->module_name = 'billing';
 
         // module icon
         $this->module_icon = 'fas fa-money-bill';
 
         // module model name, path
-        $this->module_model = "Modules\Purchase\Entities\Bill";
+        $this->module_model = "Modules\Billing\Entities\Bill";
     }
 
     /**
-     * Welcome Page for Purchases Module
+     * Welcome Page for Billing Module
      *
      * @return Renderable
      */
@@ -36,7 +36,7 @@ class PurchaseController extends Controller
 
 
         return view(
-            "purchase::backend.{$this->module_name}.index_datatable",
+            "billing::backend.{$this->module_name}.index_datatable",
             ['module_title' => $this->module_title,
              'module_name' => $this->module_name,
              'module_icon' => $this->module_icon,

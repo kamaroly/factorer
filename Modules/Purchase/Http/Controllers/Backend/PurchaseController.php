@@ -15,10 +15,10 @@ class PurchaseController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Purchase';
+        $this->module_title = 'Purchases';
 
         // module name
-        $this->module_name = 'Purchase';
+        $this->module_name = 'purchase';
 
         // module icon
         $this->module_icon = 'fas fa-money-bill';
@@ -28,7 +28,7 @@ class PurchaseController extends Controller
     }
 
     /**
-     * Welcome Page for Purchases Module
+     * Welcome Page for Purchase Module
      *
      * @return Renderable
      */
@@ -36,7 +36,7 @@ class PurchaseController extends Controller
 
 
         return view(
-            "purchase::backend.{$this->module_name}.index_datatable",
+            "purchase::backend.{$this->module_name}s.index_datatable",
             ['module_title' => $this->module_title,
              'module_name' => $this->module_name,
              'module_icon' => $this->module_icon,
