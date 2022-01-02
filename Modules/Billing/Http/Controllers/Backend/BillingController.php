@@ -45,4 +45,23 @@ class BillingController extends Controller
              ]
         );
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view(
+            "billing::backend.{$this->module_name}.create",
+             [
+                'module_title' => $this->module_title,
+                'module_name' => $this->module_name,
+                'module_icon' => $this->module_icon,
+                'module_name_singular' => Str::singular($this->module_name),
+                'module_action' => 'Create',
+             ]        
+        );
+    }
 }

@@ -15,16 +15,16 @@ class PurchaseController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Purchase';
+        $this->module_title = 'Receivings';
 
         // module name
-        $this->module_name = 'Purchase';
+        $this->module_name = 'Receivings';
 
         // module icon
         $this->module_icon = 'fas fa-money-bill';
 
         // module model name, path
-        $this->module_model = "Modules\Purchase\Entities\Bill";
+        $this->module_model = "Modules\Receivings\Entities\Bill";
     }
 
     /**
@@ -34,15 +34,34 @@ class PurchaseController extends Controller
      */
     public function index(){
 
-
         return view(
-            "purchase::backend.{$this->module_name}.index_datatable",
-            ['module_title' => $this->module_title,
-             'module_name' => $this->module_name,
-             'module_icon' => $this->module_icon,
-             'module_name_singular' => Str::singular($this->module_name),
-             'module_action' => 'List',
+            "receivings::backend.{$this->module_name}.index_datatable",
+            [
+                'module_title' => $this->module_title,
+                'module_name' => $this->module_name,
+                'module_icon' => $this->module_icon,
+                'module_name_singular' => Str::singular($this->module_name),
+                'module_action' => 'List',
              ]
+        );
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view(
+            "receivings::backend.{$this->module_name}.create",
+             [
+                'module_title' => $this->module_title,
+                'module_name' => $this->module_name,
+                'module_icon' => $this->module_icon,
+                'module_name_singular' => Str::singular($this->module_name),
+                'module_action' => 'Create',
+             ]        
         );
     }
 }

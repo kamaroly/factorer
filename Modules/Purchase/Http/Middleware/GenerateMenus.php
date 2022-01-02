@@ -24,15 +24,15 @@ class GenerateMenus
          */
         \Menu::make('admin_sidebar', function ($menu) {
 
-            // comments
-            $menu->add('<i class="fas fa-truck-moving c-sidebar-nav-icon"></i> Purchases', [
-                'route' => 'backend.comments.index',
+            // Purchasess
+            $menu->add('<i class="fas fa-money-bill c-sidebar-nav-icon"></i> Purchases', [
+                'route' => 'backend.purchase.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
-                'order'         => 85,
-                'activematches' => ['admin/comments*'],
-                'permission'    => ['view_comments'],
+                'order'         => 84,
+                'activematches' => ['admin/Purchases*'],
+                'permission'    => ['view_purchases'],
             ])
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',
