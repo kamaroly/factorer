@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Client\Http\Controllers;
+namespace Modules\Client\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
