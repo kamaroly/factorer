@@ -23,7 +23,7 @@ Route::group(['namespace' => '\Modules\Receivings\Http\Controllers\Backend', 'as
      * ---------------------------------------------------------------------
      */
     $module_name = 'receivings';
-    $controller_name = 'ReceivingsController';
+    $controller_name = 'ReceivingController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
