@@ -33,7 +33,7 @@ Route::group(['namespace' => '\Modules\Client\Http\Controllers\Backend', 'as' =>
      *
      * ---------------------------------------------------------------------
      */
-    $module_name = 'clients';
+    $module_name = 'client';
     $controller_name = 'ClientController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);

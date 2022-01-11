@@ -27,7 +27,7 @@ class GenerateMenus
 
             // Clients
             $menu->add('<i class="fas fa-users c-sidebar-nav-icon"></i> Clients', [
-                'route' => 'backend.clients.index',
+                'route' => 'backend.client.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
