@@ -44,4 +44,8 @@ class ReceivingController extends Controller
         );
     }
 
+    public function create(){
+
+        return "You are in create function";
+    }
 }
