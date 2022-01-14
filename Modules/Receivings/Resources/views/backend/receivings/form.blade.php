@@ -10,7 +10,7 @@
             <?php
             $field_name = 'item_name';
             $field_lable = __("receivings::$module_name.$field_name");
-            $field_placeholder = $field_lable;
+            $field_placeholder = __("receivings::$module_name.$field_name"."_placeholder");
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
