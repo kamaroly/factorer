@@ -1,61 +1,9 @@
-<?php
-$user_id_value = '';
-$published_at_value = '';
-$moderated_at_value = '';
-$parent_name = '';
-
-if (isset($$module_name_singular)){
-
-    $user_id_value = ($$module_name_singular->user_name != '')? $$module_name_singular->user_name : '';
-
-    $published_at_value = ($$module_name_singular->moderated_at != '')? $$module_name_singular->moderated_at->isoFormat('llll') : '';
-
-    $moderated_at_value = ($$module_name_singular->moderated_at != '')? $$module_name_singular->moderated_at->isoFormat('llll') : '';
-
-    $parent_name = ($$module_name_singular->parent_id != '')? $$module_name_singular->parent->name : '';
-
-}
-?>
 <div class="row">
-
-    <div class="col">
-        <div class="form-group">
-            <?php
-            $field_name = 'user_id';
-            $field_lable = "User";
-            $field_relation = "user";
-            $field_placeholder = "-- Select an option --";
-            $required = "required";
-            $value = $user_id_value;
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value($value)->disabled() }}
-            {{ html()->hidden($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="form-group">
-            <?php
-            $field_name = 'parent_id';
-            $field_lable = "Parent Comment";
-            $field_relation = "parent";
-            $field_placeholder = "-- Select an option --";
-            $required = "required";
-            $value = $parent_name;
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value($value)->disabled() }}
-            {{ html()->hidden($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12 col-md-6">
+    <div class="col-5">
         <div class="form-group">
             <?php
             $field_name = 'name';
-            $field_lable = label_case($field_name);
+            $field_lable = __("article::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
@@ -63,11 +11,12 @@ if (isset($$module_name_singular)){
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
         </div>
     </div>
-    <div class="col-6 col-md-4">
+
+    <div class="col">
         <div class="form-group">
             <?php
             $field_name = 'slug';
-            $field_lable = label_case($field_name);
+            $field_lable = __("article::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -75,11 +24,225 @@ if (isset($$module_name_singular)){
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
         </div>
     </div>
-    <div class="col-6 col-md-2">
+
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'created_by_alias';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = "Hide Author User's Name and use Alias";
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <?php
+            $field_name = 'intro';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <?php
+            $field_name = 'content';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <?php
+            $field_name = 'featured_image';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "required";
+            ?>
+            {!! Form::label("$field_name", "$field_lable") !!} {!! fielf_required($required) !!}
+            <div class="input-group mb-3">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image', 'aria-describedby'=>'button-image']) }}
+                <div class="input-group-append">
+                    <button class="btn btn-info" type="button" id="button-image"><i class="fas fa-folder-open"></i> @lang('Browse')</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'category_id';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_relation = "category";
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, isset($$module_name_singular)?optional($$module_name_singular->$field_relation)->pluck('name', 'id'):'')->placeholder($field_placeholder)->class('form-control select2-category')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'type';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            $select_options = [
+                'Article'=>'Article',
+                'Feature'=>'Feature',
+                'News'=>'News',
+            ];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'is_featured';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            $select_options = [
+                '1'=>'Yes',
+                '0'=>'No',
+            ];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <?php
+            $field_name = 'tags_list[]';
+            $field_lable = __("article::$module_name.tags");
+            $field_relation = "tags";
+            $field_placeholder = __("Select an option");
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->multiselect($field_name,
+                isset($$module_name_singular)?optional($$module_name_singular->$field_relation)->pluck('name', 'id'):'',
+                isset($$module_name_singular)?optional($$module_name_singular->$field_relation)->pluck('id')->toArray():''
+                )->class('form-control select2-tags')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'status';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            $select_options = [
+                '1'=>'Published',
+                '0'=>'Unpublished',
+                '2'=>'Draft'
+            ];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'published_at';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-5">
+        <div class="form-group">
+            <?php
+            $field_name = 'meta_title';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="form-group">
+            <?php
+            $field_name = 'meta_keywords';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-2">
         <div class="form-group">
             <?php
             $field_name = 'order';
-            $field_lable = label_case($field_name);
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'meta_description';
+            $field_lable = __("article::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+    <div class="col-12 col-sm-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'meta_og_image';
+            $field_lable = __("article::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -92,87 +255,38 @@ if (isset($$module_name_singular)){
     <div class="col-12">
         <div class="form-group">
             <?php
-            $field_name = 'comment';
-            $field_lable = label_case($field_name);
+            $field_name = 'meta_og_url';
+            $field_lable = __("article::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'status';
-            $field_lable = label_case($field_name);
-            $field_placeholder = "-- Select an option --";
-            $required = "required";
-            $select_options = [
-                '0'=>'Pending',
-                '1'=>'Published',
-                '2'=>'Rejected',
-            ];
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'moderated_at';
-            $field_lable = label_case($field_name);
-            $field_placeholder = $field_lable;
-            $required = "";
-            $value = $moderated_at_value;
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value($value)->disabled() }}
-            {{ html()->hidden($field_name)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'published_at';
-            $field_lable = label_case($field_name);
-            $field_placeholder = $field_lable;
-            $required = "";
-            $value = $published_at_value;
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value($value)->disabled() }}
-            {{ html()->hidden($field_name)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
-</div>
+<div></div>
+
+
+<!-- Select2 Library -->
+<x-library.select2 />
+<x-library.datetime-picker />
 
 @push('after-styles')
-
-<!-- Select2 Bootstrap 4 Core UI -->
-<link href="{{ asset('vendor/select2/select2-coreui-bootstrap4.min.css') }}" rel="stylesheet" />
-
-<!-- Date Time Picker -->
-<link rel="stylesheet" href="{{ asset('vendor/bootstrap-4-datetime-picker/css/tempusdominus-bootstrap-4.min.css') }}" />
-
+<!-- File Manager -->
+<link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
 @endpush
 
 @push ('after-scripts')
-<!-- Select2 Bootstrap 4 Core UI -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function() {
-    $('.select2-users').select2({
+    $('.select2-category').select2({
         theme: "bootstrap",
-        placeholder: "-- Select an option --",
+        placeholder: '@lang("Select an option")',
         minimumInputLength: 2,
         allowClear: true,
         ajax: {
-            url: '{{route("backend.users.index_list")}}',
+            url: '{{route("backend.categories.index_list")}}',
             dataType: 'json',
             data: function (params) {
                 return {
@@ -188,13 +302,13 @@ $(document).ready(function() {
         }
     });
 
-    $('.select2-posts').select2({
+    $('.select2-tags').select2({
         theme: "bootstrap",
-        placeholder: "-- Select an option --",
+        placeholder: '@lang("Select an option")',
         minimumInputLength: 2,
         allowClear: true,
         ajax: {
-            url: '{{route("backend.posts.index_list")}}',
+            url: '{{route("backend.tags.index_list")}}',
             dataType: 'json',
             data: function (params) {
                 return {
@@ -213,9 +327,6 @@ $(document).ready(function() {
 </script>
 
 <!-- Date Time Picker & Moment Js-->
-<script type="text/javascript" src="{{ asset('vendor/moment/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/bootstrap-4-datetime-picker/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-
 <script type="text/javascript">
 $(function() {
     $('.datetime').datetimepicker({
@@ -235,4 +346,25 @@ $(function() {
 });
 </script>
 
+<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
+
+<script type="text/javascript">
+
+CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  document.getElementById('button-image').addEventListener('click', (event) => {
+    event.preventDefault();
+
+    window.open('/file-manager/fm-button', 'fm', 'width=800,height=600');
+  });
+});
+
+// set file link
+function fmSetLink($url) {
+  document.getElementById('featured_image').value = $url;
+}
+</script>
 @endpush

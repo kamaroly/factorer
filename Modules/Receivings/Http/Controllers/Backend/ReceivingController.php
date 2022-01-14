@@ -44,8 +44,22 @@ class ReceivingController extends Controller
         );
     }
 
-    public function create(){
+    /**
+     * Show form for creating new receiving
+     * 
+     * @return Response
+     */
+    public function create()
+    {
 
-        return "You are in create function";
+        return view(
+                "receivings::backend.$this->module_name.create",
+                [
+                    'module_title' => $this->module_title, 
+                'module_name' => $this->module_name, 
+                'module_icon' => $this->module_icon, 
+                'module_action' => 'Create', 
+                'module_name_singular' => Str::singular($this->module_name),
+                ]);
     }
 }
