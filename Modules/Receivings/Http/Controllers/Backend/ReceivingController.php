@@ -27,7 +27,7 @@ class ReceivingController extends Controller
         $this->module_icon = 'fas fa-cart';
 
         // module model name, path
-        $this->module_model = "Modules\Receivings\Entities\Bill";
+        $this->module_model = "Modules\Receivings\Entities\Receiving";
     }
 
     /**
@@ -68,15 +68,10 @@ class ReceivingController extends Controller
 
     public function store(ReceivingRequest $request)
     {
-        dd($request->except("_token"));
-        $$module_name_singular = $module_model::create($data);
-        $$module_name_singular->tags()->attach($request->input('tags_list'));
+        $this->module_model::create($request->except("_token"));
 
+        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
 
-        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
-
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return redirect("admin/$module_name");
+        return redirect("admin/$this->module_name");
     }
 }
