@@ -50,7 +50,7 @@
                                 #
                             </th>
                             <th>
-                                Name
+                                Item Name
                             </th>
                             <th>
                                 Updated At
@@ -102,7 +102,11 @@
         ajax: '{{ route("backend.$module_name.index_data") }}',
         columns: [
             {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
+            {data: 'item_name', name: 'item_name'},
+            // {data: 'item_qty', name: 'item_qty'},
+            // {data: 'item_buying_price', name: 'item_buying_price'},
+            // {data: 'item_selling_price', name: 'item_selling_price'},
+            // {data: 'grouping', name: 'grouping'},
             {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

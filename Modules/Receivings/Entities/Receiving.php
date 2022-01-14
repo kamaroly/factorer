@@ -11,6 +11,10 @@ class Receiving extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+            'updated_at' => 'date',
+        ];
     
     protected static function newFactory()
     {
