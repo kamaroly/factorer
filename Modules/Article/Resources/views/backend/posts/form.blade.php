@@ -1,9 +1,15 @@
 <div class="row">
+('item_name
+('item_sku
+('grouping
+('item_qty
+('item_buying_price
+('item_selling_price
     <div class="col-5">
         <div class="form-group">
             <?php
-            $field_name = 'name';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_name = 'item_name';
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
@@ -15,8 +21,8 @@
     <div class="col">
         <div class="form-group">
             <?php
-            $field_name = 'slug';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_name = 'item_sku';
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -29,7 +35,7 @@
         <div class="form-group">
             <?php
             $field_name = 'created_by_alias';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = "Hide Author User's Name and use Alias";
             $required = "";
             ?>
@@ -43,7 +49,7 @@
         <div class="form-group">
             <?php
             $field_name = 'intro';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
@@ -57,7 +63,7 @@
         <div class="form-group">
             <?php
             $field_name = 'content';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
@@ -71,7 +77,7 @@
         <div class="form-group">
             <?php
             $field_name = 'featured_image';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
@@ -90,7 +96,7 @@
         <div class="form-group">
             <?php
             $field_name = 'category_id';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_relation = "category";
             $field_placeholder = __("Select an option");
             $required = "required";
@@ -103,7 +109,7 @@
         <div class="form-group">
             <?php
             $field_name = 'type';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = [
@@ -120,7 +126,7 @@
         <div class="form-group">
             <?php
             $field_name = 'is_featured';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = [
@@ -138,7 +144,7 @@
         <div class="form-group">
             <?php
             $field_name = 'tags_list[]';
-            $field_lable = __("article::$module_name.tags");
+            $field_lable = __("receivings::$module_name.tags");
             $field_relation = "tags";
             $field_placeholder = __("Select an option");
             $required = "";
@@ -156,7 +162,7 @@
         <div class="form-group">
             <?php
             $field_name = 'status';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = [
@@ -173,7 +179,7 @@
         <div class="form-group">
             <?php
             $field_name = 'published_at';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -192,7 +198,7 @@
         <div class="form-group">
             <?php
             $field_name = 'meta_title';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -204,7 +210,7 @@
         <div class="form-group">
             <?php
             $field_name = 'meta_keywords';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -216,7 +222,7 @@
         <div class="form-group">
             <?php
             $field_name = 'order';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -230,7 +236,7 @@
         <div class="form-group">
             <?php
             $field_name = 'meta_description';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -242,7 +248,7 @@
         <div class="form-group">
             <?php
             $field_name = 'meta_og_image';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -256,7 +262,7 @@
         <div class="form-group">
             <?php
             $field_name = 'meta_og_url';
-            $field_lable = __("article::$module_name.$field_name");
+            $field_lable = __("receivings::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>

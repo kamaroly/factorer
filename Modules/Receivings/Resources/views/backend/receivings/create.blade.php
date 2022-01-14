@@ -36,6 +36,7 @@
             <div class="col">
                 {{ html()->form('POST', route("backend.$module_name.store"))->class('form')->open() }}
 
+                @include ("receivings::backend.$module_name.form")
 
                 <div class="row">
                     <div class="col-6">
