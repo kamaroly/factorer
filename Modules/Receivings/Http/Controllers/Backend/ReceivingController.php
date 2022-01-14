@@ -3,10 +3,13 @@
 namespace Modules\Receivings\Http\Controllers\Backend;
 
 use App\Authorizable;
+use Laracasts\Flash\Flash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Receivings\Http\Requests\ReceivingRequest;
 
 class ReceivingController extends Controller
 {
@@ -61,5 +64,19 @@ class ReceivingController extends Controller
                 'module_action' => 'Create', 
                 'module_name_singular' => Str::singular($this->module_name),
                 ]);
+    }
+
+    public function store(ReceivingRequest $request)
+    {
+        dd($request->except("_token"));
+        $$module_name_singular = $module_model::create($data);
+        $$module_name_singular->tags()->attach($request->input('tags_list'));
+
+
+        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
+
+        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/$module_name");
     }
 }

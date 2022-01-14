@@ -4,7 +4,7 @@ namespace Modules\Receivings\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReceivingsRequest extends FormRequest
+class ReceivingRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,12 +14,7 @@ class ReceivingsRequest extends FormRequest
     public function rules()
     {
         return [
-                "item_name"           => "required",
-                "item_sku"            => "required",
-                "item_qty"            => "required|numeric|min:1",
-                "item_selling_price"  => "required|numeric",
-                "item_buying_price"   => "required|numeric",
-                "grouping"            => "required",
+            //
         ];
     }
 
