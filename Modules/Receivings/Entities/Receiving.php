@@ -14,6 +14,7 @@ class Receiving extends Model
 
     protected $casts = [
             'updated_at' => 'date',
+            'created_at' => 'date',
         ];
     
     protected static function newFactory()

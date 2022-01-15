@@ -1,10 +1,4 @@
 <div class="row">
-('item_name
-('item_sku
-('grouping
-('item_qty
-('item_buying_price
-('item_selling_price
     <div class="col-5">
         <div class="form-group">
             <?php

@@ -53,6 +53,18 @@
                                 Item Name
                             </th>
                             <th>
+                                Item Quantity
+                            </th>
+                            <th>
+                                 Buying Price
+                            </th>
+                            <th>
+                                Selling Price
+                            </th>
+                            <th>
+                                Grouping
+                            </th>
+                            <th>
                                 Updated At
                             </th>
                             <th class="text-right">
@@ -103,10 +115,10 @@
         columns: [
             {data: 'id', name: 'id'},
             {data: 'item_name', name: 'item_name'},
-            // {data: 'item_qty', name: 'item_qty'},
-            // {data: 'item_buying_price', name: 'item_buying_price'},
-            // {data: 'item_selling_price', name: 'item_selling_price'},
-            // {data: 'grouping', name: 'grouping'},
+            {data: 'item_qty', name: 'item_qty'},
+            {data: 'item_buying_price', name: 'item_buying_price'},
+            {data: 'item_selling_price', name: 'item_selling_price'},
+            {data: 'grouping', name: 'grouping'},
             {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

@@ -53,23 +53,15 @@ class ReceivingController extends Controller
     {
         $module_name = $this->module_name;
         $module_model = $this->module_model;
-
-        $module_action = 'List';
         
         $$module_name = $module_model::select('id', 'item_name', 'item_sku', 'item_qty', 'item_buying_price', 'item_selling_price', 'grouping', "updated_at", "received_at");
 
-        $data = $$module_name;
 
         return Datatables::of($$module_name)
                         ->addColumn('action', function ($data) {
                             $module_name = $this->module_name;
 
                             return view('backend.includes.action_column', compact('module_name', 'data'));
-                        })
-                        ->editColumn('item_name', function ($data) {
-                            $is_featured = ($data->is_featured) ? '<span class="badge badge-primary">Featured</span>' : '';
-
-                            return $data->name.' '.$data->status_formatted.' '.$is_featured;
                         })
                         ->editColumn('updated_at', function ($data) {
                             $module_name = $this->module_name;
@@ -98,18 +90,68 @@ class ReceivingController extends Controller
                 "receivings::backend.$this->module_name.create",
                 [
                     'module_title' => $this->module_title, 
-                'module_name' => $this->module_name, 
-                'module_icon' => $this->module_icon, 
-                'module_action' => 'Create', 
-                'module_name_singular' => Str::singular($this->module_name),
+                    'module_name' => $this->module_name, 
+                    'module_icon' => $this->module_icon, 
+                    'module_action' => 'Create', 
+                    'module_name_singular' => Str::singular($this->module_name),
                 ]);
     }
 
+    /**
+     * Store data in Database
+     *
+     * @param ReceivingRequest $request
+     * @return Redirect
+     */
     public function store(ReceivingRequest $request)
     {
         $this->module_model::create($request->except("_token"));
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
+
+        return redirect("admin/$this->module_name");
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $module_name_singular = Str::singular($this->module_name);
+        $model = $this->module_model::findOrFail($id);
+
+        return view(
+            "receivings::backend.$this->module_name.edit",
+                [
+                    'module_title' => $this->module_title, 
+                    'module_name' => $this->module_name, 
+                    'module_icon' => $this->module_icon, 
+                    'module_action' => 'Edit', 
+                    'module_name_singular' => $module_name_singular,
+                    'model' => $model
+                ]
+        );
+    }
+
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function update(ReceivingRequest $request, $id)
+    {
+
+        $this->module_model::findOrFail($id)->update($request->except("_token"));
+
+        Flash::success("<i class='fas fa-check'></i> '".Str::singular($this->module_title)."' Updated Successfully")->important();
 
         return redirect("admin/$this->module_name");
     }
