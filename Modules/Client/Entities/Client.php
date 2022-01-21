@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
 
     protected $casts = [
@@ -17,10 +15,7 @@ class Client extends Model
             'created_at' => 'date',
         ];
     
-    protected static function newFactory()
-    {
-        return \Modules\Client\Database\factories\ClientFactory::new();
-    }
+
 
     function setCreatedAtAttribute(){
         $this->created_at = Carbon::now()->format('Y-m-d H:i:s');

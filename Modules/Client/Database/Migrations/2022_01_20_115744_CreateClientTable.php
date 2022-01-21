@@ -24,10 +24,11 @@ class CreateClientTable extends Migration
             $table->string('province','60');
             $table->string('telephone','12');
             $table->string('bank','30');
-            $table->string('account_number','100');
+            $table->string('account_number','100')->nullable();
             $table->string('TIN','12');
             $table->string('description','255')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 
