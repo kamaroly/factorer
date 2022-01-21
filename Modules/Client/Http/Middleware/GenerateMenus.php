@@ -3,20 +3,19 @@
 namespace Modules\Client\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 
 class GenerateMenus
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-
         /*
          *
          * Module Menu for Admin Backend
@@ -25,15 +24,15 @@ class GenerateMenus
          */
         \Menu::make('admin_sidebar', function ($menu) {
 
-            // Clients
-            $menu->add('<i class="fas fa-users c-sidebar-nav-icon"></i> Clients', [
+            // comments
+            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Client', [
                 'route' => 'backend.client.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
-                'order'         => 84,
+                'order'         => 85,
                 'activematches' => ['admin/client*'],
-                'permission'    => ['view_Clients'],
+                'permission'    => ['view_client'],
             ])
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',

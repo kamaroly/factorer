@@ -2,9 +2,9 @@
     "Article": true,
     "Tag": true,
     "Comment": true,
-    "Client": true,
     "Billing": true,
     "Receivings": true,
     "Purchase": true,
-    "Accounting": true
+    "Accounting": true,
+    "Client": true
 }

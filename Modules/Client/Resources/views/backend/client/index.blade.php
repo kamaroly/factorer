@@ -14,12 +14,13 @@
         <div class="row">
             <div class="col-8">
                 <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> {{ $module_title }} <small class="text-muted">Data Table {{ $module_action }}</small>
+                    <i class="{{ $module_icon }}"></i> {{ $module_title }} <small class="text-muted">{{ $module_action }}</small>
                 </h4>
                 <div class="small text-muted">
-                    {{ Str::title($module_name) }} Management Dashboard
+                    {{ ucwords($module_name) }} Management Dashboard
                 </div>
             </div>
+            <!--/.col-->
             <div class="col-4">
                 <div class="float-right">
                     <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
@@ -38,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            <!--/.col-->
         </div>
         <!--/.row-->
 
@@ -49,17 +51,17 @@
                             <th>
                                 #
                             </th>
-                           <th>
-                                Client id
+                            <th>
+                                client_id
                             </th>
                             <th>
-                                first name
+                                first_name
                             </th>
                             <th>
-                                last name 
+                                last_name 
                             </th>
                             <th>
-                                company name
+                                company_name
                             </th>
                              <th>
                                 TIN
@@ -68,16 +70,45 @@
                                 telephone
                             </th>
                              <th>
-                                Creation date
+                                created_at
                             </th>
                              <th>
-                                Last updated
+                                updated_at
                             </th>
                             <th class="text-right">
                                 Action
                             </th>
                         </tr>
                     </thead>
+
+                    <tbody>
+                        @foreach($$module_name as $module_name_singular)
+                        <tr>
+                            <td>
+                                {{ $module_name_singular->id }}
+                            </td>
+                            <td>
+                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
+                            </td>
+                            <td>
+                                {{ $module_name_singular->slug }}
+                            </td>
+                                <td>
+                                {{ $module_name_singular->created_at->diffForHumans() }}
+                            </td>
+                            <td>
+                                {{ $module_name_singular->updated_at->diffForHumans() }}
+                            </td>
+                            <td>
+                                {{ $module_name_singular->created_by }}
+                            </td>
+                            <td class="text-right">
+                                <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>
+                                <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="Show {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -86,51 +117,15 @@
         <div class="row">
             <div class="col-7">
                 <div class="float-left">
-
+                    Total {{ $$module_name->total() }} {{ ucwords($module_name) }}
                 </div>
             </div>
             <div class="col-5">
                 <div class="float-right">
-
+                    {!! $$module_name->render() !!}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
-
-@push ('after-styles')
-<!-- DataTables Core and Extensions -->
-<link rel="stylesheet" href="{{ asset('vendor/datatable/datatables.min.css') }}">
-
-@endpush
-
-@push ('after-scripts')
-<!-- DataTables Core and Extensions -->
-<script type="text/javascript" src="{{ asset('vendor/datatable/datatables.min.js') }}"></script>
-
-<script type="text/javascript">
-
-    $('#datatable').DataTable({
-        processing: true,
-        serverSide: true,
-        autoWidth: true,
-        responsive: true,
-        ajax: '{{ route("backend.$module_name.index_data") }}',
-        columns: [
-            {data: 'id', name: 'id'},
-            {data: 'client_id', name: 'client_id'},
-            {data: 'first_name', name: 'first_name'},
-            {data: 'last_name', name: 'last_name'},
-            {data: 'company_name', name: 'company_name'},
-            {data: 'TIN', name: 'TIN'},
-            {data: 'telephone', name: 'telephone'},
-            {data: 'created_at', name: 'created_at'},
-            {data: 'updated_at', name: 'updated_at'},
-            {data: 'action', name: 'action', orderable: false, searchable: false}
-        ]
-    });
-
-</script>
-@endpush

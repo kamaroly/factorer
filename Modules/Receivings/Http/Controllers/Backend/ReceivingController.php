@@ -19,7 +19,7 @@ class ReceivingController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Receiving';
+        $this->module_title = 'Receivings';
 
         // module name
         $this->module_name = 'receivings';

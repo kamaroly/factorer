@@ -16,12 +16,6 @@ Route::group(['namespace' => '\Modules\Receivings\Http\Controllers\Backend', 'as
     * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
     */
 
-    /*
-     *
-     *  Tags Routes
-     *
-     * ---------------------------------------------------------------------
-     */
     $module_name = 'receivings';
     $controller_name = 'ReceivingController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index", 'uses' => "$controller_name@index_list"]);

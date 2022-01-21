@@ -29,10 +29,10 @@ class ClientServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
 
-
         // adding global middleware
         $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
         $kernel->pushMiddleware('Modules\Client\Http\Middleware\GenerateMenus');
+
     }
 
     /**
