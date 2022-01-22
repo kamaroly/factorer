@@ -5,6 +5,18 @@
 ('item_qty
 ('item_buying_price
 ('item_selling_price --}}
+<div class="col-2">
+        <div class="form-group">
+            <?php
+            $field_name = 'id';
+            $field_lable = __("client::$module_name.$field_name");
+            $field_placeholder = __("client::$module_name.$field_name"."_placeholder");
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])}}
+        </div>
+    </div>
     <div class="col-4">
         <div class="form-group">
             <?php
@@ -18,7 +30,7 @@
         </div>
     </div>
 
-    <div class="col">
+    <div class="col-3">
         <div class="form-group">
             <?php
             $field_name = 'last_name';
@@ -31,7 +43,7 @@
         </div>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
         <div class="form-group">
             <?php
             $field_name = 'company_name';
@@ -118,8 +130,33 @@
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
         </div>
     </div>
+        <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'account_number';
+            $field_lable = __("client::$module_name.$field_name");
+            $field_placeholder = __("client::$module_name.$field_name"."_placeholder");
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+
 </div>
-<div></div>
+         <div class="col-0">
+        <div class="form-group">
+            <?php
+            $field_name = 'description';
+            $field_lable = __("client::$module_name.$field_name");
+            $field_placeholder = __("client::$module_name.$field_name"."_placeholder");
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+
 
 
 <!-- Select2 Library -->

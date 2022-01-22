@@ -15,8 +15,13 @@ return [
     "district"=> "District",
     "bank"=> "Bank",
     "account_peaceholder" => "1127837-0001",
-    "description_peaceholder" => "description de votre  choix",
+    "description_placeholder" => "description de votre  choix",
     "description" => "description",
     "province"=>"Province",
+    "id"=>"Client ID",
+    "account_number"=>"Account number",
+    "account_number_placeholder"=>"0001-67578900701",
+    "id_placeholder"=>"",
+
   
 ];
