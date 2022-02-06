@@ -6,5 +6,6 @@
     "Receivings": true,
     "Purchase": true,
     "Accounting": true,
-    "Client": true
+    "Client": true,
+    "Order": true
 }
