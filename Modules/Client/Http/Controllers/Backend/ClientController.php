@@ -61,15 +61,14 @@ class ClientController extends Controller
 
                             return view('backend.includes.action_column', compact('module_name', 'data'));
                         })
-                        ->editColumn('updated_at', function ($data) {
+                        ->editColumn('created_at', function ($data) {
                             $module_name = $this->module_name;
 
-                            $diff = Carbon::now()->diffInHours($data->updated_at);
-                            if ($diff < 25) {
-                                return $data->updated_at->diffForHumans();
-                            } else {
-                                return $data->updated_at->isoFormat('LLLL');
-                            }
+                           /// $diff = Carbon::now()->diffInHours($data->created_at);
+                             return $data->created_at->format('Y-m-d');
+                              /// $this->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+                        
                         })
                         ->rawColumns(['id','client_id', 'first_name', 'last_name', 'company_name', 'TIN', 'telephone','created_at'])
                         ->orderColumns(['id'], '-:column $1')
