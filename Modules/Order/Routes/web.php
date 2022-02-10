@@ -20,6 +20,6 @@
 */
 Route::group(['namespace' => '\Modules\Order\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
     Route::prefix('order')->group(function() {
-        Route::get('/', 'OrderController@index');
+        Route::get('/', 'OrderController@index')->name('order.index');
     });
 });
