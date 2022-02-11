@@ -1,20 +1,43 @@
 <?php
 
-namespace Modules\Order\Http\Controllers;
+namespace Modules\Order\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        // Page Title
+        $this->module_title = 'Order';
+
+        // module name
+        $this->module_name = 'order';
+
+        // module icon
+        $this->module_icon = 'fas fa-cart';
+
+        // module model name, path
+        $this->module_model = "Modules\Order\Entities\Order";
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
-        return view('order::index');
+        return view('order::index',  
+                        ['module_title' => $this->module_title,
+                        'module_name' => $this->module_name,
+                        'module_icon' => $this->module_icon,
+                        'module_name_singular' => Str::singular($this->module_name),
+                        'module_action' => 'List',
+                        ]
+            );
     }
 
     /**
