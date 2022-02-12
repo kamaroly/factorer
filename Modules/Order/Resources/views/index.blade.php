@@ -35,9 +35,16 @@
                     <tr>
                         <td>{{ $item['id'] }}</td>
                         <td>{{ $item['name'] }}</td>
-                        <td><input name="quantity[]" value="1" class="form-control text-center"></td>
+                        <td>
+                            <input
+                                onkeyup="handleQuantityUpdate(this, {{ $item['price'] }})"
+                                id="quantity-{!! $item['id'] !!}" 
+                                name="quantity[]" 
+                                value="1" 
+                                class="form-control text-center">
+                        </td>
                         <td>{{ $item['price'] }}</td>
-                        <td>{{ $item['price'] }}</td>
+                        <td id="total-{!! $item['id'] !!}">{{ $item['price'] }}</td>
                         <td class="text-right">
                             <button  
                                     onclick="removeCurrenRow(this)"
@@ -56,19 +63,24 @@
 </div>
 
 <script>
-    /**
-     * Remove row from the TD
-     */ 
-    function removeCurrenRow(element){
 
-        // // Get clicked element TD
-        var td = element.parentNode;
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } 
+
+    function removeCurrenRow(element){
+        var td = element.parentNode; // Get clicked element TD
+        var tr = td.parentNode; // Get the TR of the clicked row
+        tr.parentNode.removeChild(tr); // Remove the table row from
+    }
+
+    function handleQuantityUpdate(element, price)
+    {
+        const quantity  = element.value;
+        const elementId = element.id.substr(-1);
+        const totalPrice = quantity * price;
         
-        // // Get the TR of the clicked row
-        var tr = td.parentNode;
-        
-        // // Remove the table row from
-        tr.parentNode.removeChild(tr);
+        document.getElementById("total-" + elementId).innerHTML = numberWithCommas(totalPrice);
     }
 
 </script>
