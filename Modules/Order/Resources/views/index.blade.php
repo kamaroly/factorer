@@ -8,16 +8,14 @@
 
 <div class="card">
 
+    <form action="{{ route('backend.order.create') }}" method="POST">
     <div class="card-header d-inline-flex">
-        <div class="col-2">
-            <select name="customer_id" class="form-control">
-                <option value="0">Select Customer</option>
+       
+            <select name="client_id" class="form-control">
+                <option value="0" selected>Select Customer</option>
             </select>
-        </div>
         or
-        <div class="col-2 d-inline">
-            <button class="btn btn-success">Create New Customer</button>
-        </div>
+            <button class="btn btn-primary">Create New Customer</button>
     </div>
 
     <div class="card-body">
@@ -31,7 +29,14 @@
                     <th width="10">Total</th>
                     <th width="10">Total</th>
                 </tr>
+                
+                    @csrf
                 @foreach (config('order.products') as $item)
+
+                        <input type="hidden" name="id[]" value="{{ $item['price'] }}">
+                        <input type="hidden" name="name[]" value="{{ $item['price'] }}">
+                        <input type="hidden" name="price[]" value="{{ $item['price'] }}">
+
                     <tr>
                         <td>{{ $item['id'] }}</td>
                         <td>{{ $item['name'] }}</td>
@@ -43,7 +48,8 @@
                                 value="1" 
                                 class="form-control text-center">
                         </td>
-                        <td>{{ $item['price'] }}</td>
+                        <td>{{ $item['price'] }}
+                        </td>
                         <td id="total-{!! $item['id'] !!}">{{ $item['price'] }}</td>
                         <td class="text-right">
                             <button  
@@ -56,10 +62,24 @@
                         </td>
                     </tr> 
                 @endforeach
-              
+
+                <tr>
+                    <th ></th>
+                    <th ></th>
+                    <th ></th>
+                    <th ></th>
+                    <th ></th>
+                    <th width="10">
+                        <button class="btn btn-success">
+                            PLACE ORDER    
+                        </button>
+                  </th>
+                </tr>
             </table>
         </div>
     </div>
+    
+    </form>
 </div>
 
 <script>

@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
+use Laracasts\Flash\Flash;
+use Modules\Order\Entities\Order;
 
 class OrderController extends Controller
 {
@@ -56,7 +58,31 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $orderAttributes = $request->except('_token');
+        $order  = [];
+
+        $orderTransactionId = now()->timestamp;
+        
+        for($i=0; $i < count($orderAttributes['id']); $i++){
+
+            $totalPrice = $orderAttributes['price'][$i] * $orderAttributes['quantity'][$i];
+
+            $order[] = [
+                "order_transaction_id" => $orderTransactionId,
+                "item_id"              => $orderAttributes['id'][$i],
+                "item_name"            => $orderAttributes['name'][$i],
+                "quantity"             => $orderAttributes['quantity'][$i],
+                "unit_price"           => $orderAttributes['price'][$i],
+                "total_price"          => $totalPrice,
+            ];
+        }
+
+       if( Order::insert($order)){
+        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
+       }
+        
+
+        return $this->index();
     }
 
     /**
