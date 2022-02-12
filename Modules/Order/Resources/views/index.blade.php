@@ -38,21 +38,14 @@
                         <td><input name="quantity[]" value="1" class="form-control text-center"></td>
                         <td>{{ $item['price'] }}</td>
                         <td>{{ $item['price'] }}</td>
-                        <td>
-                            <div class="text-right">
-                                <button  
-                                    class="btn btn-primary btn-sm " 
-                                    data-toggle="tooltip" 
-                                    title="Update Item">
-                                    <i class="fas fa-wrench"></i>
-                                </button>
-                                <button  
+                        <td class="text-right">
+                            <button  
+                                    onclick="removeCurrenRow(this)"
                                     class="btn btn-danger btn-sm " 
                                     data-toggle="tooltip" 
                                     title="Remove Item">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                            </div>
                         </td>
                     </tr> 
                 @endforeach
@@ -61,5 +54,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    /**
+     * Remove row from the TD
+     */ 
+    function removeCurrenRow(element){
+
+        // // Get clicked element TD
+        var td = element.parentNode;
+        
+        // // Get the TR of the clicked row
+        var tr = td.parentNode;
+        
+        // // Remove the table row from
+        tr.parentNode.removeChild(tr);
+    }
+
+</script>
 
 @endsection
