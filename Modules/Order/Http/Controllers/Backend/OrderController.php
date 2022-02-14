@@ -74,6 +74,9 @@ class OrderController extends Controller
                 "quantity"             => $orderAttributes['quantity'][$i],
                 "unit_price"           => $orderAttributes['price'][$i],
                 "total_price"          => $totalPrice,
+                "client_id"            => $request->client_id,
+                "created_at"           => now(),
+                "updated_at"           => now(),
             ];
         }
 
