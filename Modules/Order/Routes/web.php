@@ -22,5 +22,7 @@ Route::group(['namespace' => '\Modules\Order\Http\Controllers\Backend', 'as' => 
     Route::prefix('order')->group(function() {
         Route::get('/', 'OrderController@index')->name('order.index');
         Route::post('/create', 'OrderController@store')->name('order.create');
+
+        Route::get('/{orderId}', 'OrderController@showInvoice')->name('order.receipt');
     });
 });
