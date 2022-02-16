@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Laracasts\Flash\Flash;
+use Modules\Client\Entities\Client;
 use Modules\Order\Entities\Order;
 
 class OrderController extends Controller
@@ -38,6 +39,7 @@ class OrderController extends Controller
                         'module_icon' => $this->module_icon,
                         'module_name_singular' => Str::singular($this->module_name),
                         'module_action' => 'List',
+                        'clients' => Client::get(),
                         ]
             );
     }
@@ -58,11 +60,11 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $orderAttributes = $request->except('_token');
+        $orderAttributes = $request->except(['_token', 'client_id']);
         $order  = [];
 
         $orderTransactionId = now()->timestamp;
-        
+
         for($i=0; $i < count($orderAttributes['id']); $i++){
 
             $totalPrice = $orderAttributes['price'][$i] * $orderAttributes['quantity'][$i];
@@ -82,10 +84,11 @@ class OrderController extends Controller
 
        if( Order::insert($order)){
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
+        return $this->showInvoice( $orderTransactionId);
        }
         
 
-        return $this->index();
+       return redirect()->back();
     }
 
     /**
@@ -93,9 +96,11 @@ class OrderController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function showInvoice($id)
     {
-        return view('order::show');
+        $orders = Order::where('order_transaction_id', $id)->get();
+        
+        return view('order::backend.receipt', compact('orders'));
     }
 
     /**

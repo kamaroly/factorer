@@ -12,10 +12,11 @@
     <div class="card-header d-inline-flex">
        
             <select name="client_id" class="form-control">
-                <option value="0" selected>Select Customer</option>
+                <option value="0" selected>Select A Client</option>
+                @foreach ($clients as $client)
+                <option value="{{  $client->id  }}" >{{ $client->last_name }} {{ $client->first_name }}</option>                    
+                @endforeach
             </select>
-        or
-            <button class="btn btn-primary">Create New Customer</button>
     </div>
 
     <div class="card-body">
@@ -34,7 +35,7 @@
                 @foreach (config('order.products') as $item)
 
                         <input type="hidden" name="id[]" value="{{ $item['price'] }}">
-                        <input type="hidden" name="name[]" value="{{ $item['price'] }}">
+                        <input type="hidden" name="name[]" value="{{ $item['name'] }}">
                         <input type="hidden" name="price[]" value="{{ $item['price'] }}">
 
                     <tr>
