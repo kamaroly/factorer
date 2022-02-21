@@ -89,8 +89,8 @@ class OrderController extends Controller
 
         // Now that the order has been saved, let us update postings
         Posting::create([
-            'debit_account_id' => 1, // Caisse 
-            'credit_account_id' => 6, // Clients Vin TANGAWIZI WINE
+            'debit_account_id' => config('accounting.sale_debit_account_id', 1) , // Caisse 
+            'credit_account_id' => config('accounting.sales_credit_account_id', 6), // Clients Vin TANGAWIZI WINE
             'amount'            => $orderTotal,
             'note'              => 'Sale - order transaction:'. $orderTransactionId,
             'description'       => 'Sale made for Client:'. $request->client_id
