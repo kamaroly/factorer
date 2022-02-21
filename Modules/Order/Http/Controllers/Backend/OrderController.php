@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Laracasts\Flash\Flash;
+use Modules\Accounting\Entities\Posting;
 use Modules\Client\Entities\Client;
 use Modules\Order\Entities\Order;
 
@@ -64,10 +65,12 @@ class OrderController extends Controller
         $order  = [];
 
         $orderTransactionId = now()->timestamp;
-
+        $orderTotal = 0;
+        
         for($i=0; $i < count($orderAttributes['id']); $i++){
 
             $totalPrice = $orderAttributes['price'][$i] * $orderAttributes['quantity'][$i];
+            $orderTotal = $orderTotal + $totalPrice;
 
             $order[] = [
                 "order_transaction_id" => $orderTransactionId,
@@ -82,7 +85,18 @@ class OrderController extends Controller
             ];
         }
 
-       if( Order::insert($order)){
+       if( $order = Order::insert($order)){
+
+        // Now that the order has been saved, let us update postings
+        Posting::create([
+            'debit_account_id' => 1, // Caisse 
+            'credit_account_id' => 6, // Clients Vin TANGAWIZI WINE
+            'amount'            => $orderTotal,
+            'note'              => 'Sale - order transaction:'. $orderTransactionId,
+            'description'       => 'Sale made for Client:'. $request->client_id
+        ]);
+
+        // Notify
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
         return $this->showInvoice( $orderTransactionId);
        }
