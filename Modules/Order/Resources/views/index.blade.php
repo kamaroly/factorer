@@ -10,12 +10,16 @@
 
     <form action="{{ route('backend.order.create') }}" method="POST">
     <div class="card-header d-inline-flex">
-       
+
             <select name="client_id" class="form-control">
                 <option value="0" selected>Select A Client</option>
                 @foreach ($clients as $client)
-                <option value="{{  $client->id  }}" >{{ $client->last_name }} {{ $client->first_name }}</option>                    
+                <option value="{{  $client->id  }}" >{{ $client->last_name }} {{ $client->first_name }}</option>
                 @endforeach
+            </select>
+            <div class="p-2">  </div>
+            <select name="order_status" disabled class="form-control pull-right">
+                <option value="processing" selected>Processing</option>
             </select>
     </div>
 
@@ -30,7 +34,7 @@
                     <th width="10">Total</th>
                     <th width="10">Total</th>
                 </tr>
-                
+
                     @csrf
                 @foreach (config('order.products') as $item)
 
@@ -44,24 +48,24 @@
                         <td>
                             <input
                                 onkeyup="handleQuantityUpdate(this, {{ $item['price'] }})"
-                                id="quantity-{!! $item['id'] !!}" 
-                                name="quantity[]" 
-                                value="1" 
+                                id="quantity-{!! $item['id'] !!}"
+                                name="quantity[]"
+                                value="1"
                                 class="form-control text-center">
                         </td>
                         <td>{{ $item['price'] }}
                         </td>
                         <td id="total-{!! $item['id'] !!}">{{ $item['price'] }}</td>
                         <td class="text-right">
-                            <button  
+                            <button
                                     onclick="removeCurrenRow(this)"
-                                    class="btn btn-danger btn-sm " 
-                                    data-toggle="tooltip" 
+                                    class="btn btn-danger btn-sm "
+                                    data-toggle="tooltip"
                                     title="Remove Item">
                                     <i class="fas fa-minus"></i>
                                 </button>
                         </td>
-                    </tr> 
+                    </tr>
                 @endforeach
 
                 <tr>
@@ -72,14 +76,14 @@
                     <th ></th>
                     <th width="10">
                         <button class="btn btn-success">
-                            PLACE ORDER    
+                            PLACE ORDER
                         </button>
                   </th>
                 </tr>
             </table>
         </div>
     </div>
-    
+
     </form>
 </div>
 
@@ -87,7 +91,7 @@
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } 
+    }
 
     function removeCurrenRow(element){
         var td = element.parentNode; // Get clicked element TD
@@ -100,7 +104,7 @@
         const quantity  = element.value;
         const elementId = element.id.substr(-1);
         const totalPrice = quantity * price;
-        
+
         document.getElementById("total-" + elementId).innerHTML = numberWithCommas(totalPrice);
     }
 

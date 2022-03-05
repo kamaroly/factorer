@@ -145,7 +145,7 @@
 
 @endphp
     <div class="card">
-        
+
     <div class="card-body">
 <div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -169,11 +169,13 @@
 							<!-- Row end -->
 							<!-- Row end -->
 							<!-- Row start -->
+                            @if ($client)
 							<div class="row gutters">
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-									<a href="/admin/client/{{ $client->id }}/edit" class="invoice-logo">
-                                    {{ $client->last_name }} {{ $client->first_name }}
-									</a>
+
+                                        <a href="/admin/client/{{ $client->id }}/edit" class="invoice-logo">
+                                            {{ $client->last_name }} {{ $client->first_name }}
+                                        </a>
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<address class="text-right">
@@ -182,6 +184,7 @@
 									</address>
 								</div>
 							</div>
+                            @endif
 							<!-- Row end -->
 							<!-- Row start -->
 							<div class="row gutters">
@@ -199,7 +202,7 @@
 											<div>Invoice - {{ $orderDetails->id }}</div>
 											<div>{{ $orderDetails->created_at }}</div>
 										</div>
-									</div>													
+									</div>
 								</div>
 							</div>
 							<!-- Row end -->
@@ -219,7 +222,7 @@
 												</tr>
 											</thead>
 											<tbody>
-                                                @foreach ($orders as $orderItem)   
+                                                @foreach ($orders as $orderItem)
                                                     <tr>
                                                         <td>
                                                             {{ $orderItem->item_name }}
@@ -234,7 +237,7 @@
 													<td>&nbsp;</td>
 													<td colspan="2">
 														<h5 class="text-success"><strong>Grand Total</strong></h5>
-													</td>			
+													</td>
 													<td>
 														<h5 class="text-success"><strong>{{ number_format($orders->sum('total_price')) }}</strong></h5>
 													</td>

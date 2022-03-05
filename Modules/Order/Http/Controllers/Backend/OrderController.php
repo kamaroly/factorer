@@ -34,7 +34,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('order::index',  
+        return view('order::index',
                         ['module_title' => $this->module_title,
                         'module_name' => $this->module_name,
                         'module_icon' => $this->module_icon,
@@ -66,7 +66,7 @@ class OrderController extends Controller
 
         $orderTransactionId = now()->timestamp;
         $orderTotal = 0;
-        
+
         for($i=0; $i < count($orderAttributes['id']); $i++){
 
             $totalPrice = $orderAttributes['price'][$i] * $orderAttributes['quantity'][$i];
@@ -80,16 +80,17 @@ class OrderController extends Controller
                 "unit_price"           => $orderAttributes['price'][$i],
                 "total_price"          => $totalPrice,
                 "client_id"            => $request->client_id,
+                "status"               => env('PROCESSING_STATUS', "processing"),
                 "created_at"           => now(),
                 "updated_at"           => now(),
             ];
         }
 
-       if( $order = Order::insert($order)){
+       if(  Order::insert($order)){
 
         // Now that the order has been saved, let us update postings
         Posting::create([
-            'debit_account_id' => config('accounting.sale_debit_account_id', 1) , // Caisse 
+            'debit_account_id' => config('accounting.sale_debit_account_id', 1) , // Caisse
             'credit_account_id' => config('accounting.sales_credit_account_id', 6), // Clients Vin TANGAWIZI WINE
             'amount'            => $orderTotal,
             'note'              => 'Sale - order transaction:'. $orderTransactionId,
@@ -100,7 +101,7 @@ class OrderController extends Controller
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
         return $this->showInvoice( $orderTransactionId);
        }
-        
+
 
        return redirect()->back();
     }
@@ -113,7 +114,7 @@ class OrderController extends Controller
     public function showInvoice($id)
     {
         $orders = Order::where('order_transaction_id', $id)->get();
-        
+
         return view('order::backend.receipt', compact('orders'));
     }
 
