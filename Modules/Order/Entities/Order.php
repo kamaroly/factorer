@@ -28,6 +28,23 @@ class Order extends Model
         return $this->hasOne(Client::class, "id", "client_id");
     }
 
+    public function getColorAttribute()
+    {
+        switch($this->status){
+            case 'processing':
+                return 'warning';
+                break;
+            case 'paid':
+                return 'primary';
+            case 'completed':
+                return 'success';
+
+            default:
+                return 'secondary';
+                break;
+            }
+    }
+
     /**
      * Get transactions
      *

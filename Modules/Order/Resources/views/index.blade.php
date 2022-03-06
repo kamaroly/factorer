@@ -66,6 +66,12 @@
                         <td>{{ $order->created_at }}</td>
                         <td >
                             <span class="btn btn-{{ $order->color }}">{{ $order->status }}</span>
+
+                            <a
+                                class="btn btn-default"
+                                href="{{ route('backend.order.receipt', [$order->order_transaction_id]) }}">
+                                <span > <i class="fas fa-print"></i></span>
+                            </a>
                         </td>
 
                     </tr>

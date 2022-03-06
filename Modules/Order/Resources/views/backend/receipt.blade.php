@@ -157,7 +157,7 @@
 							<div class="row gutters">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 									<div class="custom-actions-btns mb-5">
-										<a href="#" class="btn btn-primary">
+										<a href="#" class="btn ">
 											<i class="icon-download"></i> Download
 										</a>
 										<a href="#" class="btn btn-secondary">
@@ -176,6 +176,22 @@
                                         <a href="/admin/client/{{ $client->id }}/edit" class="invoice-logo">
                                             {{ $client->last_name }} {{ $client->first_name }}
                                         </a>
+
+                                        <div class="p-2">
+
+                                        </div>
+
+                                        <select
+                                            name="order_status"
+                                            onchange="handleStatusChange(this)"
+                                            id = 'js-select-status'
+                                            class=" btn btn-{{ $orderDetails->color }}">
+
+                                        @foreach (config('order.statuses') as $key => $status)
+                                            <option value="{{ $key }}" {{ $key === $orderDetails->status ? 'SELECTED' : '' }}> {{ $status }}</option>
+                                        @endforeach
+                                    </select>
+
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<address class="text-right">
@@ -259,4 +275,17 @@
 	</div>
 </div>
 </div>
+
+<script>
+
+    /**
+     * Handle auto filter upon selecting a different
+     * status
+     */
+    function handleStatusChange(element)
+    {
+        window.location.href ='/admin/order/{{ $orderDetails->order_transaction_id }}?change_order_status_to=' + element.value;
+    }
+
+</script>
 @endsection

@@ -132,6 +132,14 @@ class OrderController extends Controller
      */
     public function showInvoice($id)
     {
+
+        if(request()->has('change_order_status_to'))
+        {
+            Order::where('order_transaction_id', $id)->update(['status' => request('change_order_status_to')]);
+
+            Flash::success("<i class='fas fa-check'></i> Order Status Updated to '". request('change_order_status_to') )->important();
+        }
+
         $orders = Order::where('order_transaction_id', $id)->get();
 
         return view('order::backend.receipt', compact('orders'));
