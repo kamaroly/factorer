@@ -34,13 +34,25 @@ class OrderController extends Controller
      */
     public function index()
     {
+
+        $orders = Order::transactions();
+
+        /**
+         * Filter if the user wants to see
+         * orders from a specific status
+         */
+        if(request()->has('order_status'))
+        {
+            $orders = $orders->where('status', request('order_status'));
+        }
+
         return view('order::index',
                         ['module_title' => $this->module_title,
                         'module_name' => $this->module_name,
                         'module_icon' => $this->module_icon,
                         'module_name_singular' => Str::singular($this->module_name),
                         'module_action' => 'List',
-                        'clients' => Client::get(),
+                        'orders' => $orders->paginate(20),
                         ]
             );
     }
@@ -51,7 +63,14 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('order::create');
+        return view('order::backend.create',
+        ['module_title' => $this->module_title,
+        'module_name' => $this->module_name,
+        'module_icon' => $this->module_icon,
+        'module_name_singular' => Str::singular($this->module_name),
+        'module_action' => 'List',
+        'clients' => Client::get(),
+        ]);
     }
 
     /**

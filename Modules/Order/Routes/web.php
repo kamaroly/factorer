@@ -21,8 +21,8 @@
 Route::group(['namespace' => '\Modules\Order\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
     Route::prefix('order')->group(function() {
         Route::get('/', 'OrderController@index')->name('order.index');
-        Route::post('/create', 'OrderController@store')->name('order.create');
-
+        Route::get('/create', 'OrderController@create')->name('order.create');
+        Route::post('/store', 'OrderController@store')->name('order.store');
         Route::get('/{orderId}', 'OrderController@showInvoice')->name('order.receipt');
     });
 });

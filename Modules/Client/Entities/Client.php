@@ -14,12 +14,23 @@ class Client extends Model
             'updated_at' => 'date',
             'created_at' => 'date',
         ];
-    
+
 
 
     function setCreatedAtAttribute(){
         $this->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $this->updated_at = Carbon::now()->format('Y-m-d H:i:s');
        $this->client_id = '2022002';
+    }
+
+    /**
+     * Get Client Name
+     *
+     * @return void
+     */
+    public function getNamesAttribute()
+    {
+
+        return $this->first_name . ' '. $this->last_name;
     }
 }
