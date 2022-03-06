@@ -134,6 +134,11 @@
 .custom-actions-btns .btn {
     margin: .3rem 0 .3rem .3rem;
 }
+
+@media print {
+  button.close {display:none !important;}
+}
+
     </style>
 @endpush
 
@@ -146,7 +151,7 @@
 @endphp
     <div class="card">
 
-    <div class="card-body">
+    <div class="card-body" id="js-receipt">
 <div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
@@ -157,10 +162,8 @@
 							<div class="row gutters">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 									<div class="custom-actions-btns mb-5">
-										<a href="#" class="btn ">
-											<i class="icon-download"></i> Download
-										</a>
-										<a href="#" class="btn btn-secondary">
+										<a href="#" class="btn btn-secondary" onclick="  window.print();
+                                       ">
 											<i class="icon-printer"></i> Print
 										</a>
 									</div>
@@ -286,6 +289,16 @@
     {
         window.location.href ='/admin/order/{{ $orderDetails->order_transaction_id }}?change_order_status_to=' + element.value;
     }
+
+
+
+   function handlePrinting() {
+    let mainLayout = document.getElementById('js-receipt') as HTMLDivElement;
+    mainLayout.style.display = 'none';
+    window.print();
+
+    mainLayout.style.display = 'unset';
+  }
 
 </script>
 @endsection
