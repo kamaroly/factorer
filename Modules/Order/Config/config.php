@@ -11,7 +11,7 @@ return [
         [        
             'id' => 2,
             'name' => 'Pack 20 bottle of 500ml',
-            'price' => 500
+            'price' => 300
         ]
 
     ]
