@@ -134,6 +134,11 @@
 .custom-actions-btns .btn {
     margin: .3rem 0 .3rem .3rem;
 }
+
+@media print {
+  button.close {display:none !important;}
+}
+
     </style>
 @endpush
 
@@ -145,8 +150,8 @@
 
 @endphp
     <div class="card">
-        
-    <div class="card-body">
+
+    <div class="card-body" id="js-receipt">
 <div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
@@ -157,10 +162,8 @@
 							<div class="row gutters">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 									<div class="custom-actions-btns mb-5">
-										<a href="#" class="btn btn-primary">
-											<i class="icon-download"></i> Download
-										</a>
-										<a href="#" class="btn btn-secondary">
+										<a href="#" class="btn btn-secondary" onclick="  window.print();
+                                       ">
 											<i class="icon-printer"></i> Print
 										</a>
 									</div>
@@ -169,11 +172,29 @@
 							<!-- Row end -->
 							<!-- Row end -->
 							<!-- Row start -->
+                            @if ($client)
 							<div class="row gutters">
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-									<a href="/admin/client/{{ $client->id }}/edit" class="invoice-logo">
-                                    {{ $client->last_name }} {{ $client->first_name }}
-									</a>
+
+                                        <a href="/admin/client/{{ $client->id }}/edit" class="invoice-logo">
+                                            {{ $client->last_name }} {{ $client->first_name }}
+                                        </a>
+
+                                        <div class="p-2">
+
+                                        </div>
+
+                                        <select
+                                            name="order_status"
+                                            onchange="handleStatusChange(this)"
+                                            id = 'js-select-status'
+                                            class=" btn btn-{{ $orderDetails->color }}">
+
+                                        @foreach (config('order.statuses') as $key => $status)
+                                            <option value="{{ $key }}" {{ $key === $orderDetails->status ? 'SELECTED' : '' }}> {{ $status }}</option>
+                                        @endforeach
+                                    </select>
+
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<address class="text-right">
@@ -182,6 +203,7 @@
 									</address>
 								</div>
 							</div>
+                            @endif
 							<!-- Row end -->
 							<!-- Row start -->
 							<div class="row gutters">
@@ -199,7 +221,7 @@
 											<div>Invoice - {{ $orderDetails->id }}</div>
 											<div>{{ $orderDetails->created_at }}</div>
 										</div>
-									</div>													
+									</div>
 								</div>
 							</div>
 							<!-- Row end -->
@@ -219,7 +241,7 @@
 												</tr>
 											</thead>
 											<tbody>
-                                                @foreach ($orders as $orderItem)   
+                                                @foreach ($orders as $orderItem)
                                                     <tr>
                                                         <td>
                                                             {{ $orderItem->item_name }}
@@ -234,7 +256,7 @@
 													<td>&nbsp;</td>
 													<td colspan="2">
 														<h5 class="text-success"><strong>Grand Total</strong></h5>
-													</td>			
+													</td>
 													<td>
 														<h5 class="text-success"><strong>{{ number_format($orders->sum('total_price')) }}</strong></h5>
 													</td>
@@ -256,4 +278,27 @@
 	</div>
 </div>
 </div>
+
+<script>
+
+    /**
+     * Handle auto filter upon selecting a different
+     * status
+     */
+    function handleStatusChange(element)
+    {
+        window.location.href ='/admin/order/{{ $orderDetails->order_transaction_id }}?change_order_status_to=' + element.value;
+    }
+
+
+
+   function handlePrinting() {
+    let mainLayout = document.getElementById('js-receipt') as HTMLDivElement;
+    mainLayout.style.display = 'none';
+    window.print();
+
+    mainLayout.style.display = 'unset';
+  }
+
+</script>
 @endsection
