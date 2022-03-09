@@ -8,7 +8,7 @@
 
 <div class="card">
 
-    <form action="{{ route('backend.order.create') }}" method="POST">
+    <form action="{{ route('backend.order.store') }}" method="POST">
     <div class="card-header d-inline-flex">
 
             <select name="client_id" class="form-control">
