@@ -25,14 +25,14 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // Purchasess
-            $menu->add('<i class="fas fa-money-bill c-sidebar-nav-icon"></i> Purchases', [
+            $menu->add('<i class="fas fa-money-bill c-sidebar-nav-icon"></i> Stock produit finie', [
                 'route' => 'backend.purchase.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
                 'order'         => 84,
-                'activematches' => ['admin/Purchases*'],
-                'permission'    => ['view_purchases'],
+                'activematches' => ['admin/Purchase*'],
+                'permission'    => ['view_purchase'],
             ])
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',

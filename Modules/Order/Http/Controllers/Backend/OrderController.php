@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Order';
+        $this->module_title = 'Commandes';
 
         // module name
         $this->module_name = 'order';

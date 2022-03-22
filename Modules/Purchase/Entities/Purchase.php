@@ -1,12 +1,13 @@
 <?php
 
-namespace Modules\Receivings\Entities;
+namespace Modules\Purchase\Entities;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+USE app\Models;
 
-class Receiving extends Model
+class Purchase extends Model
 {
     use HasFactory;
 
@@ -17,13 +18,21 @@ class Receiving extends Model
             'created_at' => 'date',
         ];
     
-    protected static function newFactory()
-    {
-        return \Modules\Receivings\Database\factories\ReceivingFactory::new();
-    }
-
     function setCreatedAtAttribute(){
-        $this->received_at = Carbon::now()->format('Y-m-d H:i:s');
+        ////$this->received_at = Carbon::now()->format('Y-m-d H:i:s');
          $this->created_at = Carbon::now()->format('Y-m-d H:i:s');
     }
+
+
+
+      /**
+     * Get a client associated to this
+     * order
+     */
+    public function user()
+    {
+
+        return $this->hasOne(User::class, "id", "session_name()");
+    }
+
 }

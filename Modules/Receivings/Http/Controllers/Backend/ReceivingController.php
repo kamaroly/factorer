@@ -19,7 +19,7 @@ class ReceivingController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Receivings';
+        $this->module_title = 'Stock matiere premiere';
 
         // module name
         $this->module_name = 'receivings';
@@ -54,7 +54,7 @@ class ReceivingController extends Controller
         $module_name = $this->module_name;
         $module_model = $this->module_model;
         
-        $$module_name = $module_model::select('id', 'item_name', 'item_sku', 'item_qty', 'item_buying_price', 'item_selling_price', 'grouping', "updated_at", "received_at");
+        $$module_name = $module_model::select('id', 'item_name', 'item_qty','item_type' ,'item_buying_price', 'item_total', 'item_total',"updated_at", "received_at");
 
 
         return Datatables::of($$module_name)
@@ -66,14 +66,10 @@ class ReceivingController extends Controller
                         ->editColumn('updated_at', function ($data) {
                             $module_name = $this->module_name;
 
-                            $diff = Carbon::now()->diffInHours($data->updated_at);
-                            if ($diff < 25) {
-                                return $data->updated_at->diffForHumans();
-                            } else {
-                                return $data->updated_at->isoFormat('LLLL');
-                            }
+                           /// $diff = Carbon::now()->diffInHours($data->created_at);
+                             return $data->updated_at->format('Y-m-d');
                         })
-                        ->rawColumns(['item_name', 'item_sku', 'item_qty', 'item_buying_price', 'item_selling_price', 'grouping'])
+                        ->rawColumns(['item_name', 'item_qty', 'item_type','item_buying_price', 'item_total', 'item_comment','updated_at'])
                         ->orderColumns(['id'], '-:column $1')
                         ->make(true);
     }
@@ -154,5 +150,34 @@ class ReceivingController extends Controller
         Flash::success("<i class='fas fa-check'></i> '".Str::singular($this->module_title)."' Updated Successfully")->important();
 
         return redirect("admin/$this->module_name");
+    }
+
+
+
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+
+         $module_name_singular = Str::singular($this->module_name);
+        $model = $this->module_model::findOrFail($id);
+
+        return view(
+            "receivings::backend.$this->module_name.edit",
+                [
+                    'module_title' => $this->module_title, 
+                    'module_name' => $this->module_name, 
+                    'module_icon' => $this->module_icon, 
+                    'module_action' => 'Show', 
+                    'module_name_singular' => $module_name_singular,
+                    'model' => $model
+                ]
+        );
     }
 }

@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // comments
-            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Client', [
+            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Clients', [
                 'route' => 'backend.client.index',
                 'class' => 'c-sidebar-nav-item',
             ])

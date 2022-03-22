@@ -19,7 +19,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
-            $menu->add('<i class="cil-speedometer c-sidebar-nav-icon"></i> Dashboard', [
+            $menu->add('<i class="cil-speedometer c-sidebar-nav-icon"></i> Tableaux de board', [
                 'route' => 'backend.dashboard',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -55,7 +55,7 @@ class GenerateMenus
             ]);
 
             // Settings
-            $menu->add('<i class="c-sidebar-nav-icon fas fa-cogs"></i> Settings', [
+            $menu->add('<i class="c-sidebar-nav-icon fas fa-cogs"></i> Parametrages', [
                 'route' => 'backend.settings',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -100,7 +100,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Users
-            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> Users', [
+            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> Utilisateurs', [
                 'route' => 'backend.users.index',
                 'class' => 'nav-item',
             ])
@@ -129,7 +129,7 @@ class GenerateMenus
 
             // Log Viewer
             // Log Viewer Dropdown
-            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-list-rich"></i> Log Viewer', [
+            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-list-rich"></i> Logs', [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([

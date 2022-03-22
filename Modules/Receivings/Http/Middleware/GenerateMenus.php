@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // comments
-            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Receiving', [
+            $menu->add('<i class="fas fa-box c-sidebar-nav-icon"></i> Stock matiere premier', [
                 'route' => 'backend.receivings.index',
                 'class' => 'c-sidebar-nav-item',
             ])

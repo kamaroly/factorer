@@ -10,24 +10,14 @@
         <div class="form-group">
             <?php
             $field_name = 'item_name';
-            $field_lable = __("receivings::$module_name.$field_name");
+            $field_lable = __("purchase::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = [
-                'Tangawize'=>'Tangawize',
-                'Ketchou'=>'Ketchou',
-                'Majani Chai'=>'Majani Chai',
-                'Sucre'=>'Sucre',
-                'Miel'=>'Miel',
-                'Bouteille de 300ml'=>'Bouteille de 300ml',
-                'Bouteille de 500ml'=>'Bouteille de 500ml',
+                'Carton de Bouteille 300ml'=>'Carton de Bouteille 300ml',
+                'Carton de Bouteille 500ml'=>'Carton de Bouteille 500ml',
                 'Bouteille Vin'=>'Bouteille Vin',
-                'Dekalote'=>'Dekalote',
-                'Sachet'=>'Sachet',
-                'Etiquettes  300ml'=>'Etiquettes  300ml',
-                'Etiquettes 500ml'=>'Etiquettes 500ml',
-
-            ];
+               ];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
@@ -38,12 +28,12 @@
         <div class="form-group">
             <?php
             $field_name = 'item_qty';
-            $field_lable = __("receivings::$module_name.$field_name");
-            $field_placeholder = __("receivings::$module_name.$field_name"."_placeholder");
-            $required = "";
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
+            $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", "id" => "js-quantity",  "onkeyup" => "handlePriceAndQuantityChange()"])->value('1') }}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value('1') }}
 
         </div>
     </div>
@@ -51,14 +41,12 @@
         <div class="form-group">
             <?php
             $field_name = 'item_type';
-            $field_lable = __("receivings::$module_name.$field_name");
+            $field_lable = __("purchase::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = [
                 'Kg'=>'Kg',
-                'Pce'=>'Pce',
-
-            ];
+                'Cartons'=>'Cartons',            ];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
@@ -67,48 +55,34 @@
 
 </div>
 <div class="row">
-     <div class="col-4">
+         <div class="col-4">
         <div class="form-group">
             <?php
-            $field_name = 'item_buying_price';
-            $field_lable = __("receivings::$module_name.$field_name");
-            $field_placeholder = __("receivings::$module_name.$field_name"."_placeholder");
+            $field_name = 'item_mouvement';
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", "id" => "js-buying-price", "onkeyup" => "handlePriceAndQuantityChange()"]) }}
-        </div>
-    </div>   
-    <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'item_total';
-            $field_lable = __("receivings::$module_name.$field_name");
-            $field_placeholder = __("receivings::$module_name.$field_name"."_placeholder");
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", "id" => "js-total"]) }}
-
-        
-
-
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value("IN") }}
         </div>
     </div>
-        <div class="col-4">
+
+         <div class="col-4">
         <div class="form-group">
             <?php
             $field_name = 'item_comment';
-            $field_lable = __("receivings::$module_name.$field_name");
-            $field_placeholder = __("receivings::$module_name.$field_name"."_placeholder");
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
         </div>
     </div>
-    
+
 </div>
+
 
 
 <!-- Select2 Library -->
@@ -170,7 +144,7 @@ $(document).ready(function() {
 </script>
 
 
-<script>
+<!--<script>
 
 
 
@@ -184,7 +158,7 @@ $(document).ready(function() {
     }
 
     
-</script>
+</script>-->
 
 
 <!-- Date Time Picker & Moment Js-->

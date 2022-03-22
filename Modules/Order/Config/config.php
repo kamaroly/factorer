@@ -10,13 +10,13 @@ return [
     'products' => [
             [
                 'id' => 1,
-                'name' => 'Pack of 24 bottle of 300ml',
-                'price' => 300
+                'name' => 'Pack of 20 bottle of 300ml',
+                'price' => 6.7
             ],
             [
                 'id' => 2,
-                'name' => 'Pack 20 bottle of 500ml',
-                'price' => 500
+                'name' => 'Pack 12bottle of 500ml',
+                'price' => 6.7
             ]
         ],
 

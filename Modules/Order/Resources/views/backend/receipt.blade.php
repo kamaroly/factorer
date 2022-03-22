@@ -149,7 +149,10 @@
     $client = $orderDetails->client;
 
 @endphp
+
     <div class="card">
+<a class="navbar-brand" href="/">
+ <img src="{{asset('img/logo-with-text.jpg')}}" height="140"> </a>
 
     <div class="card-body" id="js-receipt">
 <div class="row gutters">
@@ -206,19 +209,22 @@
                             @endif
 							<!-- Row end -->
 							<!-- Row start -->
-							<div class="row gutters">
+
 								<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-									<div class="invoice-details">
-										<address>
-											FACTORER<br>
-											150-600 Church Street, Goma, DRC
+									<div class="invoice-details" >
+										<address><b>
+											UZIMA BORA<br>
+											RCCM : GOM/RCCM /19_B_00079<br>
+                                            Idnat:19_F4300_N65920Y<br>
+                                            N" IMPORT:A2026344H<br>
+                                            +243 977 980 199 , +243 995 346 277 </b>
 										</address>
 									</div>
 								</div>
-								<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                      			<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
 									<div class="invoice-details">
 										<div class="invoice-num">
-											<div>Invoice - {{ $orderDetails->id }}</div>
+											<div>Facture - {{ $orderDetails->id }}</div>
 											<div>{{ $orderDetails->created_at }}</div>
 										</div>
 									</div>
@@ -234,10 +240,10 @@
 										<table class="table custom-table m-0">
 											<thead>
 												<tr>
-													<th>Items</th>
-													<th>Quantity</th>
-													<th>Unit Price</th>
-													<th>Sub Total</th>
+													<th>Designation</th>
+													<th>Quantite</th>
+													<th>Prix Unitaire</th>
+													<th>Total </th>
 												</tr>
 											</thead>
 											<tbody>
@@ -253,12 +259,11 @@
                                                 @endforeach
 
 												<tr>
-													<td>&nbsp;</td>
-													<td colspan="2">
+													<td colspan="3">
 														<h5 class="text-success"><strong>Grand Total</strong></h5>
 													</td>
 													<td>
-														<h5 class="text-success"><strong>{{ number_format($orders->sum('total_price')) }}</strong></h5>
+														<h5 class="text-success"><strong>{{ number_format($orders->sum('total_price')) }}</strong> $</h5>
 													</td>
 												</tr>
 											</tbody>
@@ -267,17 +272,18 @@
 								</div>
 							</div>
 							<!-- Row end -->
-						</div>
-						<div class="invoice-footer">
-							Thank you for your Business.
-						</div>
+						</div> <center>
+						<div class="invoice-footer"><br><br>
+							Merci pour  votre visite. <br>
+                            Les Marchandises Vendues ne sont ni reprises ni echangees
+						</div></center>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
+
 
 <script>
 

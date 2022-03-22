@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // comments
-            $menu->add('<i class="fas fa-sign c-sidebar-nav-icon"></i> Accounting', [
+            $menu->add('<i class="fas fa-sign c-sidebar-nav-icon"></i> Comptabilites', [
                 'route' => 'backend.comments.index',
                 'class' => 'c-sidebar-nav-item',
             ])

@@ -21,8 +21,8 @@
                     <strong>@lang('Change language')</strong>
                 </div>
 
-                <a class="dropdown-item" href="{{route("language.switch", "bn")}}">
-                    বাংলা (BN)
+                <a class="dropdown-item" href="{{route("language.switch", "fr")}}">
+                    Francais (FR)
                 </a>
                 <a class="dropdown-item" href="{{route("language.switch", "en")}}">
                     English (EN)

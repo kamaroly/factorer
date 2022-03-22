@@ -58,11 +58,8 @@
                             <th>
                                  Type
                             </th>
-                            <th>
-                                buying_Price
-                            </th>
-                            <th>
-                                Total
+                             <th>
+                                Movement
                             </th>
                             <th>
                                Created At
@@ -117,9 +114,8 @@
             {data: 'item_name', name: 'item_name'},
             {data: 'item_qty', name: 'item_qty'},
             {data: 'item_type', name: 'item_type'},
-            {data: 'item_buying_price', name: 'item_buying_price'},
-            {data: 'item_total', name: 'item_total'},
-            {data: 'updated_at', name: 'received_at'},
+            {data: 'item_mouvement', name: 'item_mouvement'},
+            {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });

@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // billings
-            $menu->add('<i class="fas fa-money-bill c-sidebar-nav-icon"></i> Billings', [
+            $menu->add('<i class="fas fa-money-bill c-sidebar-nav-icon"></i> Facturations', [
                 'route' => 'backend.billing.index',
                 'class' => 'c-sidebar-nav-item',
             ])

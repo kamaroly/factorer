@@ -11,5 +11,6 @@ return [
     "item_selling_price_placeholder"=> "Example:5000",
     "item_buying_price" => "Buying Price",
     "item_buying_price_placeholder" => "Example: 7000",
-    "grouping" => "Grouping"
+    "grouping" => "Grouping",
+    "name"=>'nom du produit',
 ];
