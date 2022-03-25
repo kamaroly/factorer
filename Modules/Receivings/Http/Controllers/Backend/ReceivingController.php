@@ -101,7 +101,10 @@ class ReceivingController extends Controller
      */
     public function store(ReceivingRequest $request)
     {
-        $this->module_model::create($request->except("_token"));
+        $attributes = $request->except("_token");
+        $attributes['user_id'] = request()->user()->id;
+
+        $this->module_model::create($attributes);
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
 

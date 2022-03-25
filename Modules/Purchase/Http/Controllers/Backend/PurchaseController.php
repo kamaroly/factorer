@@ -11,6 +11,8 @@ use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Purchase\Http\Requests\PurchaseRequest;
+use App\Models\User;
+
 
 
 
@@ -57,7 +59,9 @@ class PurchaseController extends Controller
         $module_name = $this->module_name;
         $module_model = $this->module_model;
         
-        $$module_name = $module_model::select('id', 'item_name', 'item_qty','item_type' ,'item_mouvement','approved_by', 'item_comment',"updated_at", "created_at");
+        $$module_name = $module_model::
+              join('users', 'users.id', '=', 'purchases.userid')
+             ->select('purchases.id', 'item_name', 'item_qty','item_type' ,'item_mouvement','approved_by', 'item_comment','users.name',"purchases.updated_at", "purchases.created_at");
 
 
         return Datatables::of($$module_name)
@@ -72,9 +76,12 @@ class PurchaseController extends Controller
                            /// $diff = Carbon::now()->diffInHours($data->created_at);
                              return $data->updated_at->format('Y-m-d');
                         })
-                        ->rawColumns(['item_name', 'item_qty', 'item_type','item_comment','item_movement','updated_at'])
-                        ->orderColumns(['id'], '-:column $1')
+                        ->rawColumns(['item_name', 'item_qty', 'item_type','item_comment','item_movement',
+                            'updated_at'])
+                        ->orderColumns(['purchases.id'], '-:column $1')
                         ->make(true);
+
+                             
     }
 
         /**
@@ -102,14 +109,16 @@ class PurchaseController extends Controller
      * @return Redirect
      */
     public function store(PurchaseRequest $request)
-    {
-        $this->module_model::create($request->except("_token"));
+    {    
+         $attributes = $request->except("_token");
+         $attributes['userid'] = request()->user()->id;
+
+         $this->module_model::create($attributes);
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
 
         return redirect("admin/$this->module_name");
     }
-
 
 
      /**

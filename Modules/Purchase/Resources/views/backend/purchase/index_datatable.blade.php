@@ -53,13 +53,16 @@
                                 @lang('Name')
                             </th>
                             <th>
-                                Quantity
+                                Quantite
                             </th>
                             <th>
                                  Type
                             </th>
                              <th>
                                 Movement
+                            </th>
+                               <th>
+                                Recue par
                             </th>
                             <th>
                                Created At
@@ -115,6 +118,7 @@
             {data: 'item_qty', name: 'item_qty'},
             {data: 'item_type', name: 'item_type'},
             {data: 'item_mouvement', name: 'item_mouvement'},
+            {data: 'name', name: 'name'},
             {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

@@ -5,7 +5,7 @@ namespace Modules\Purchase\Entities;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-USE app\Models;
+USE App\Models\User;
 
 class Purchase extends Model
 {
@@ -32,7 +32,12 @@ class Purchase extends Model
     public function user()
     {
 
-        return $this->hasOne(User::class, "id", "session_name()");
+        return $this->hasOne(User::class, "id", "userid");
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class,'userid','id');
     }
 
 }

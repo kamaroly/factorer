@@ -29,4 +29,8 @@ class PurchaseRequest extends FormRequest
     {
         return true;
     }
+    public function users()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

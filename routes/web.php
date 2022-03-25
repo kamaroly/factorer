@@ -18,6 +18,14 @@ require __DIR__ . '/auth.php';
 // Language Switch
 Route::get('language/{language}', 'LanguageController@switch')->name('language.switch');
 
+
+// get current logged in user
+Route::get('/user-test', function(){
+    dump(request()->user());
+
+
+    dump(request()->user()->name);
+});
 /*
 *
 * Frontend Routes
