@@ -14,7 +14,27 @@ class AccountingController extends Controller
      */
     public function index()
     {
-        return view('accounting::index');
+       
+        $module_name = $this->module_name;
+        $module_model = $this->module_model;
+        
+        $$module_name = $module_model::select("id","debit_account_id","credit_account_id","amount","note","description","created_at","updated_at");
+
+
+        return Datatables::of($$module_name)
+                        ->addColumn('action', function ($data) {
+                            $module_name = $this->module_name;
+
+                            return view('backend.includes.action_column', compact('module_name', 'data'));
+                        })
+                        ->editColumn('updated_at', function ($data) {
+                            $module_name = $this->module_name;
+
+                           /// $diff = Carbon::now()->diffInHours($data->created_at);
+                             return $data->updated_at->format('Y-m-d');
+                        })
+                        ->orderColumns(['purchases.id'], '-:column $1')
+                        ->make(true);
     }
 
     /**

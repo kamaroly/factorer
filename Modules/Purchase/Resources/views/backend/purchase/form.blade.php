@@ -67,13 +67,14 @@
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value("IN") }}
         </div>
     </div>
-
-         <div class="col-4">
+</div>
+    <div class="row">
+    <div class="col-12">
         <div class="form-group">
             <?php
             $field_name = 'item_comment';
             $field_lable = __("purchase::$module_name.$field_name");
-            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
+            $field_placeholder = $field_lable;
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -81,6 +82,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -185,7 +187,7 @@ $(function() {
 
 <script type="text/javascript">
 
-CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
+CKEDITOR.replace('item_comment', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
 
 document.addEventListener("DOMContentLoaded", function() {
 
