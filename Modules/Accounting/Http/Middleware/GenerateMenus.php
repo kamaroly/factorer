@@ -26,13 +26,13 @@ class GenerateMenus
 
             // comments
             $menu->add('<i class="fas fa-sign c-sidebar-nav-icon"></i> Comptabilites', [
-                'route' => 'backend.comments.index',
+                'route' => 'backend.accounting.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
                 'order'         => 85,
-                'activematches' => ['admin/comments*'],
-                'permission'    => ['view_comments'],
+                'activematches' => ['admin/accounting*'],
+                'permission'    => ['view_accounting'],
             ])
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',
@@ -42,3 +42,4 @@ class GenerateMenus
         return $next($request);
     }
 }
+

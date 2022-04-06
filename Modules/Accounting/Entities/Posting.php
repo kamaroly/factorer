@@ -15,4 +15,13 @@ class Posting extends Model
     {
         return \Modules\Accounting\Database\factories\PostingFactory::new();
     }
+
+    public function debit(){
+    	return $this->belongsTo(Account::class,'debit_account_id','account_number');
+    }
+    
+     public function credit(){
+    	return $this->belongsTo(Account::class,'credit_account_id','account_number');
+    }
+
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Purchase\Http\Requests\PurchaseRequest;
+use Modules\Purchase\Entities\Purchase;
 use App\Models\User;
 
 
@@ -41,7 +42,7 @@ class PurchaseController extends Controller
      * @return Renderable
      */
     public function index()
-    {
+    {   
         return view(
             "purchase::backend.{$this->module_name}.index_datatable",
             ['module_title' => $this->module_title,
@@ -55,11 +56,11 @@ class PurchaseController extends Controller
 
     
     public function index_data()
-    {
+    {   
         $module_name = $this->module_name;
         $module_model = $this->module_model;
-        
-        $$module_name = $module_model::
+         
+         $$module_name = $module_model::
               join('users', 'users.id', '=', 'purchases.userid')
              ->select('purchases.id', 'item_name', 'item_qty','item_type' ,'item_mouvement','approved_by', 'item_comment','users.name',"purchases.updated_at", "purchases.created_at");
 
