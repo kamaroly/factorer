@@ -140,15 +140,34 @@
 }
 
     </style>
+
+
+
 @endpush
 
 @section('content')
+
 
 @php
     $orderDetails = $orders->first();
     $client = $orderDetails->client;
 
 @endphp
+
+
+<script>
+
+    /**
+     * Handle auto filter upon selecting a different
+     * status
+     */
+    function handleStatusChange(element)
+    {
+        window.location.href ='/admin/order/{{ $orderDetails->order_transaction_id }}?change_order_status_to=' + element.value;
+    }
+
+
+</script>
 
     <div class="card">
 <a class="navbar-brand" href="/">
@@ -165,8 +184,7 @@
 							<div class="row gutters">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 									<div class="custom-actions-btns mb-5">
-										<a href="#" class="btn btn-secondary" onclick="  window.print();
-                                       ">
+										<a href="#" class="btn btn-secondary" onclick="window.print();">
 											<i class="icon-printer"></i> Print
 										</a>
 									</div>
@@ -285,26 +303,5 @@
 </div>
 
 
-<script>
 
-    /**
-     * Handle auto filter upon selecting a different
-     * status
-     */
-    function handleStatusChange(element)
-    {
-        window.location.href ='/admin/order/{{ $orderDetails->order_transaction_id }}?change_order_status_to=' + element.value;
-    }
-
-
-
-   function handlePrinting() {
-    let mainLayout = document.getElementById('js-receipt') as HTMLDivElement;
-    mainLayout.style.display = 'none';
-    window.print();
-
-    mainLayout.style.display = 'unset';
-  }
-
-</script>
 @endsection

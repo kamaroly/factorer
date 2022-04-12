@@ -2,14 +2,17 @@
 
 namespace Modules\Order\Http\Controllers\Backend;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Routing\Controller;
-use Laracasts\Flash\Flash;
+use App\Notifications\NewOrderNotification;
 use Modules\Accounting\Entities\Posting;
 use Modules\Client\Entities\Client;
+use Illuminate\Routing\Controller;
 use Modules\Order\Entities\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Laracasts\Flash\Flash;
 
 class OrderController extends Controller
 {
@@ -135,9 +138,21 @@ class OrderController extends Controller
 
         if(request()->has('change_order_status_to'))
         {
-            Order::where('order_transaction_id', $id)->update(['status' => request('change_order_status_to')]);
+            $orderStatus = request('change_order_status_to');
 
-            Flash::success("<i class='fas fa-check'></i> Order Status Updated to '". request('change_order_status_to') )->important();
+            Order::where('order_transaction_id', $id)->update(['status' => $orderStatus]);
+
+            // Get notification group
+            $userGroup = config('order.order_approval_matrix.'. $orderStatus);
+            $notificationEmails = config('order.'.  $userGroup);
+
+            // Get the users
+            $users = User::whereIn('email', $notificationEmails)->get();
+
+            // Send the notifications
+            Notification::send($users, new NewOrderNotification($id, $orderStatus));
+
+            Flash::success("<i class='fas fa-check'></i> Order Status Updated to '". $orderStatus )->important();
         }
 
         $orders = Order::where('order_transaction_id', $id)->get();

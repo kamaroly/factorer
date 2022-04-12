@@ -28,5 +28,31 @@ return [
         'paid'          => 'Paid',
         'completed'     => 'Completed',
         'returned'      => 'Returned',
-    ]
+    ],
+
+    /**
+     * Notification groups
+     */
+    'receptionists' => [
+        'super@admin.com',
+    ],
+    'cashiers'              =>  [
+        'executive@executive.com',
+        'super@admin.com',
+    ],
+    'stock_managers'        =>  [
+        'manager@manager.com',
+    ],
+    'security_controller'   =>  [
+        'olivierbite@gmail.com',
+    ],
+
+    /**
+     * Mapping status to the approvers
+     */
+    'order_approval_matrix' => [
+        'processing'    => 'cashiers',
+        'paid'          => 'stock_managers',
+        'completed'     => 'security_controller',
+    ],
 ];

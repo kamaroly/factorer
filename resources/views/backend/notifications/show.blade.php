@@ -55,20 +55,13 @@
                             </tr>
                             @if($data->url_backend != '')
                             <tr>
-                                <th>URL Backend</th>
+                                <th>Go to The Order</th>
                                 <td>
-                                    Backend: <a href="{{$data->url_backend}}">{{$data->url_backend}}</a>
+                                    Order Link: <a href="{{$data->url_backend}}">{{$data->url_backend}}</a>
                                 </td>
                             </tr>
                             @endif
-                            @if($data->url_frontend != '')
-                            <tr>
-                                <th>URL Frontend</th>
-                                <td>
-                                    Frontend: <a href="{{$data->url_frontend}}">{{$data->url_frontend}}</a>
-                                </td>
-                            </tr>
-                            @endif
+
                         </tbody>
                     </table>
                 </div>
