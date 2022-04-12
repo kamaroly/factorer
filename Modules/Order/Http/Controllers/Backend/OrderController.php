@@ -120,6 +120,8 @@ class OrderController extends Controller
         ]);
 
         // Notify
+        $this->notifyUsers($orderTransactionId, env('PROCESSING_STATUS', "processing"));
+
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
         return $this->showInvoice( $orderTransactionId);
        }
@@ -142,22 +144,33 @@ class OrderController extends Controller
 
             Order::where('order_transaction_id', $id)->update(['status' => $orderStatus]);
 
-            // Get notification group
-            $userGroup = config('order.order_approval_matrix.'. $orderStatus);
-            $notificationEmails = config('order.'.  $userGroup);
-
-            // Get the users
-            $users = User::whereIn('email', $notificationEmails)->get();
-
-            // Send the notifications
-            Notification::send($users, new NewOrderNotification($id, $orderStatus));
-
+            $this->notifyUsers($id, $orderStatus);
             Flash::success("<i class='fas fa-check'></i> Order Status Updated to '". $orderStatus )->important();
         }
 
         $orders = Order::where('order_transaction_id', $id)->get();
 
         return view('order::backend.receipt', compact('orders'));
+    }
+
+    /**
+     * Notify Users
+     *
+     * @param integer $orderId
+     * @param string $orderStatus
+     * @return void
+     */
+    public function notifyUsers($orderId, $orderStatus) : void
+    {
+        // Get notification group
+        $userGroup = config('order.order_approval_matrix.'. $orderStatus);
+        $notificationEmails = config('order.'.  $userGroup);
+
+        // Get the users
+        $users = User::whereIn('email', $notificationEmails)->get();
+
+        // Send the notifications
+        Notification::send($users, new NewOrderNotification($orderId, $orderStatus));
     }
 
     /**
