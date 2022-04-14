@@ -7,11 +7,9 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Laracasts\Flash\Flash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Purchase\Http\Requests\PurchaseRequest;
-use Modules\Purchase\Entities\Purchase;
 use App\Models\User;
 
 
@@ -42,7 +40,7 @@ class PurchaseController extends Controller
      * @return Renderable
      */
     public function index()
-    {   
+    {
         return view(
             "purchase::backend.{$this->module_name}.index_datatable",
             ['module_title' => $this->module_title,
@@ -54,12 +52,12 @@ class PurchaseController extends Controller
         );
     }
 
-    
+
     public function index_data()
-    {   
+    {
         $module_name = $this->module_name;
         $module_model = $this->module_model;
-         
+
          $$module_name = $module_model::
               join('users', 'users.id', '=', 'purchases.userid')
              ->select('purchases.id', 'item_name', 'item_qty','item_type' ,'item_mouvement','approved_by', 'item_comment','users.name',"purchases.updated_at", "purchases.created_at");
@@ -82,7 +80,7 @@ class PurchaseController extends Controller
                         ->orderColumns(['purchases.id'], '-:column $1')
                         ->make(true);
 
-                             
+
     }
 
         /**
@@ -100,7 +98,7 @@ class PurchaseController extends Controller
                 'module_icon' => $this->module_icon,
                 'module_name_singular' => Str::singular($this->module_name),
                 'module_action' => 'Create',
-             ]        
+             ]
         );
     }
    /**
@@ -110,7 +108,7 @@ class PurchaseController extends Controller
      * @return Redirect
      */
     public function store(PurchaseRequest $request)
-    {    
+    {
          $attributes = $request->except("_token");
          $attributes['userid'] = request()->user()->id;
 
@@ -137,17 +135,17 @@ class PurchaseController extends Controller
         return view(
             "purchase::backend.$this->module_name.edit",
                 [
-                    'module_title' => $this->module_title, 
-                    'module_name' => $this->module_name, 
-                    'module_icon' => $this->module_icon, 
-                    'module_action' => 'Edit', 
+                    'module_title' => $this->module_title,
+                    'module_name' => $this->module_name,
+                    'module_icon' => $this->module_icon,
+                    'module_action' => 'Edit',
                     'module_name_singular' => $module_name_singular,
                     'model' => $model
                 ]
         );
     }
 
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -185,10 +183,10 @@ class PurchaseController extends Controller
         return view(
             "purchase::backend.$this->module_name.edit",
                 [
-                    'module_title' => $this->module_title, 
-                    'module_name' => $this->module_name, 
-                    'module_icon' => $this->module_icon, 
-                    'module_action' => 'Show', 
+                    'module_title' => $this->module_title,
+                    'module_name' => $this->module_name,
+                    'module_icon' => $this->module_icon,
+                    'module_action' => 'Show',
                     'module_name_singular' => $module_name_singular,
                     'model' => $model
                 ]
