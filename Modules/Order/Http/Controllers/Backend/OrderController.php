@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Support\Renderable;
 use App\Notifications\NewOrderNotification;
 use Modules\Accounting\Entities\Posting;
+use Modules\Purchase\Entities\Purchase;
 use Modules\Client\Entities\Client;
 use Illuminate\Routing\Controller;
 use Modules\Order\Entities\Order;
@@ -109,7 +110,6 @@ class OrderController extends Controller
         }
 
        if(  Order::insert($order)){
-
         // Now that the order has been saved, let us update postings
         Posting::create([
             'debit_account_id' => config('accounting.sale_debit_account_id', 1) , // Caisse
@@ -119,7 +119,10 @@ class OrderController extends Controller
             'description'       => 'Sale made for Client:'. $request->client_id
         ]);
 
+
         // Notify
+        $this->notifyUsers($orderTransactionId, env('PROCESSING_STATUS', "processing"));
+
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($this->module_title)."' Added")->important();
         return $this->showInvoice( $orderTransactionId);
        }
@@ -142,22 +145,52 @@ class OrderController extends Controller
 
             Order::where('order_transaction_id', $id)->update(['status' => $orderStatus]);
 
-            // Get notification group
-            $userGroup = config('order.order_approval_matrix.'. $orderStatus);
-            $notificationEmails = config('order.'.  $userGroup);
+            if($orderStatus === "completed"){
+                      // Record purchased stock
+            Order::where('order_transaction_id', $id)->get()->each(function($orderLine){
+                    Purchase::create([
+                            "item_name" => $orderLine['item_name'],
+                            "item_qty" => -1 * $orderLine['quantity'],
+                            "item_type" => "Cartons",
+                            "item_mouvement" => "OUT",
+                            "item_status" => "SOLD",
+                            "approved_by" => auth()->user()->id,
+                            "initiated_at" => now(),
+                            "approved_at" => now(),
+                            "item_comment" => "Sale #". $orderLine['order_transaction_id'],
+                            "userid" => auth()->user()->id
+                    ]);
 
-            // Get the users
-            $users = User::whereIn('email', $notificationEmails)->get();
+                });
+            }
 
-            // Send the notifications
-            Notification::send($users, new NewOrderNotification($id, $orderStatus));
-
+            $this->notifyUsers($id, $orderStatus);
             Flash::success("<i class='fas fa-check'></i> Order Status Updated to '". $orderStatus )->important();
         }
 
         $orders = Order::where('order_transaction_id', $id)->get();
 
         return view('order::backend.receipt', compact('orders'));
+    }
+
+    /**
+     * Notify Users
+     *
+     * @param integer $orderId
+     * @param string $orderStatus
+     * @return void
+     */
+    public function notifyUsers($orderId, $orderStatus) : void
+    {
+        // Get notification group
+        $userGroup = config('order.order_approval_matrix.'. $orderStatus);
+        $notificationEmails = config('order.'.  $userGroup);
+
+        // Get the users
+        $users = User::whereIn('email', $notificationEmails)->get();
+
+        // Send the notifications
+        Notification::send($users, new NewOrderNotification($orderId, $orderStatus));
     }
 
     /**
