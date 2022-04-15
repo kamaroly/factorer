@@ -55,6 +55,7 @@ class AccountingController extends Controller
 
           $$module_name = Posting::get();
 
+   //dd(Posting::get());
 
         return Datatables::of($$module_name)
                         ->addColumn('action', function ($data) {
