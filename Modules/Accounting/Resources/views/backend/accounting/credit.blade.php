@@ -6,13 +6,30 @@
 ('item_buying_price
 ('item_selling_price --}}
   
-    
-    <div class="col-12">
+    <div class="col-4">
         <div class="form-group">
             <?php
-            $field_name = 'wording';
-            $field_lable = __("accountant::$module_name.$field_name");
-            $field_placeholder = __("accountant::$module_name.$field_name"."_placeholder");
+            $field_name = 'item_name';
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            $select_options = [
+                'Carton de Bouteille 300ml'=>'Carton de Bouteille 300ml',
+                'Carton de Bouteille 500ml'=>'Carton de Bouteille 500ml',
+                'Bouteille Vin'=>'Bouteille Vin',
+               ];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'item_qty';
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -20,6 +37,22 @@
 
         </div>
     </div>
+      <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'item_type';
+            $field_lable = __("purchase::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            $select_options = [
+                'Kg'=>'Kg',
+                'Cartons'=>'Cartons',            ];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+        </div>
+    </div>
+
 </div>
 <div class="row">
          <div class="col-4">
