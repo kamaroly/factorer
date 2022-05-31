@@ -1,0 +1,21 @@
+ <table >
+  	 <thead>
+  	 	<tr>
+        <th> <?php echo e(trans('member.adhersion_number')); ?></th>
+        <th> <?php echo e(trans('member.monthly_fee')); ?></th>
+        <th> <?php echo e(trans('member.error')); ?></th>
+  	 	</tr>
+   	 </thead>
+ <tbody>
+
+ <?php foreach($members as $member): ?>
+   <?php /* populate the table */ ?>
+   <tr>
+  <td><?php echo $member[0]; ?></td>
+  <td><?php echo $member[1]; ?></td>
+  <td><?php echo $member[2]; ?></td>
+</tr>
+
+ <?php endforeach; ?>
+ </tbody>
+</table>

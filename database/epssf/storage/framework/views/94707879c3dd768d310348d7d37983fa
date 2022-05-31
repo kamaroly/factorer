@@ -1,0 +1,20 @@
+
+
+<?php $__env->startSection('content_title'); ?>
+	<?php echo e($member->first_name); ?> 's <?php echo e(trans('member.details')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php echo Form::open(['route' => ['members.update',$member->id],
+				'class'=>'ui form rahasi-form ',
+				'method'=>'PUT',
+				'files' => true 
+				]); ?>
+
+	<?php echo $__env->make('members.layouts',['button'=>trans('member.edit')], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,172 @@
+<?php echo $__env->make('partials.landscapecss', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php /* Start by pulling this member profile */ ?>
+<?php if(!empty($loans)): ?>
+    <?php $member = (new \Ceb\Models\User)->findByAdhersion($loans->first()->adhersion_id) ;?>
+	<?php echo $__env->make('reports.member.partials.profile',compact('member'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+<?php endif; ?>
+
+<style type="text/css">
+	      .markdown-body table th, .markdown-body table td {
+          padding: 6px 6px;
+          border: 1px solid #ddd;
+      }
+</style>
+<?php /* Show select inputs */ ?>
+<?php echo $__env->make('reports.member.date_range',['url' => 'reports/members/loanrecords/{startDate}/{endDate}/0/'.$loans->first()->adhersion_id], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<table class="pure-table pure-table-bordered text-center">
+	<caption class="text-gray-700 text-3xl font-semibold leading-tight"> 
+		<?php echo e(trans('reports.member_loan_records_file')); ?> 
+	<?php if($previousLoanBalance > 0): ?>
+		<span class="bg-yellow-500 text-yellow-900 px-2 py-1 font-light text-xl rounded-lg">
+			<?php echo e(trans('general.previous_loan_balance')); ?> : <?php echo e($previousLoanBalance); ?>
+
+		</span>
+	<?php endif; ?>
+			<span class="bg-yellow-500 text-yellow-900 px-2 py-1 font-light text-xl rounded-lg">
+			<?php echo e(trans('general.previous_loan_balance')); ?> : <?php echo e($previousLoanBalance); ?>
+
+		</span>	
+	</caption>
+  	 <thead>
+  	 	<tr class="text-sm">
+	  	 	<th><?php echo e(trans('general.date')); ?></th>
+	     	<th><?php echo e(trans('loan.nature')); ?></th>
+			<th><?php echo e(trans('loan.operation_type')); ?></th>
+			<th><?php echo e(trans('loan.wording')); ?></th>
+			<th><?php echo e(trans('loan.loan')); ?></th>
+	        <th><?php echo e(trans('loan.interests')); ?></th>
+	        <th><?php echo e(trans('loan.installment_payments')); ?></th>
+	        <th><?php echo e(trans('loan.installements')); ?></th>
+	        <th><?php echo e(trans('general.balance')); ?></th>
+	  	</tr>
+   	 </thead>
+ <tbody class="text-sm">
+		<?php	$loan_to_repay = 0; ?>
+		<?php	$interest      = 0; ?>
+		<?php	$monthly_fees  = 0; ?>
+		<?php	$tranches      = 0; ?>
+		<?php   $loan_contract = 0 ;?>
+		<?php   $balance       = 0 ;?>
+
+  <?php $first_loan = $loans->first()->id; ?>
+  <?php foreach($loans as $loan): ?>
+
+	<?php	$balance  += ($loan->loan_amount-$loan->tranches); ?>
+  	<?php /* HEADER TABLE ONLY SHOW HEADERS FOR ORDINARY LOAN*/ ?>
+  	<?php if((strpos($loan->operation_type,'ordinary_loan') !== FALSE || strpos($loan->operation_type,'emergency_loan') !== FALSE) && $loan->is_regulation == false): ?>
+  		<?php /* SUMMARY TABLE */ ?>
+		<?php if($loan->id !== $first_loan): ?>
+			<?php echo $__env->make('reports.member.item_loan_record_summary', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			     	<?php	$loan_to_repay = 0; ?>
+					<?php	$interest 	   = 0; ?>
+					<?php	$monthly_fees  = 0; ?>
+					<?php	$tranches  	   = 0; ?>
+					<?php	$balance       = $loan->loan_amount; ?>
+
+		<?php endif; ?>
+
+  		<?php $tranches = 0; ?>
+		<?php echo $__env->make('reports.member.item_loan_record_header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+  	<?php endif; ?>
+	
+	<tr>
+		<td><?php echo date('Y-m-d',strtotime($loan->created_at)); ?></td>
+	 	<td><?php echo trans('loan.'.trim($loan->record_type)); ?></td>
+		<td><?php echo trans('loan.'.$loan->operation_type); ?>
+
+
+			   <?php
+			     $cautions = Ceb\Models\MemberLoanCautionneur::byTransaction($loan->transactionid)->get(); 
+			     if($loan->transactionid == '20200212102'){
+			     	dd($loan);
+			     }
+			   ?>
+				<?php if(! $cautions->isEmpty()): ?>
+					<?php /* SHOW CAUTIONNEURS */ ?>
+					<table class="bg-yellow-100 text-yellow-700">
+						<caption class="bg-yellow-700 font-semibold text-xs text-yellow-100">
+						  <?php echo e(trans('loan.cautionneurs')); ?>
+
+						</caption>
+						<tr class="bg-yellow-700 text-xs text-yellow-700">
+						<?php foreach($cautions as $guarantor): ?>
+							<td>
+								<span class="block w-full bg-gray-100 text-xs font-semibold"><?php echo e($guarantor->cautionneur_adhresion_id); ?></span> 
+								<span class="block w-full bg-gray-100 text-xs"><?php echo e(number_format($guarantor->amount)); ?> RWF</span>
+							</td>
+						<?php endforeach; ?>
+						</tr>
+					</table>
+				<?php endif; ?>
+		</td>
+		<td><?php echo str_replace('EMERGENCY_LOAN_',trans('general.emergency_loan'),$loan->wording); ?> </td>
+		<td><?php echo ($loan->operation_type == 'installments')?'': number_format((int) $loan->loan_amount); ?> </td>
+	    <td><?php echo number_format((int) $loan->interests); ?> </td>
+	    <td><?php echo number_format((int) $loan->monthly_fees); ?> </td>
+	    <td><?php echo number_format((int) $loan->tranches); ?> </td>
+	    <td class="text-yellow-700"><?php echo number_format((int) ( $balance )); ?> </td>
+	</tr>
+
+  	<?php $loan_to_repay += $loan->loan_amount; ?>
+	<?php $interest 	 += $loan->interests; ?>
+	<?php $monthly_fees  += $loan->monthly_fees; ?>
+	<?php $tranches  	 += $loan->tranches; ?>	
+
+
+ 
+  <?php endforeach; ?>
+
+   <?php echo $__env->make('reports.member.item_loan_record_summary', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+   
+ </tbody>
+</table>
+<table class="pure-table pure-table-bordered text-sm">
+  	 	<tr>
+  	 	<td>
+	  	 		<strong><?php echo e(trans('report.beneficiaire')); ?></strong><br/>
+	  	 		<?php $member = (new \Ceb\Models\User)->findByAdhersion($loans->first()->adhersion_id) ;?>
+				<?php echo $member->first_name; ?> <?php echo $member->last_name; ?>
+
+	  	 	</td>
+	  	 	<td>
+	  	 		<strong><?php echo e(trans('report.done_by')); ?></strong><br/>
+	  	 		<?php $user = Sentry::getUser(); ?>
+				<?php echo $user->first_name; ?> <?php echo $user->last_name; ?>
+
+	  	 	</td>
+	     	<td><strong><?php echo e(trans('report.authorized')); ?></strong><br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.gerant'); ?>
+
+			</td>
+			<td colspan="2"><strong><?php echo e(trans('report.audited')); ?></strong><br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.controller'); ?>
+
+				</td>
+			<td><strong><?php echo e(trans('report.approved_CA')); ?></strong><br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.president'); ?>
+
+				</td>
+			<!--<td><strong><?php echo e(trans('report.tresorien')); ?></strong><br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.tresorien'); ?>
+
+				</td>  -->
+			
+			<!--<td><strong><?php echo e(trans('report.administrator')); ?></strong><br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.administrator'); ?>
+
+				</td> -->
+	  	</tr>
+	  	<tr style="height: 50px;">
+	  		<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  		<!--<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td> -->
+	  		<td colspan="2"><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  	</tr>
+ </table>
+
+
+

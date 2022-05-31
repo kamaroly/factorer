@@ -1,0 +1,3 @@
+<?php if(!empty($filename)): ?>
+	<img src="<?php echo e(route('files.get', $filename)); ?>" alt="ALT NAME" class="img-responsive" />
+<?php endif; ?>

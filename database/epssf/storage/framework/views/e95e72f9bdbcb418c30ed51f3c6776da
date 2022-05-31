@@ -1,0 +1,194 @@
+
+
+<?php $__env->startSection('content_title'); ?>
+  <?php echo e(trans('navigations.dashboard')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+
+<div class="row">
+<div class="col-lg-6">
+    <div class="box box-solid">
+        <div class="box-header">
+            <h3 class="box-title"><?php echo e(trans('loan.summary')); ?></h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3><?php echo number_format( round($dashboarddata['ordinary_loan'])); ?></h3> 
+                            <p><?php echo e(trans('loan.no_emergency')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-edit"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/dashordinarycurrentyear" target="_blank">
+                            <?php echo e(trans('report.view_detailed_report')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><?php echo number_format(round($dashboarddata['social_loan'])); ?></h3>
+                            <p><?php echo e(trans('loan.emergencies')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-share"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/dashemergencycurrentyear" target="_blank" >
+                            <?php echo e(trans('report.view_detailed_report')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+          <div class="row">
+                <div class="col-sm-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3><?php echo number_format(round($dashboarddata['outstanding_loan'])); ?></h3>
+                            <p><?php echo e(trans('loan.outstanding_loan_dash')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-alert"></i></div>
+                        <a class="small-box-footer" href="/reports/loans/balancedashbord/undefined/0" target="_blank">
+                            <?php echo e(trans('report.view_detailed_report')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!--<div class="col-sm-6">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3><?php echo number_format( $dashboarddata['refunded_amount']); ?></h3>
+                            <p><?php echo e(trans('loan.full_paid_loan')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-heart"></i></div>
+                        <a class="small-box-footer" href="#">
+                            <?php echo e(trans('general.view_payments')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>  
+                -->
+                <div class="col-sm-6">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3><?php echo number_format( $dashboarddata['refunded_amount']); ?></h3>
+                            <p><?php echo e(trans('loan.part_social')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-heart"></i></div>
+                        <a class="small-box-footer" href="#">
+                            <?php echo e(trans('general.view_payments')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>  
+            
+                 <div class="col-sm-12">
+                    <div class="small-box bg-olive">
+                        <div class="inner" style="text-align: center">
+                            <h1 ><?php echo number_format( $dashboarddata['savings_level']); ?> RWF</h1>
+                           
+                        </div>
+                        <div class="icon"><i class="ion ion-heart"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/allmemberdashboard/undefined/0" target="_blank">
+                    
+                             <h3><?php echo e(trans('contribution.savings_level')); ?></h3>
+                             <?php echo e(trans('general.view_saving')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-lg-6">
+    <div class="box box-solid">
+        <div class="box-header">
+            <h3 class="box-title"><?php echo e(trans('general.ceb_summary')); ?></h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="small-box bg-blue">
+                        <div class="inner">
+                            <h3><?php echo $membersCount; ?></h3>
+                            <p><?php echo e(trans('member.count_of_members')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-edit"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/allmemberdashboard/undefined/0" target="_blank">
+                            <?php echo e(trans('member.view_members')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+              
+         
+               <div class="col-sm-6">
+                    <div class="small-box bg-olive">
+                        <div class="inner">
+                            <h3><?php echo $dashboarddata['active_members_count']; ?></h3>
+                            <p><?php echo e(trans('member.active_members')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-thumbsup"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/leveldashboard/actif/0" target="_blank">
+                            <?php echo e(trans('general.view_full_lists')); ?> <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+              
+            </div>
+          </div>
+             <div class="row">
+                <div class="col-sm-6">
+                    <div class="small-box bg-orange">
+                        <div class="inner">
+                            <h3><?php echo $dashboarddata['inactive_members_count']; ?></h3>
+                            <p><?php echo e(trans('member.inactive_members')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-alert"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/leveldashboard/inactif/0" target="_blank">
+                            <?php echo e(trans('general.view_full_lists')); ?>  <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                 <div class="col-sm-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3><?php echo $dashboarddata['left_members_count']; ?></h3>
+                            <p><?php echo e(trans('member.left_members')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-thumbsdown"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/leftmember" target="_blank">
+                      
+                        <?php echo e(trans('general.view_full_lists')); ?>  <i class="fa fa-arrow-circle-right"></i>   </a>
+                    </div>
+                </div>
+                </div>
+                   <div class="row">
+                <div class="col-sm-12">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                            <h3><?php echo $dashboarddata['institutions']; ?></h3>
+                            <p><?php echo e(trans('navigations.institution')); ?></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-share"></i></div>
+                        <a class="small-box-footer" href="/reports/savings/institutionList" target="_blank">
+                             <h3><?php echo e(trans('institution.count_level')); ?></h3>
+                             <?php echo e(trans('general.view_full_lists')); ?>  <i  class="fa fa-arrow-circle-right"></i>
+
+                        </a>
+                    </div>
+                </div>
+            
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

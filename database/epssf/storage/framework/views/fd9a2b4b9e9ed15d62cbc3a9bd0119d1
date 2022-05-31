@@ -1,0 +1,151 @@
+<?php if(!Request::is('accounting*')): ?>
+  <div class="box-header with-border">
+  <h3 class="box-title"><?php echo e(trans('accounting.accounting')); ?></h3>
+</div>
+<?php endif; ?>
+
+<div class="row">
+    <div class="col-md-6">
+     <?php echo $__env->make('accounting.debit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+  </div>
+    <!-- START OF CREDIT ACCOUNT -->
+    <div class="col-md-6">
+      <?php echo $__env->make('accounting.credit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+     <!-- END OF CREDIT ACCOUNT -->
+</div>
+<div class="row">
+    <div class="col-md-6 total-debit">
+      
+  </div>
+    <!-- START OF CREDIT ACCOUNT -->
+    <div class="col-md-6 total-credit">
+    </div>
+     <!-- END OF CREDIT ACCOUNT -->
+</div>
+
+<?php $__env->startSection('scripts'); ?>
+<?php if(Request::is('loan*') ): ?>
+  <?php /* Loan below javascripts only when requests are for loan  */ ?>
+  <script type="text/javascript" src="<?php echo e(route('assets.js.loanform')); ?>"></script>
+<?php endif; ?>
+<?php if(Request::is('regularisation*')): ?>
+  <?php /* Loan below javascripts only when requests are for regularisation */ ?>
+ <script type="text/javascript" src="<?php echo e(route('assets.js.regularisationform')); ?>"></script> 
+<?php endif; ?>
+
+<?php if(Request::is('members*transacts')): ?>
+  <?php /* Loan below javascripts only when requests are for regularisation */ ?>
+  <script type="text/javascript" src="<?php echo url('assets/dist/js/memberTransaction.js'); ?>"></script>
+ <!-- <script type="text/javascript" src="<?php echo e(route('assets.js.regularisationform')); ?>"></script> -->
+<?php endif; ?>
+
+<script type="text/javascript">
+
+    (function($){    
+
+        $countFormsDebits = 1;
+        $countFormsCredits = 1;
+        
+        <?php if(isset($defaultAccounts['debits'])): ?>
+          <?php if(! collect($defaultAccounts['debits'])->isEmpty()): ?>
+            $countFormsDebits = <?php echo collect($defaultAccounts['debits'])->count(); ?>;
+          <?php endif; ?>
+        <?php endif; ?>
+
+         <?php if(isset($defaultAccounts['credits'])): ?>
+          <?php if(! collect($defaultAccounts['credits'])->isEmpty()): ?>
+            $countFormsCredits = <?php echo collect($defaultAccounts['credits'])->count(); ?>;
+          <?php endif; ?>
+        <?php endif; ?>
+
+        $debitAmountSum = 0;
+        $creditAmountSum = 0;
+
+        var accounts = <?php echo json_encode($accounts); ?>;
+
+        $accountsOptions = '';
+         $.each(accounts, function(index, val) {
+           $accountsOptions += '<option value="' +  index + '">' + val + '</option>';
+        });
+
+        /** GENERATING DEBIT ACCOUNTS FORM */
+         $.fn.addDebitForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='debit_accounts["+$countFormsDebits+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control accountAmount debit-amount' name='debit_amounts["+$countFormsDebits+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countFormsDebits++;
+        };
+
+        /** GENERATING CREDIT ACCOUNT FORM */
+        $.fn.addCreditForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='credit_accounts["+$countFormsCredits+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control credit-amount' name='credit_amounts["+$countFormsCredits+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countFormsCredits++;
+        };
+
+       $getSum = function(item){
+         var items = $(item);
+         var total = 0;
+         /** TRY TO GET THE SUM */
+         $.each(items, function(index, val) {
+           total += parseInt(val.value);
+         });
+         return total;
+       };
+
+    })(jQuery);   
+
+     $(function(){
+
+      $("#add-debit-account").bind("click", function(){
+        $("#debit-accounts-container").addDebitForms();
+      });
+
+      $("#add-credit-account").bind("click", function(){
+        $("#credit-accounts-container").addCreditForms();
+      });
+      
+      $('.debit-amount').on('click keyup keydown keypress change',function(event) {
+        $('.total-debit').html('total debit '+$getSum('.debit-amount'));
+      });
+ $('.total-debit').html('total debit '+$getSum('.debit-amount'));
+     $(".debit-amount").on('click keyup keydown keypress change',function(event) {
+       console.log(event);
+    });
+      $('.credit-amount').on('click keyup keydown keypress change',function(event) {
+        $('.total-credit').html('total credit '+$getSum('.credit-amount'));
+      });
+      $('.total-credit').html('total credit '+$getSum('.credit-amount'));
+    });
+    
+</script>
+
+<?php $__env->stopSection(); ?>

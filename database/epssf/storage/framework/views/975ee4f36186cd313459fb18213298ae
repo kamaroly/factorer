@@ -1,0 +1,80 @@
+<table class="pure-table pure-table-bordered" style="border: 1px solid #000">
+   <caption class="text-2xl text-gray-800 font-semibold"> 
+	<?php echo e(ucfirst(trans('reports.reports_journal') )); ?> <?php echo e(Request::segment(4).' / '.Request::segment(5)); ?>
+
+   </caption>
+	<thead>
+		<tr>
+			<th><?php echo e(trans('general.transactionid')); ?></th>
+			<th><?php echo e(trans('posting.date')); ?></th>
+			<th><?php echo e(trans('posting.wording')); ?></th>
+			<th><?php echo e(trans('posting.account_number')); ?></th>		
+			<th><?php echo e(trans('posting.debit')); ?></th>
+			<th><?php echo e(trans('posting.credit')); ?></th>
+			<th><?php echo e(trans('account.balance')); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php $transactionid = null; ?>
+	<?php $date = null; ?>
+ 	<?php $balance = 0; ?>
+	<?php $rowspan = 0; ?>
+	<?php $latestRow = false ; ?>
+	<?php $__empty_1 = true; foreach($postings as $posting): $__empty_1 = false; ?>
+		
+		<?php try { ?>
+		<?php /* Debit and credit to get balance */ ?>
+		<?php $balance += $posting->credit_amount; ?>
+		<?php $balance -= $posting->debit_amount; ?>
+
+		<?php if($date != date('Y-m-d',strtotime($posting->created_at))): ?>
+		<?php $date = date('Y-m-d',strtotime($posting->created_at)); ?>
+		<tr style="border-bottom: 1px solid #000">
+			<td class="account-details" colspan="6" style="font-weight: bold"><?php echo $date; ?></td>
+		</tr>
+			<?php $latestRow = true; ?>
+		<?php endif; ?>
+
+		<tr>
+			<?php /* control the display of the transactions */ ?>
+			<?php if($transactionid != $posting->transactionid): ?>
+				<?php $transactionid = $posting->transactionid ?> 
+				<?php /* detrmine how many rows do we have to span as per affected account for this transaction */ ?>
+				<?php $rowspan = $postings->where('transactionid',$transactionid)->count(); ?>
+
+	
+				<?php $latestRow = false; ?>
+				<td rowspan="<?php echo $rowspan; ?> ">
+				    <?php echo $posting->transactionid; ?>
+
+				 </td>
+				<td rowspan="<?php echo $rowspan; ?>">
+				    <?php echo date('Y-m-d',strtotime($posting->created_at)); ?>
+
+				</td>
+				<td rowspan="<?php echo $rowspan; ?>"><?php echo $posting->wording; ?></td>
+			<?php else: ?>
+
+			<?php $latestRow = true; ?>
+			<?php endif; ?>
+				<td>
+
+					<?php echo $posting->account_number; ?> 
+					  - 
+					<?php echo $posting->account->entitled; ?> 
+				</td>
+				<td><?php echo number_format($posting->debit_amount); ?></td>
+				<td><?php echo number_format($posting->credit_amount); ?></td>
+				<td><?php echo number_format(abs($balance)); ?></td>
+			</tr>
+		<?php 
+		} catch (Exception $e) {
+			
+		}
+		?>
+
+	<?php endforeach; if ($__empty_1): ?>
+		<?php /* empty expr */ ?>
+	<?php endif; ?>
+	</tbody>
+</table>

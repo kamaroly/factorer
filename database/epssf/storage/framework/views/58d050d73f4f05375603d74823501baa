@@ -1,0 +1,7 @@
+<tr>
+	<th colspan="2"><?php echo e(trans('general.summary')); ?></th>
+	<th style="text-align: center">
+		<?php echo number_format($total); ?>
+
+	</th>
+</tr>

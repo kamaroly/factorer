@@ -1,0 +1,118 @@
+
+
+<?php $__env->startSection('content_title'); ?>
+  <?php echo $title; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php echo Form::open(['route'=>'loan.unblock.store','method'=>'POST']); ?>
+
+
+<?php echo Form::hidden('loanid', $loanid); ?>
+
+
+<div class="row">
+<div class="col-md-12">
+  <table class="table table-bordered table-striped text-center">
+    <caption> 
+
+      <div class="w-full p-2 mx-1 my-1 bg-green-300">
+        <span class="text-4xl font-semibold text-green-900"> <?php echo e($member->first_name.' '.$member->last_name); ?> </span> 
+        <span class="h-full text-4xl text-green-100"> | </span>
+        <span class="text-4xl text-green-900"> <?php echo e($member->adhersion_id); ?> </span> 
+        <span class="h-full text-4xl text-green-100"> | </span>
+        <span class="text-4xl text-green-900">
+          <span class="font-light text-2xl"> Contributions: </span> 
+          <?php echo e(number_format($member->total_contribution)); ?> RWF
+        </span>
+       </div>
+     </caption>
+  <thead>
+    <th><?php echo e(trans('member.institution')); ?></th>
+    <th><?php echo e(trans('member.balance_of_loan')); ?> </th>
+    <th><?php echo e(trans('member.right_to_loan')); ?> </th>
+    <th><?php echo e(trans('loan.operation_type')); ?> </th>
+    <th><?php echo e(trans('loan.rate')); ?></th>
+    <th><?php echo e(trans('loan.number_of_installments')); ?></th>
+    <th><?php echo e(trans('loan.monthly_installments')); ?></th>
+    <th><?php echo e(trans('loan.loan_to_repay')); ?></th>
+    <th><?php echo e(trans('loan.interests')); ?></th>
+    <th><?php echo e(trans('loan.administration_fees')); ?></th>
+    <th><?php echo e(trans('loan.net_to_receive')); ?></th>
+  
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><?php echo e($member->institution->name); ?> </td>
+      <td><?php echo e(number_format($member->Loan_balance)); ?> </td>
+      <td><?php echo e(number_format($loan->right_to_loan)); ?> </td>
+      <td><?php echo e(trans('loans.'.$loan->operation_type)); ?> </td>
+      <td><?php echo e($loan->rate); ?></td>
+      <td><?php echo e(number_format($loan->tranches_number)); ?></td>
+      <td><?php echo e(number_format($loan->monthly_fees)); ?> </td>
+      <td class="bg-yellow-200"><?php echo e(number_format($loan->loan_to_repay)); ?></td>
+      <td><?php echo e(number_format($loan->interests)); ?></td>
+      <td><?php echo e(number_format($loan->urgent_loan_interest)); ?></td>
+      <td><?php echo e(number_format($loan->amount_received)); ?></td>
+    </tr>
+  </tbody>
+</table>  
+</div>
+    <div class="col-md-12">
+  <div class="form-group">
+   <label><?php echo e(trans('loan.number_of_cheque')); ?></label>
+  
+<?php echo $errors->first('cheque_number','<label class="has-error">:message</label>'); ?> 
+  <?php echo Form::input('text', 'cheque_number',null,['class'=>'form-control','id'=>'cheque_number']); ?>
+
+  </div>
+  </div>
+  <div class="col-md-12">
+  <div class="form-group">
+   <label><?php echo e(trans('loan.bank')); ?></label>
+    <?php echo Form::select('bank_id',$banks,null,['class'=>'form-control loan-select','id'=>'bank']
+      ); ?>
+
+  </div>
+  </div>
+
+<?php /* Cautionneur are being filled on the loan form */ ?>
+  <?php if($show_caution_form == true): ?>
+  <?php /*     
+    <div class="col-md-12">
+      <?php echo $__env->make('loansandrepayments.caution_form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+   */ ?>
+  <?php endif; ?>
+  <div class="col-md-12">
+    <button class="btn btn-success col-md-12"><i class="fa fa-unlock-alt"></i> <?php echo e(trans('loan.unblock')); ?></button>
+  </div>
+</div>
+
+<?php echo Form::close(); ?>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+
+<script type="text/javascript">
+   $('#js-search-cautionneur').click(function(event) {
+      // Prevent the default event action 
+      event.preventDefault();
+
+      var cautionneur = $(this).parent().find('input');
+      console.log(cautionneur);
+      
+      // Check if this input has at least some data
+      if(cautionneur.val() === ""){
+          alert('Please enter adhersion_id for guarantor before continuing');
+      }
+      // If we reach here it means we have all we need to continue
+      window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();
+      });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

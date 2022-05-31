@@ -1,0 +1,6 @@
+<footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b><?php echo e(trans('footer.version')); ?></b> 2.0
+        </div>
+        <strong> <a href="" target="_blank"><?php echo e(trans('footer.ceb')); ?> </a>.</strong>
+</footer>

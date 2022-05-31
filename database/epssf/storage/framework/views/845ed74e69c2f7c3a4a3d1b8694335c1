@@ -1,0 +1,38 @@
+<table class="pure-table pure-table-bordered">
+<caption>	
+		<?php echo e(trans('reports.loan_payback')); ?>  
+		<?php echo e(trans('general.between')); ?> 
+			<?php echo date('d/M/Y',strtotime(request()->segment(4))); ?> 
+		<?php echo e(trans('general.and')); ?> 
+			<?php echo date('d/M/Y',strtotime(request()->segment(5))); ?>
+
+</caption>
+	<thead>
+		<tr>
+			
+			<th><?php echo e(trans('member.adhersion_id')); ?></th>
+			<th><?php echo e(trans('member.names')); ?></th>
+			<th><?php echo e(trans('member.institution')); ?></th>
+			<th><?php echo e(trans('member.loan_contract')); ?></th>
+			<th><?php echo e(trans('member.operation_type')); ?></th>
+			<th><?php echo e(trans('member.refund')); ?></th>
+			<th><?php echo e(trans('member.balance')); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php $__empty_1 = true; foreach($loans as $item): $__empty_1 = false; ?>
+			<tr>
+				
+				<td><?php echo $item->adhersion_id; ?></td>
+				<td><?php echo $item->first_name; ?> <?php echo $item->last_name; ?></td>
+				<td><?php echo $item->institution; ?></td>
+				<td><?php echo $item->loan_contract; ?></td>
+		        <td><?php echo trans('member.'.$item->operation_type); ?></td>
+				<td><?php echo $item->fin_dette; ?></td>
+				<td><?php echo $item->balance; ?></td>
+		</tr>
+		<?php endforeach; if ($__empty_1): ?>
+			nothing to show here
+		<?php endif; ?>
+	</tbody>
+</table>	

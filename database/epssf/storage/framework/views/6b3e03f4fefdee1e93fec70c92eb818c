@@ -1,0 +1,35 @@
+<?php /* Start by pulling this member profile */ ?>
+<table class="pure-table pure-table-bordered">
+<caption><h3> <?php echo e(trans('report.list_institutions')); ?> </h3></caption>
+  	 <thead>
+  	 	<tr>
+	  	 	<th><?php echo e(trans('member.id')); ?></th>
+	     	<th><?php echo e(trans('member.nom')); ?></th>
+			<th><?php echo e(trans('member.created_at')); ?></th>
+			
+	  	</tr>
+   	 </thead>
+ <tbody>
+   <?php echo $__env->renderEach('reports.member.item_institution', $members, 'member', 'members.no-items'); ?>
+   
+ </tbody>
+</table>
+<table class="pure-table pure-table-bordered">
+  	 	<tr>
+	  	 	<td>
+	  	 		<strong><?php echo e(trans('report.done_by')); ?></strong> <br/>
+	  	 		<?php $user = Sentry::getUser(); ?>
+				<?php echo $user->first_name; ?> <?php echo $user->last_name; ?>
+
+	  	 	</td>
+	     	<td><strong><?php echo e(trans('report.gerant')); ?></strong> <br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.gerant'); ?>
+
+			</td>
+	  	</tr>
+
+	  	<tr style="height: 50px;">
+	  		<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  	</tr>
+ </table>

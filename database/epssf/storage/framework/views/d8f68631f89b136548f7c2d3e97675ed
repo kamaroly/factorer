@@ -1,0 +1,8 @@
+<tr>
+ 	<td><?php echo e($member->adhersion_id); ?></td>
+ 	<td><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></td>
+	<td><?php echo e($member->service); ?></td>
+	<td><?php echo e(date('Y-m-d', strtotime($member->last_date))); ?></td>
+	<td><?php echo e(number_format((int)$member->contributed_amount)); ?></td>
+	<td><?php echo e(number_format((int) $member->to_pay)); ?></td>
+</tr>

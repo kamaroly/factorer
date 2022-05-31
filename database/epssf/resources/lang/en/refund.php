@@ -1,0 +1,35 @@
+<?php
+
+return [
+ 'refund_index'=>'index',
+ 'refund_update'=>'update',
+ 'refund_complete'=>'complete',
+ 'refund_cancel'=>'cancel',
+ 'refund_set_institution'=>'set institution',
+ 'refund_set_debit_account'=>'set debit account',
+ 'refund_set_credit_account'=>'set credit account',
+ 'refund_set_month'=>'set month', 
+ 'you_must_write_wording_for_this_transaction'=>'You must write wording for this transaction',   
+  'libelle'=>'wording',
+  'refun_transaction_sucessfully_registered'=>'Refun transaction sucessfully registered',
+    'refund_for_the_month_of'=>'Refund for the month of ',
+   'refund_by_banque'	=> 'Payment by bank',
+	'refund_by_salaire'				=> 'Payment by salary',
+	'refund_by_epargne'				=> 'Payment by savings/contributions',
+	'refund_by_cautionneur'			=> 'Payment by Guaranter',
+	'refund_by_decompte_final'		=> 'Payment by terminal benefits',
+	'refund_by_relicats'			=> 'Payment by refund',
+	'refund_by_interets_retournes'	=> 'Payment by Returned Interests',
+	'refund_by_interets_annuels'	=> 'Payment by annual Interest',
+	'bulk_refund'                   =>'Bulk refund',
+	'refund_type'                   =>'Means of payment',
+
+	'remove_with_difference'=>'Remove payment with difference',
+ 'export_differences'=>'Export payment difference',
+ 'export_uploaded_with_errors'=>'export adhersion N⁰uploaded with errors',
+ 'upload'        =>'Upload',
+ 'normal_loan' =>'Normal loan',
+ 'emergency_loan' =>'Emergency loan',
+ 'successfully_cancelled'=>'Payment successfully cancelled',
+
+];

@@ -1,0 +1,32 @@
+<?php $member = $loan->member; ?>
+<tr>
+	<td>
+		<?php echo e($member->first_name.' '.$member->last_name); ?> - <?php echo e($member->adhersion_id); ?>
+
+	</td>
+	<td><?php echo e($member->institution->name); ?> </td>
+	<td class="text-green-600 text-2xl">
+			<?php echo e(number_format($member->total_contribution)); ?>
+
+	</td>
+	<td><?php echo e(number_format($member->Loan_balance)); ?> </td>
+	<td><?php echo e(number_format($loan->right_to_loan)); ?> </td>
+	<td><?php echo e(trans('loans.'.$loan->operation_type)); ?> </td>
+	<td><?php echo e($loan->rate); ?></td>
+	<td><?php echo e(number_format($loan->tranches_number)); ?></td>
+	<td><?php echo e(number_format($loan->calculated_monthly_fee)); ?> </td>
+	<td><?php echo e(number_format($loan->loan_to_repay)); ?></td>
+	<td><?php echo e(number_format($loan->interests)); ?></td>
+	<td><?php echo e(number_format($loan->urgent_loan_interests)); ?></td>
+	<td><?php echo e(number_format($loan->amount_received)); ?></td>
+	<td><?php echo e($loan->is_regulation==1?trans('general.yes'):trans('general.no')); ?></td>
+	<td>
+	<?php $popdown = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? null : 'popdown' ;?>
+	<?php $route = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? 'loan.unblock.store' : 'loan.unblock.form' ;?>
+
+		<a href="<?php echo route($route,['loanId'=> $loan->id]); ?>" class="btn btn-success">
+			<i class="fa fa-unlock-alt"></i> <?php echo e(trans('loan.unblock')); ?>
+
+		</a>
+	</td>
+</tr>

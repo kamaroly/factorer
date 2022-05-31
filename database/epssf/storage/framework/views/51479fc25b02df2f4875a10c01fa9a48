@@ -1,0 +1,18 @@
+<div class="box">
+<?php /*  <?php if((request()->is('members*') || request()->is('loans*') || request()->is('regularisation*')) && !request()->is('loans/pending*') || request()->is('loans/complete')): ?>
+            
+    <?php if(!request()->is('regularisation/types') && !request()->is('regularisation/regulate') && !request()->isMethod('post') && !request()->is('loans/blocked') && !request()->is('members*transacts') && !request()->is('loans/unblock*')): ?>
+       <?php echo $__env->make('members.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
+ <?php endif; ?> */ ?>
+    <div class="box-header with-border">
+      <div class="box-tools">
+      <?php /* Request::is('regularisation/types') */ ?>
+    </div>
+    <div class="box-body">
+      <?php echo $__env->yieldContent('content'); ?>
+    </div><!-- /.box-body -->
+    <div class="box-footer">
+      <?php echo $__env->yieldContent('content_footer'); ?>
+  </div><!-- /.box-footer-->
+</div>

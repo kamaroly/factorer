@@ -1,0 +1,63 @@
+
+
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+@parent
+Home
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+	<?php
+
+	    // Determine the edit profile route
+	    if (($user->email == Sentry::getUser()->email) ) 
+	    {
+	        $editAction = route('sentinel.profile.edit');
+	    } 
+	    else 
+	    {
+	        $editAction =  route('sentinel.users.edit', [$user->hash]);
+	    }
+
+	?>
+
+	<h4>Account Profile</h4>
+	
+	    <div class="small-6 columns">
+		    <?php if($user->first_name): ?>
+		    	<p><strong>First Name:</strong> <?php echo e($user->first_name); ?> </p>
+			<?php endif; ?>
+			<?php if($user->last_name): ?>
+		    	<p><strong>Last Name:</strong> <?php echo e($user->last_name); ?> </p>
+			<?php endif; ?>
+		    <p><strong>Email:</strong> <?php echo e($user->email); ?></p>
+		    
+			<p>
+				<em>
+					Account created: <?php echo e($user->created_at); ?> <br />
+					Last Updated: <?php echo e($user->updated_at); ?>
+
+				</em>
+			</p>
+			<button class="btn btn-success shadow-lg" onClick="location.href='<?php echo e($editAction); ?>'">Edit Profile</button>
+		</div>
+
+		<div class="small-6 columns">
+			<h4>Group Memberships:</h4>
+			<?php $userGroups = $user->getGroups(); ?>
+		    <ul>
+		    	<?php if(count($userGroups) >= 1): ?>
+			    	<?php foreach($userGroups as $group): ?>
+						<li><?php echo e($group['name']); ?></li>
+					<?php endforeach; ?>
+				<?php else: ?> 
+					<li>No Group Memberships.</li>
+				<?php endif; ?>
+		    </ul>
+
+		</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make(config('sentinel.layout'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,9 @@
+<?php $account = $posting->account; ?>
+<?php if( !empty($account)): ?>
+	<tr>
+		<td><?php echo $account->account_number; ?></td>
+		<td><?php echo $account->entitled; ?></td>
+		<td><?php echo (strtolower($posting->transaction_type) == 'debit') ? number_format($posting->amount) : null; ?></td>
+		<td><?php echo (strtolower($posting->transaction_type) == 'credit') ? number_format($posting->amount) : null; ?></td>
+	</tr>
+<?php endif; ?>

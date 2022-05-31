@@ -1,0 +1,408 @@
+jQuery(document).ready(function($) {
+ 	// Global variables
+ 	var data = {};
+    var notification = '<div class="alert alert-danger">';
+    notification +='<button type="button" class="close" data-dismiss="alert" aria-hidden="true">Ã—</button>';
+    notification +='message';
+    notification +='</div>';
+
+    calculateGuarantors();
+  	/** Set the new operation type */
+  	$("#operation_type").change(function(event) {
+  		var loanType = $(this);
+  		window.location.href = window.location.protocol+'//'+window.location.host+'/loans'+'?operation_type='+loanType.val();
+  	});
+
+  	// If administration fee is changed then update the amount
+  	$('#administration_fees').change(function(event) {
+  		event.preventDefault();
+  		calculateUrgentLoanFees();
+  		calculateLoanDetails();
+  	});
+
+	// Make sure that only number are entered in the box
+	$("input.loan-input").numeric();
+	$(".search-cautionneur").parent().find('input').numeric();
+
+	// Detect if an input has been written in 
+	$('.loan-input').keyup(function(event) {
+		/* First get current input data */
+		var fieldName = $(this).attr('name');
+        var fieldValue = $(this).val();
+      
+		// Validate if this input is wished amount
+		// wished amount should not be higher than right to loan
+		if(fieldName == 'wished_amount'){
+			validateLoanToRepay();
+		}
+		// Check this is empty then set it to sezo
+		if (fieldValue == "") {
+			$(this).val(0);
+		};
+		// Make sure you send request when 
+		// We only have something in the input
+		if ($(this).val()) {
+		    data[fieldName] = $(this).val();
+			setTimeout(updateField(data), 5000);
+		};
+        
+		// Update calculations
+		calculateLoanDetails();
+		calculateGuarantors();
+	});	
+
+	// Detect if an input has been written in 
+	$('.loan-select').change(function(event) {
+		/* First get current input data */
+		var data = {};	
+		// Make sure you send request when 
+		// We only have something in the input
+		if ($(this).val()) {
+		    data[$(this).attr('name')] = $(this).val();
+			setTimeout(updateField(data), 5000);
+		};
+
+		// Recalculate all details on the page if 
+		// a field has been changed
+		calculateUrgentLoanFees();
+
+		calculateLoanDetails();
+		calculateUrgentLoanFees();
+		updateAccounting();
+	});		
+
+	validateLoanToRepay();
+
+	// If wished amount doesn't have anything
+	// then set the default to be the same as the 
+	// right to loan
+	if($('#wished_amount').val() == "" || $('#wished_amount').val() == "0"){
+		 $('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
+	};
+
+	// if the loan to pay amount is null or 
+	// doesn't have anything then set it to default
+	// which is equal to wished amount
+	if($('#loanToRepay').val()=="" || $('#loanToRepay').val()=="0"){
+		  $('#loanToRepay').val($('#wished_amount').val());
+	 };
+
+	var loanToRepay        =  parseFloat($('#loanToRepay').val());
+	var totalContributions = parseFloat($('#totalContributions').val());
+	
+	calculateLoanDetails();
+	calculateUrgentLoanFees();
+	updateAccounting();
+
+	/**
+	 * Calculate Gurantors
+	 * @return
+	 */
+	function calculateGuarantors() {
+
+	 // Show caution warning
+	 $('#cautionForm').css('display','none');
+
+ 	 var previousLoanBalance = 0;
+	 var loanToRepay         = 0;
+	 var totalSavings 	     = 0;
+
+	 if ($('#previous_loan_balance').val() != 'undefined' && $('#previous_loan_balance').val() != null) {
+			 previousLoanBalance = parseInt($('#previous_loan_balance').val().replace(/,/g,''));	 	
+	 }
+
+ 	 if ($('#loanToRepay').val() != 'undefined' && $('#loanToRepay').val() != null) {
+			 loanToRepay = parseInt($('#loanToRepay').val().replace(/,/g,''));	 	
+	 }
+
+ 	 if ($('#totalContributions').val() != 'undefined' && $('#totalContributions').val() != null) {
+			 totalSavings = parseInt($('#totalContributions').val().replace(/,/g,''));	 	
+	 }
+
+	 /// if ($('#operation_type').val() =='special_loan') {
+	 /// var olivier =$('#operation_type').val();
+        	/// console.log(olivier);
+	 ///  $('#js-guarantor-warning').css('display', 'none');
+ 	  /// $('#cautionForm').css('display','none');
+	 ///}
+  
+	var bondedAmount = totalSavings - ( previousLoanBalance + loanToRepay );
+
+	//  If bondedAmount is Positive, then don't set the Cautionneur
+	//  Amount bonded or cautionnee 
+	//  The amount sanctioned is equal to the excess not guaranteed by
+	//  Saving the borrower shared equally between the two Cautionneurs.
+	//this was request of epssf to not ask guarantors for special_loan
+
+	 if (bondedAmount < 0 && $('#operation_type').val() =='special_loan')
+         {          
+         	//var olivier =$('#operation_type').val();
+        	//console.log(olivier);
+	 	 // If this person has previous loan, then consider 
+	 	 // use new loan amount to repay as the bond
+	 	
+  	 	/// $('#amount_bonded').val(Math.abs(bondedAmount));
+	 	 $('#js-guarantor-warning').css('display', 'none');
+ 	 	 $('#cautionForm').css('display','none');
+	 }
+	 
+	 // Requested by @olivier  to disable this functionality.
+	 else if  (bondedAmount < 0) {
+	       if (previousLoanBalance > 0 ) {
+		 	 bondedAmount    = loanToRepay;	 	 	
+	 	 }	  
+	 	 	//var olivier =$('#operation_type').val();
+        	//console.log(bondedAmount);
+ 	       $('#amount_bonded').val(Math.abs(bondedAmount));
+	 	    $('#js-guarantor-warning').css('display', 'none');
+ 	 	    $('#cautionForm').css('display','block');
+	 }
+	 else if(
+	 		$('#js-adhersion-id').val() != null &&
+	 		$('#js-adhersion-id').val() != '') {
+	 	   $('#js-guarantor-warning').css('display', 'none');	 	
+	 }
+
+	}
+	/**
+	 * Calculate Loan details page
+	 * @return
+	 */
+	function calculateLoanDetails(){
+
+		var loanToRepay           = $('#loanToRepay').val().replace(/,/g,''); // Remove any character that is not a number
+		loanToRepay               = parseInt(loanToRepay);
+		var interestRate          = getInterestRate();
+		var totalContributions    = $('#totalContributions').val().replace(/,/g,''); // Remove any character that is not a number
+		var numberOfInstallment   = $('#numberOfInstallment').val();
+		var previous_loan_balance = 0;
+
+		if(typeof $('.previous_loan_balance').val() !=='undefined'){
+	        previous_loan_balance = $('.previous_loan_balance').val().replace(/,/g,''); 
+	    }
+		
+
+		// Interest formular
+		// The formular to calculate interests at ceb is as following
+		// I =  P *(TI * N)
+		//     ------------
+		//     1200 + (TI*N)
+		//
+		// Where :Â Â Â I : Interest 
+		// Â Â Â Â Â Â Â Â Â Â P : Amount to Repay
+		// Â Â Â Â Â Â Â Â Â Â TI: Interest Rate
+		// Â Â Â Â Â Â Â Â Â Â N : Montly payment
+		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
+		///formula have been changed as I= P * TI *N/12 in case of N is between 1 to 12 months
+		/// or I= P * TI *N/24 in case of N is between 13to 24 months
+		
+          if(numberOfInstallment<=12)
+          {
+
+		var interests = (loanToRepay * numberOfInstallment*2)/1200;
+	      }
+	      else
+	          {
+
+		var interests = (loanToRepay * numberOfInstallment*4)/2400;
+	      }
+
+		/** Adding exception for the emergency loan */
+		if ($('#operation_type').val() =='emergency_loan') {
+		 	interests =  loanToRepay * parseFloat(<?php echo (float) $setting->keyValue('loan.emergency.rate'); ?>) / 100 ;
+		};
+        /**requested by epssf to remove interest on special loan */
+			if ($('#operation_type').val() =='special_loan') {
+		 	interests =  loanToRepay * 0;
+		};
+
+		var netToReceive          = Math.round(loanToRepay - interests);
+		var administration_fees   = $('#administration_fees').val();
+		var operation_type        = $('#operation_type').val();
+		var urgent_loan_interests = 0;
+
+		// Update fields		
+		$('#interests').val(Math.round(interests) );
+
+		data[$('#interests').attr('name')] = $('#interests').val();
+        
+        if(operation_type != 'ordinary_loan' && operation_type != 'urgent_ordinary_loan' && operation_type!='emergency_loan'){
+	    	  loanToRepay= parseInt(loanToRepay) + parseInt(previous_loan_balance);
+	    	  
+        }
+		
+		$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
+        // If this loan is urgent loan, then calculate administration fees
+		// And remove it from the net_to_receive
+		if (operation_type.toLowerCase() == 'urgent_ordinary_loan') {
+			
+			 var percentageAdministrationFee =  parseInt(administration_fees) / 100;
+
+			 urgent_loan_interests = loanToRepay * percentageAdministrationFee;
+
+			$('#interest_on_urgently_loan').val(parseInt(urgent_loan_interests));
+			$('#netToReceive').val(parseInt(netToReceive - urgent_loan_interests ));
+			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
+		}
+		else{
+			$('.administration_fees').css('display', 'none');
+			$('#netToReceive').val(parseInt(netToReceive) );
+			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
+		};
+
+  		// If the amount to repay is less or equal to the 
+  		// User total contributions then there is no 
+  		// need to the caution then hide the form
+  		loanToRepay  = $('#loanToRepay').val();
+  		loanToRepay  = parseInt(loanToRepay);
+
+		// Update Guarantors
+		calculateGuarantors();	
+
+		validateLoanToRepay();
+	}
+
+	/**
+	 * Update Accountings
+	 * @return
+	 */
+	function updateAccounting() {
+		$('#debit_amount_0').val($('#loanToRepay').val());
+		$('#credit_amounts_0').val($('#netToReceive').val());
+		$('#credit_amounts_1').val($('#interests').val());
+		$('#credit_amounts_2').val($('#interest_on_urgently_loan').val());
+	}
+	/** 
+	 * Calculate Urgent Loan fees
+	 */
+	function calculateUrgentLoanFees(){
+		if ($('#operation_type').val()=='urgent_ordinary_loan') {
+            <?php $administration_fees=0;  ?>
+            <?php if((new Ceb\Models\Setting)->hasKey('loan.administration.fee')): ?>
+            <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
+            <?php endif; ?>
+
+            var loanToRepay = parseInt($('#loanToRepay').val());
+
+			if (loanToRepay > 0 ) {
+				var administration_fees = $('#administration_fees').val();
+
+				$('#interest_on_urgently_loan').val(Math.round(loanToRepay*  parseInt(administration_fees)/100) );
+				return true;
+			};
+
+			$('#interest_on_urgently_loan').val(0);
+			return true;
+		};
+		$('#interest_on_urgently_loan').val(0);
+
+		// Update Guarantors
+		calculateGuarantors();	
+	}
+	/**
+	 * De 1 Ã  12 mois le taux dâ€™intÃ©rÃªt est de 3.4
+	Âƒ * De 13 Ã  24 mois le taux dâ€™intÃ©rÃªt est de 3.6
+	Âƒ * De 25 Ã  36 mois le taux dâ€™intÃ©rÃªt est de 4.1
+	Âƒ * De 37 Ã  48 mois le taux dâ€™intÃ©rÃªts est de 4.3
+	 * @return  {[type]} [description]
+	 */
+	function getInterestRate(){
+		/** Adding exception for the emergency loan */
+		if ($('#operation_type').val() =='emergency_loan') {
+			return <?php echo (float) $setting->keyValue('loan.emergency.rate'); ?>;
+		};
+
+		var numberOfInstallment = $('#numberOfInstallment').val();
+
+		<?php foreach($loanRates as $loanRate): ?>
+			if (numberOfInstallment>=<?php echo $loanRate->start_month; ?> && numberOfInstallment<=<?php echo $loanRate->end_month; ?>) {return <?php echo (float) $loanRate->rate; ?>;};
+		<?php endforeach; ?>
+
+		return <?php echo (float) $loanRate->max('rate'); ?>;
+
+	}
+	/**
+	 * If the wished amount is higher than the
+	 * amount in the right to loan then dipsly error
+	 */
+    function validateLoanToRepay(){
+
+		var rightToLoanAmount = parseInt($('#rightToLoan').val().replace(/,/g,''));
+
+		var loanToRepay       = parseInt($('#loanToRepay').val()); 
+      
+      // Display warning when wished amount or loan to replay is greater than 
+      // Right to loan
+      if(loanToRepay > rightToLoanAmount){
+		    notification = notification.replace('message','Loan To Repay amount has to be less or equal to Right to loan');
+			$('.loan-notifications').html(notification);
+			$('#loanToRepay').addClass('has-error');
+			return false;
+		}
+		// For us to reach here
+		// All is good ! time to sleep
+		$('.loan-notifications').html('');
+		$('#loanToRepay').removeClass('has-error');
+		return true;
+    }
+
+    $('.search-cautionneur').click(function(event) {
+    	// Prevent the default event action 
+    	event.preventDefault();
+    	var cautionneur = $(this).parent().find('input');
+    	
+    	// Check if this input has at least some data
+    	if(cautionneur.val() !== "")
+    	{
+    		var segments = window.location.pathname.split( '/' );
+			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
+    		return true;
+    	}
+
+    	// If we reach here it means we have nothing to do, just return false
+    	return false;
+      });
+	
+	/**
+   	  * Determine if this loan is urgent or not
+   	  * @param    letterdate object this 
+   	  * @return  mixed    
+   	  */
+   	function validateOrdinaryLoan(element){
+   		var letterDate = new Date(element.val());
+   		// calculateUrgentLoanFees();
+   	   	// if (letterDate.getDate() > 15) {
+   	   	// 	$('#operation_type').val('urgent_ordinary_loan');
+   	   	// 	return ;
+   	   	// };
+   	   	// $('#operation_type').val('ordinary_loan');
+   	}
+   	/**
+	 * Update loan input field on the server side
+	 * @param    json array data data to be sent to the server
+	*/
+	function updateField(formData,requestUrl){
+
+		/** first calculate existings fields */
+		calculateLoanDetails();
+		/** If the requestUrl was not initialized then set default to ajax/loan */
+		requestUrl = typeof requestUrl!=='undefined' ? requestUrl :'/ajax/loans';
+
+		$.ajax({
+			url: requestUrl,
+			type: 'GET',
+			async: true,	
+			data: formData,
+		})
+		.done(function(data) {
+
+		})
+		.fail(function(error) {
+			console.log("error "+error);
+		})
+		.always(function() {
+		});			
+	}
+
+
+});

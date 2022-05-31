@@ -1,0 +1,147 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+@parent
+Edit Profile
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+
+<?php
+    // Pull the custom fields from config
+    $isProfileUpdate = ($user->email == Sentry::getUser()->email);
+    $customFields = config('sentinel.additional_user_fields');
+
+    // Determine the form post route
+    if ($isProfileUpdate) {
+        $profileFormAction = route('sentinel.profile.update');
+        $passwordFormAction = route('sentinel.profile.password');
+    } else {
+        $profileFormAction =  route('sentinel.users.update', $user->hash);
+        $passwordFormAction = route('sentinel.password.change', $user->hash);
+    }
+?>
+
+<h1>Edit 
+<?php if($isProfileUpdate): ?>
+    Your
+<?php else: ?> 
+    <?php echo e($user->email); ?>'s 
+<?php endif; ?> 
+Account</h1>
+
+<?php $customFields = config('sentinel.additional_user_fields'); ?>
+
+<?php if(! empty($customFields)): ?>
+<div>
+    <h4>Profile</h4>
+    <form method="POST" action="<?php echo e($profileFormAction); ?>" accept-charset="UTF-8" class="form-horizontal" role="form">
+
+        <?php foreach(config('sentinel.additional_user_fields') as $field => $rules): ?>
+
+          <?php /* If this column is language then load languages using drop box and continue */ ?>
+                <?php if($field=='language'): ?>
+                    <div class="small-3 columns">
+                     <label for="right-label" class="right inline"><?php echo ucwords(str_replace('_',' ',$field)); ?></label>
+                    </div>
+                     <div class="small-9 columns <?php echo ($errors->has($field)) ? 'has-error' : ''; ?>">
+                         <?php echo Form::select($field,  
+                            [
+                            'en'    =>  'English',
+                            'fr'    =>  'French',
+                            'kin'   =>  'Kinyarwanda',
+                            ], Input::old($field) ? Input::old($field) : $user->$field,['class' => 'form-control']); ?>
+
+                            <?php echo ($errors->has($field) ? $errors->first($field, '<small class="error">:message</small>') : ''); ?>
+
+                    </div>
+                    <?php continue; ?>
+                <?php endif; ?>
+        <p>
+            <label for="<?php echo e($field); ?>"><?php echo e(ucwords(str_replace('_',' ',$field))); ?></label>
+            <?php /* If a user is not admin then don't allow him to update his names */ ?>
+            <?php $allowEdit = 'disabled="disabled"'; ?>
+            <?php if(Sentry::getUser()->hasAccess('admin')): ?>
+            <?php $allowEdit = null; ?>
+            <?php endif; ?>
+
+            <input class="form-control" name="<?php echo e($field); ?>" type="text" 
+            value="<?php echo e(Input::old($field) ? Input::old($field) : $user->$field); ?>"
+            <?php echo e($allowEdit); ?>
+
+            >
+
+            <?php echo e(($errors->has($field) ? $errors->first($field) : '')); ?>
+
+        </p>
+        <?php endforeach; ?>
+
+        <p>         
+            <input name="_method" value="PUT" type="hidden">
+            <input name="_token" value="<?php echo e(csrf_token()); ?>" type="hidden">
+            <input class="btn btn-success" value="Submit Changes" type="submit">
+        </p>
+
+    </form>
+</div>
+<hr />
+<?php endif; ?>
+
+<?php if(Sentry::getUser()->hasAccess('admin') && ($user->hash != Sentry::getUser()->hash)): ?>
+
+    <h4>Group Memberships</h4>
+    <form method="POST" action="<?php echo e(route('sentinel.users.memberships', $user->hash)); ?>" accept-charset="UTF-8" 
+       class="form-inline" role="form">
+
+        <?php foreach($groups as $group): ?>
+     
+        <label class="checkbox-inline">
+          <p>
+            <input type="checkbox" name="groups[<?php echo e($group->name); ?>]" value="1" <?php echo e(($user->inGroup($group) ? 'checked' : '')); ?>> <?php echo e($group->name); ?>
+
+                </p>
+        </label>
+      
+        <?php endforeach; ?>
+    <p>
+        <input name="_token" value="<?php echo e(csrf_token()); ?>" type="hidden">
+        <input value="Update Memberships" type="submit" class="btn btn-warning">
+    </p>
+    </form>
+
+<hr />
+<?php endif; ?>
+
+<h4>Change Password</h4>
+<form method="POST" action="<?php echo e($passwordFormAction); ?>" accept-charset="UTF-8" class="form-inline" role="form">
+        
+    <?php if(! Sentry::getUser()->hasAccess('admin')): ?>
+    <p>
+       <label for="oldPassword">Old Password</label>
+       <input class="form-control" placeholder="Old Password" name="oldPassword" value="" id="oldPassword" type="password">
+       <?php echo e(($errors->has('oldPassword') ? '<br />' . $errors->first('oldPassword') : '')); ?>
+
+    </p>
+    <?php endif; ?>
+
+    <p>
+        <label for="newPassword">New Password</label>
+        <input class="form-control" placeholder="New Password" name="newPassword" value="" id="newPassword" type="password">
+        <?php echo e(($errors->has('newPassword') ?  '<br />' . $errors->first('newPassword') : '')); ?>
+
+    </p>
+
+    <p>
+        <label for="newPassword_confirmation">Confirm New Password</label>
+        <input class="form-control" placeholder="Confirm New Password" name="newPassword_confirmation" value="" id="newPassword_confirmation" type="password">
+        <?php echo e(($errors->has('newPassword_confirmation') ? '<br />' . $errors->first('newPassword_confirmation') : '')); ?>
+
+    </p>
+
+    <input name="_token" value="<?php echo e(csrf_token()); ?>" type="hidden">
+    <input class="btn btn-danger" value="Change Password" type="submit">
+
+</form>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make(config('sentinel.layout'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

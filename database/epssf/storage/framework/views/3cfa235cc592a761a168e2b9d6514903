@@ -1,0 +1,45 @@
+
+
+<?php $__env->startSection('content_title'); ?>
+  <?php if(request()->has('emergencies')): ?>
+     <?php echo e(trans('member.member_with_emergency_loans')); ?>
+
+  <?php else: ?>
+    <?php echo e(trans('navigations.members')); ?>
+
+  <?php endif; ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+<div class="col-xs-2 col-md-2 member-add-button">
+   <a class="btn btn-primary" href="<?php echo e(route('members.create')); ?>">
+  <i class="fa fa-plus"></i>
+  <?php echo e(trans('member.add')); ?>
+
+  </a>
+  </div>
+  <div class="col-xs-8 col-md-8"><?php echo $members->render(); ?></div>
+</div>
+    
+      <table class="table table-bordered table-striped">
+         <thead>
+          <tr>
+          <th><?php echo e(trans('member.adhersion_number')); ?></th>
+            <th><?php echo e(trans('member.names')); ?></th>
+            <th><?php echo e(trans('member.institution')); ?></th>
+            <th><?php echo e(trans('member.status')); ?></th>
+            <th><?php echo e(trans('member.district')); ?></th>
+            <th><?php echo e(trans('member.adhersion_date')); ?></th>
+
+            <th style="width: 170px;"><i class="fa fa-gear"></i><?php echo e(trans('general.action')); ?></th>
+          </tr>
+         </thead>
+     <tbody>
+       <?php echo $__env->renderEach('members.item', $members, 'member', 'members.no-items'); ?>
+     </tbody>
+     </table>
+      
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

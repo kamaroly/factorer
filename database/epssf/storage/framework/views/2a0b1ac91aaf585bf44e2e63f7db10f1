@@ -1,0 +1,25 @@
+ <table >
+  	 <thead>
+  	 	<tr>
+        <th> <?php echo e(trans('member.adhersion_number')); ?></th>
+        <th> <?php echo e(trans('member.names')); ?></th>
+        <th> <?php echo e(trans('member.institution')); ?></th>
+        <th> <?php echo e(trans('member.employee_id')); ?></th>
+        <th> <?php echo e(trans('member.monthly_fee')); ?></th>
+  	 	</tr>
+   	 </thead>
+ <tbody>
+ <?php foreach($members as $member): ?>
+   <?php /* populate the table */ ?>
+   <tr>
+  <td><?php echo $member['adhersion_id']; ?></td>
+  <td><?php echo $member['first_name']; ?> <?php echo $member['last_name']; ?></td>
+  <td><?php echo $member['institution']?$member['institution']:null; ?></td> 
+  <td><?php echo $member['employee_id']; ?></td>
+  <td><?php echo $member['monthly_fee']; ?></td>
+
+</tr>
+
+ <?php endforeach; ?>
+ </tbody>
+</table>

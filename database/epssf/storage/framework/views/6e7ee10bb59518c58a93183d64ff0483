@@ -1,0 +1,29 @@
+<h3 style="text-align: center;text-decoration: underline">SAVINGS CONTRACT  N°    {contract_id}</h3>
+
+<p>I the undersigned <strong>{names}</strong> Bearing the KSSF membership No: <strong>{adhersion_id}</strong>, Authorizes the 
+department ofHuman Resources of King Faisal Hospital to deduct from my monthly salary the sum of <strong>{monthly_fee_in_words}</strong> Rwandan Francs 
+(<strong>{monthly_fee}</strong>)  , starting from the month of    
+<strong>{created_at}</strong>  to the benefit of the mutual Fund of(KSSF). </p>
+
+<p>
+This sum will constitute my monthly contribution to the Fund; I agree to withdraw it only in compliance with KSSF’s internal regulations represented by the KSSF Chairperson of the Board of Directors. 
+</p>
+<p>I fully agree to abide by all regulation governing KSSF.</p>
+
+<p>KSSF agrees to pay me,  the sum of all contributions I will have made once my work contract with King Faisal Hospital is terminated, once I resign from post or if am expelled from KSSF minus the loan and interest I may be have as it is stipulated in its internal regulations.</p>
+<p style="text-align: center">Done at Kigali, On <strong>{today_date}</strong></p>
+ 
+<p>Name: <strong>{names}</strong></p>
+<p>District: <strong>{district}</strong></p>
+<p>Province: <strong>{province}</strong></p>
+<p>ID N° :  <strong>{member_nid}</strong></p>
+ 
+<p>Signature .............................................</p>
+ 
+<strong><p>Chairperson,KSSFBoD</p></strong>
+ 
+<p>Chairperson   <strong>{President}</strong>   Signature .............................................</p>
+
+
+<p>KSSF account Number :094-00658425-01</p>
+                           

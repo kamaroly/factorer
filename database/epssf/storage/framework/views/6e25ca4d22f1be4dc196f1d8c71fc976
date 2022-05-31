@@ -1,0 +1,63 @@
+<?php /* Start by pulling this member profile */ ?>
+<table class="pure-table pure-table-bordered">
+<caption><h3><u> <?php echo e(trans('report.member_with_all_details')); ?></u></h3> </caption>
+  	 <thead>
+  	 	<tr>
+	  	 	<th><?php echo e(trans('member.adhersion_id')); ?></th>
+	     	<th><?php echo e(trans('member.names')); ?></th>
+	     	<th><?php echo e(trans('member.member_nid')); ?></th>
+			<th><?php echo e(trans('member.institution')); ?></th>
+			<th><?php echo e(trans('member.telephone')); ?></th>
+            <th><?php echo e(trans('member.attorney')); ?></th>
+            <th><?php echo e(trans('member.bank')); ?></th>
+            <th><?php echo e(trans('member.bank_account')); ?></th>
+			<th><?php echo e(trans('member.savings')); ?></th>
+			<th><?php echo e(trans('member.status')); ?></th>
+			<th><?php echo e(trans('general.this_year_contribution_amount')); ?></th>
+			<th><?php echo e(trans('general.this_year_contribution_count')); ?></th>
+	  	</tr>
+   	 </thead>
+ <tbody>
+	
+	<?php foreach($members as $member): ?>
+		<tr>
+		 	<td><?php echo e($member->adhersion_id); ?></td>
+		 	<td><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></td>
+		 	<td><?php echo e($member->member_nid); ?></td>
+		 	<td><?php echo e($member->institution); ?></td>
+			<td><?php echo e($member->telephone); ?></td>
+			<td><?php echo e($member->attorney); ?></td>
+			<td><?php echo e($member->bank_name); ?></td>
+			<td><?php echo e($member->bank_account); ?></td>
+			<td><?php echo e(number_format($member->savings)); ?></td>
+			<td><?php echo e(trans('member.'.$member->status)); ?></td>
+			<td><?php echo e(number_format($member->current_year_contribution_amount)); ?></td>
+			<td><?php echo e(number_format($member->current_year_contribution_count)); ?></td>
+		</tr>
+	<?php endforeach; ?>
+
+   <tr>
+	  	 	<th colspan="4"><?php echo e(trans('member.savings_total')); ?></th>
+			<th><?php echo number_format(abs($members->sum('savings'))); ?></th>
+	  	</tr>
+ </tbody>
+</table>
+<table class="pure-table pure-table-bordered">
+  	 	<tr>
+	  	 	<td>
+	  	 		<strong><?php echo e(trans('report.done_by')); ?></strong> <br/>
+	  	 		<?php $user = Sentry::getUser(); ?>
+				<?php echo $user->first_name; ?> <?php echo $user->last_name; ?>
+
+	  	 	</td>
+	     	<td><strong><?php echo e(trans('report.gerant')); ?></strong> <br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.gerant'); ?>
+
+			</td>
+	  	</tr>
+
+	  	<tr style="height: 50px;">
+	  		<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  	</tr>
+ </table>

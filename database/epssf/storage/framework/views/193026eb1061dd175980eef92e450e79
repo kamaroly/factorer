@@ -1,0 +1,32 @@
+<?php echo $__env->make('partials.landscapecss', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<?php /* Start by pulling this member profile */ ?>
+<table class="pure-table pure-table-bordered">
+<caption class="text-2xl text-gray-700 font-semibold"> <?php echo e(trans('reports.contribution_count_this_year')); ?> </caption>
+  	 <thead>
+  	 	<tr>
+	  	 	<th><?php echo e(trans('member.adhersion_id')); ?></th>
+	     	<th><?php echo e(trans('member.names')); ?></th>
+			<th><?php echo e(trans('member.institution')); ?></th>
+			<th><?php echo e(trans('member.service')); ?></th>
+			<!--<th><?php echo e(trans('member.savings')); ?></th>-->
+			<th><?php echo e(trans('member.status')); ?></th>
+			<th><?php echo e(trans('member.contribution_count')); ?></th>
+	  	</tr>
+   	 </thead>
+ <tbody>
+	<?php foreach($members as $member): ?>
+		<tr>
+		 	<td><?php echo e($member->adhersion_id); ?></td>
+		 	<td><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></td>
+		 	<td><?php echo e($member->institution_name); ?></td>
+			<td><?php echo e($member->service); ?></td>
+			<!--<td><?php echo e(number_format($member->savings)); ?></td>-->
+			<td><?php echo e(trans('member.'.$member->status)); ?></td>
+			<td><?php echo e($member->current_year_contributions_count); ?></td>
+		</tr>
+	<?php endforeach; ?>
+	
+ </tbody>
+</table>
+

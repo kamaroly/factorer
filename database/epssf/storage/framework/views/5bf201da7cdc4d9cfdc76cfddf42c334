@@ -1,0 +1,79 @@
+<header class="main-header text-gray-900">
+        <!-- Logo -->
+        <a href="<?php echo e(route('home')); ?>" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini flex"><img src="<?php echo e(Url('assets/images/logo.jpg')); ?>" class="flex-initial"></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><img src="<?php echo e(Url('assets/images/logo.jpg')); ?>" style="width:40px;height:40px;"><b>CEB</b>MS</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle text-gray-100 hover:text-gray-300" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="col-md-5">
+          <?php if(\Sentry::check()): ?>
+              <?php if(\Sentry::getUser()->hasAccess('utility.can.do.check.member')): ?>
+             <?php if((request()->is('members*') || request()->is('loans*') || request()->is('regularisation*')) && !request()->is('loans/pending*') || request()->is('loans/complete')): ?>
+            
+              <?php if(!request()->is('regularisation/types') && !request()->is('regularisation/regulate') && !request()->isMethod('post') && !request()->is('loans/blocked') && !request()->is('members*transacts') && !request()->is('loans/unblock*')): ?>
+                <?php echo $__env->make('members.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+              <?php endif; ?>
+           <?php endif; ?>
+             <?php endif; ?>
+           <?php endif; ?>
+           </div>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+            <?php if(\Sentry::check()): ?>
+              <?php if(\Sentry::getUser()->hasAccess('utility.can.do.database.backup')): ?>
+                <li>
+                <a href="<?php echo e(route('utility.backup')); ?>" 
+                   class="bg-indigo-900 hover:bg-indigo-800 hover:text-gray-200 text-gray-100 font-sembold">
+                  <i class="fa fa-floppy-o"></i> <?php echo e(trans('general.make_database_backup')); ?>
+
+                </a>
+                </li>
+              <?php endif; ?>                
+            <?php endif; ?>
+              <!-- USER NOTIFICATIO -->
+              <?php echo $__env->make('partials.user-notification', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+              
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <div class="user-image">
+                      <?php echo $__env->make('files.show',['filename'=>\Sentry::getUser()->photo], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div> 
+                  <span class="hidden-xs"><?php echo e(\Sentry::getUser()->username); ?></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <?php echo $__env->make('files.show',['filename'=>\Sentry::getUser()->photo], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <p>
+                     <?php echo \Sentry::getUser()->first_name .' '.\Sentry::getUser()->last_name; ?>
+
+                      <small>Member since <?php echo \Sentry::getUser()->created_at->format('M. Y'); ?></small>
+                    </p>
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                    <a href="<?php echo e(route('sentinel.profile.show')); ?>" class="btn btn-default btn-flat"><?php echo e(trans('member.profile')); ?></a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="<?php echo e(route('sentinel.logout')); ?>" class="btn btn-default btn-flat"><?php echo e(trans('member.logout')); ?></a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+            </ul>
+          </div>
+        </nav>
+      </header>

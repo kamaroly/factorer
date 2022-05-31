@@ -1,0 +1,13 @@
+<p>
+  Hi <?php echo e($names); ?>,
+</p>
+<p>
+ The loan you have  requested is <?php echo $status; ?>.
+</p>
+<hr>
+<p>
+ Regards.
+</p>
+<p>
+ CEB Butare team.
+</p>

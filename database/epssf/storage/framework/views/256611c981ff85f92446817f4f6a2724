@@ -1,0 +1,46 @@
+ <table class="pure-table pure-table-bordered" style="width:40%;float:left">
+  	 	<tr>
+	  	 	<th><?php echo e(trans('member.adhersion_number')); ?></th>
+	     	<td><?php echo e($member->adhersion_id); ?></td>
+	  	</tr>
+	  	<tr>
+	  	 	<th><?php echo e(trans('member.names')); ?></th>
+	     	<td><?php echo e($member->first_name.'  '.$member->last_name); ?> </td>
+	  	</tr>
+	  	<tr>
+	  	 	<th><?php echo e(trans('member.institution')); ?></th>
+	     	<td><?php echo e($member->institution?$member->institution->name:null); ?></td>
+	  	</tr>
+	  	<tr>
+	  	 	<th><?php echo e(trans('member.adhersion_date')); ?></th>
+	     	<td><?php echo e($member->created_at->format('Y-m-d')); ?></td>
+	  	</tr>  	
+  </table>
+
+   <?php /* Ensure that this summary is only displayed on loans records report */ ?>
+   <?php if($member->hasActiveEmergencyLoan && request()->is('reports/members/loanrecords/*')): ?>
+    <?php $emergencyLoan = $member->activeEmergencyLoan; ?>
+	
+	<?php if($emergencyLoan->emergency_balance > 0): ?>
+	  <table style="width:50%;margin-left: 10px" >
+	  			<?php /* EMERGENCY NUMBERS */ ?>
+			<tr><th colspan="2"><?php echo ucfirst(trans('loans.emergency_loan_details')); ?></th></tr>
+		  	<tr style="background-color:#9c4221;color:#fff;">
+		  	 	<th> <?php echo e(trans('loans.emergency_loan_balance')); ?> </th>
+		     	<td><?php echo number_format($balance = $emergencyLoan->emergency_balance); ?></td>
+		  	</tr>
+		  	<tr style="background-color:#975a16;color:#fff;">
+		  	 	<th><?php echo e(trans('loans.emergency_loan_monthly_fees')); ?></th>
+		     	<td><?php echo number_format($monthly_fees = $emergencyLoan->monthly_fees); ?></td>
+		  	</tr>
+		  	<tr style="background-color:#744210;color:#fff;">
+		  	 	<th><?php echo e(trans('loans.emergency_loan_refund')); ?></th>
+		     	<td><?php echo number_format($emergencyLoan->emergency_refund); ?></td>
+		  	</tr>
+		  	<tr style="background-color:#3c366b;color:#fff;">
+		  	 	<th><?php echo e(trans('loans.emergency_loan_remaining_tranches')); ?></th>
+		     	<td><?php echo $emergencyLoan->remaining_installments; ?></td>
+		  	</tr>		
+	  </table>
+  	<?php endif; ?>
+  <?php endif; ?>

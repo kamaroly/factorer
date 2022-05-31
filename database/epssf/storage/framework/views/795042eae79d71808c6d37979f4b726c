@@ -1,0 +1,30 @@
+
+<?php $__env->startSection('content_title'); ?>
+	<?php echo e(trans('navigations.institution_title')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="row">
+<div class="col-xs-2 col-md-2 member-add-button">
+   <a class="popdown btn btn-primary" href="<?php echo e(route('settings.institution.create')); ?>">
+  <i class="fa fa-plus"></i>
+  <?php echo e(trans('institution.add')); ?>
+
+  </a>
+  </div>
+  <div class="col-xs-8 col-md-8"><?php echo $institutions->render(); ?></div>
+</div>
+ <table class="ui table">
+ 	<thead>
+ 		<tr>
+ 			<th><?php echo e(trans('general.id')); ?></th>
+ 			<th><?php echo e(trans('general.name')); ?></th>
+ 			<th><?php echo e(trans('general.action')); ?></th>
+ 		</tr>
+ 	</thead>
+ 	<tbody> 		
+		<?php echo $__env->renderEach('settings.institution.item', $institutions, 'institution', 'partials.no-item'); ?>
+ 	</tbody>
+ </table>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

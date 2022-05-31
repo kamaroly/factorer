@@ -1,0 +1,1 @@
+{!! trans('general.nothing_to_show_here') !!}

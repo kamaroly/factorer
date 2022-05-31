@@ -1,0 +1,44 @@
+<?php $__env->startSection('content_title'); ?>
+	<?php echo e(trans('loan.unblocking_loans')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+
+<style type="text/css">
+	th{
+		font-size: 12px !important;
+	}
+	td{
+		font-size: 12px !important;
+	}
+</style>
+
+<?php echo method_exists(get_class($loans),'render') ? $loans->render() : null; ?>
+
+<table class="table table-bordered table-striped text-center">
+	<thead >
+		<th><?php echo e(trans('member.names')); ?> </th>
+		<th><?php echo e(trans('member.institution')); ?></th>
+		<th><?php echo e(trans('member.contributions')); ?></th>
+		<th><?php echo e(trans('member.balance_of_loan')); ?> </th>
+		<th><?php echo e(trans('member.right_to_loan')); ?> </th>
+		<th><?php echo e(trans('loan.operation_type')); ?> </th>
+		<th><?php echo e(trans('loan.rate')); ?></th>
+		<th><?php echo e(trans('loan.number_of_installments')); ?></th>
+		<th><?php echo e(trans('loan.monthly_installments')); ?></th>
+		<th><?php echo e(trans('loan.loan_to_repay')); ?></th>
+		<th><?php echo e(trans('loan.interests')); ?></th>
+    	<th><?php echo e(trans('loan.administration_fees')); ?></th>
+    	<th><?php echo e(trans('loan.net_to_receive')); ?></th>
+    	<th><?php echo e(trans('loan.is_regulation')); ?></th>
+ 		<th style="width: 170px;"><i class="fa fa-gear"></i><?php echo e(trans('general.action')); ?></th>
+	</thead>
+
+	<tbody>
+		<?php echo $__env->renderEach('loansandrepayments.blocked_loans_item', $loans, 'loan', 'partials.no-item'); ?>
+	</tbody>
+</table>	
+<?php echo method_exists(get_class($loans),'render') ? $loans->render() : null; ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

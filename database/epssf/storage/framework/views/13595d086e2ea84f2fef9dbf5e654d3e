@@ -1,0 +1,13 @@
+
+
+<?php $__env->startSection('content_title'); ?>
+		<?php echo e(trans('general.reconcilate_refunds')); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<form action="<?php echo e(route('reconciliations.refunds.find')); ?>"> 
+   <?php echo $__env->make('reconciliations.transaction-finder', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</form>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

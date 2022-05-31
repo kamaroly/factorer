@@ -1,0 +1,43 @@
+<?php /* Start by pulling this member profile */ ?>
+<table class="pure-table pure-table-bordered">
+<caption> <?php echo e(trans('reports.member_with_irregularite_in_refunding')); ?> <?php echo date('M/Y',strtotime(request()->segment(4))); ?> </caption>
+  	 <thead>
+  	 	<tr>
+	  	 	<th><?php echo e(trans('member.adhersion_id')); ?></th>
+	     	<th><?php echo e(trans('member.names')); ?></th>
+			<th><?php echo e(trans('member.service')); ?></th>
+			<th><?php echo e(trans('member.total_contribution')); ?></th>
+			<th><?php echo e(trans('member.loan_balance')); ?></th>
+			<th><?php echo e(trans('member.balance')); ?></th>
+			<th><?php echo e(trans('member.date')); ?></th>
+			<th><?php echo e(trans('member.wording')); ?></th>
+			<th><?php echo e(trans('member.tranches_to_pay')); ?></th>
+			<th><?php echo e(trans('member.paid_tranches')); ?></th>
+			<th><?php echo e(trans('member.difference')); ?></th>
+	  	</tr>
+   	 </thead>
+ <tbody>
+   <?php echo $__env->renderEach('reports.member.item_refund_irregularities', $members, 'member', 'members.no-items'); ?>
+ </tbody>
+</table>
+<table class="pure-table pure-table-bordered">
+  	 	<tr>
+	  	 	<td>
+	  	 		<strong><?php echo e(trans('report.done_by')); ?></strong>
+	  	 		<br/>
+	  	 		<?php $user = Sentry::getUser(); ?>
+				<?php echo $user->first_name; ?> <?php echo $user->last_name; ?>
+
+	  	 	</td>
+	     	<td><strong><?php echo e(trans('report.gerant')); ?></strong>
+	     	<br/>
+				<?php echo (new Ceb\Models\Setting)->get('general.gerant'); ?>
+
+			</td>
+	  	</tr>
+
+	  	<tr style="height: 50px;">
+	  		<td><strong>Signature:</strong></td>
+	  		<td><strong>Signature:</strong></td>
+	  	</tr>
+ </table>
