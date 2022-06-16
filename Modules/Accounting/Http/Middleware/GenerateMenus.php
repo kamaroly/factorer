@@ -37,6 +37,7 @@ class GenerateMenus
             ->link->attr([
                 'class' => 'c-sidebar-nav-link',
             ]);
+
         })->sortBy('order');
 
         return $next($request);
