@@ -1,173 +1,151 @@
-<div class="row">
-    {{-- ('item_name
-('item_sku
-('grouping
-('item_qty
-('item_buying_price
-('item_selling_price --}}
-  
-    
-    <div class="col-12">
-        <div class="form-group">
-            <?php
-            $field_name = 'wording';
-            $field_lable = __("accountant::$module_name.$field_name");
-            $field_placeholder = __("accountant::$module_name.$field_name"."_placeholder");
-            $required = "required";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value('1') }}
+@if (!Request::is('accounting*'))
+  <div class="box-header with-border">
+  <h3 class="box-title">{{ trans('accounting.accounting') }}</h3>
+</div>
+@endif
 
-        </div>
+<div class="row">
+    <div class="col-md-6">
+     @include('accounting.debit')
+  </div>
+    <!-- START OF CREDIT ACCOUNT -->
+    <div class="col-md-6">
+      @include('accounting.credit')
     </div>
+     <!-- END OF CREDIT ACCOUNT -->
 </div>
 <div class="row">
-         <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'item_mouvement';
-            $field_lable = __("purchase::$module_name.$field_name");
-            $field_placeholder = __("purchase::$module_name.$field_name"."_placeholder");
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"])->value("IN") }}
-        </div>
+    <div class="col-md-6 total-debit">
+      
+  </div>
+    <!-- START OF CREDIT ACCOUNT -->
+    <div class="col-md-6 total-credit">
     </div>
-</div>
-    <div class="row">
-    <div class="col-12">
-        <div class="form-group">
-            <?php
-            $field_name = 'item_comment';
-            $field_lable = __("purchase::$module_name.$field_name");
-            $field_placeholder = $field_lable;
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
-        </div>
-    </div>
+     <!-- END OF CREDIT ACCOUNT -->
 </div>
 
+@section('scripts')
+@if (Request::is('loan*') )
+  {{-- Loan below javascripts only when requests are for loan  --}}
+  <script type="text/javascript" src="{{route('assets.js.loanform')}}"></script>
+@endif
+@if (Request::is('regularisation*'))
+  {{-- Loan below javascripts only when requests are for regularisation --}}
+ <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script> 
+@endif
 
+@if (Request::is('members*transacts'))
+  {{-- Loan below javascripts only when requests are for regularisation --}}
+  <script type="text/javascript" src="{!! url('assets/dist/js/memberTransaction.js') !!}"></script>
+ <!-- <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script> -->
+@endif
 
-
-<!-- Select2 Library -->
-<x-library.select2 />
-<x-library.datetime-picker />
-
-@push('after-styles')
-<!-- File Manager -->
-<link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
-@endpush
-
-@push ('after-scripts')
 <script type="text/javascript">
-$(document).ready(function() {
-    $('.select2-category').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.categories.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
+
+    (function($){    
+
+        $countFormsDebits = 1;
+        $countFormsCredits = 1;
+        
+        @if (isset($defaultAccounts['debits']))
+          @if (! collect($defaultAccounts['debits'])->isEmpty())
+            $countFormsDebits = {!! collect($defaultAccounts['debits'])->count() !!};
+          @endif
+        @endif
+
+         @if (isset($defaultAccounts['credits']))
+          @if (! collect($defaultAccounts['credits'])->isEmpty())
+            $countFormsCredits = {!! collect($defaultAccounts['credits'])->count() !!};
+          @endif
+        @endif
+
+        $debitAmountSum = 0;
+        $creditAmountSum = 0;
+
+        var accounts = {!! json_encode($accounts) !!};
+
+        $accountsOptions = '';
+         $.each(accounts, function(index, val) {
+           $accountsOptions += '<option value="' +  index + '">' + val + '</option>';
+        });
+
+        /** GENERATING DEBIT ACCOUNTS FORM */
+         $.fn.addDebitForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='debit_accounts["+$countFormsDebits+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control accountAmount debit-amount' name='debit_amounts["+$countFormsDebits+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countFormsDebits++;
+        };
+
+        /** GENERATING CREDIT ACCOUNT FORM */
+        $.fn.addCreditForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='credit_accounts["+$countFormsCredits+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control credit-amount' name='credit_amounts["+$countFormsCredits+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countFormsCredits++;
+        };
+
+       $getSum = function(item){
+         var items = $(item);
+         var total = 0;
+         /** TRY TO GET THE SUM */
+         $.each(items, function(index, val) {
+           total += parseInt(val.value);
+         });
+         return total;
+       };
+
+    })(jQuery);   
+
+     $(function(){
+
+      $("#add-debit-account").bind("click", function(){
+        $("#debit-accounts-container").addDebitForms();
+      });
+
+      $("#add-credit-account").bind("click", function(){
+        $("#credit-accounts-container").addCreditForms();
+      });
+      
+      $('.debit-amount').on('click keyup keydown keypress change',function(event) {
+        $('.total-debit').html('total debit '+$getSum('.debit-amount'));
+      });
+ $('.total-debit').html('total debit '+$getSum('.debit-amount'));
+     $(".debit-amount").on('click keyup keydown keypress change',function(event) {
+       console.log(event);
     });
-
-    $('.select2-tags').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.tags.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
+      $('.credit-amount').on('click keyup keydown keypress change',function(event) {
+        $('.total-credit').html('total credit '+$getSum('.credit-amount'));
+      });
+      $('.total-credit').html('total credit '+$getSum('.credit-amount'));
     });
-});
-</script>
-
-
-<!--<script>
-
-
-
-    function handlePriceAndQuantityChange()
-    {
-        const quantity = document.getElementById("js-quantity").value;
-        const price = document.getElementById("js-buying-price").value;
-        const totalPrice = quantity * price;
-
-        document.getElementById("js-total").value = (totalPrice);
-    }
-
     
-</script>-->
-
-
-<!-- Date Time Picker & Moment Js-->
-<script type="text/javascript">
-$(function() {
-    $('.datetime').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss',
-        icons: {
-            time: 'far fa-clock',
-            date: 'far fa-calendar-alt',
-            up: 'fas fa-arrow-up',
-            down: 'fas fa-arrow-down',
-            previous: 'fas fa-chevron-left',
-            next: 'fas fa-chevron-right',
-            today: 'far fa-calendar-check',
-            clear: 'far fa-trash-alt',
-            close: 'fas fa-times'
-        }
-    });
-});
 </script>
 
-<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-
-<script type="text/javascript">
-
-CKEDITOR.replace('item_comment', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  document.getElementById('button-image').addEventListener('click', (event) => {
-    event.preventDefault();
-
-    window.open('/file-manager/fm-button', 'fm', 'width=800,height=600');
-  });
-});
-
-// set file link
-function fmSetLink($url) {
-  document.getElementById('featured_image').value = $url;
-}
-</script>
-@endpush
+@stop

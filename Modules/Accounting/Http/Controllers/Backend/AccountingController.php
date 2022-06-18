@@ -1,153 +1,72 @@
 <?php
 
-namespace Modules\Accounting\Http\Controllers\Backend;
+namespace Modules\Accounting\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
-use Yajra\DataTables\DataTables;
-use Modules\Accounting\Entities\Accounting;
-use Modules\Accounting\Entities\Account;
-use Modules\Accounting\Entities\Posting;
+use Modules\Accounting\Http\Controllers\Controller;
+use Modules\Accounting\Http\Requests\AccountingRequest;
+use Modules\Accounting\Repositories\Accounting\AccountingRepository;
 
-class AccountingController extends Controller
-{    
+use Log;
 
-      public function __construct()
-    {
-        // Page Title
-        $this->module_title = 'Accounting';
+class AccountingController extends Controller {
 
-        // module name
-        $this->module_name = 'accounting';
+	function __construct(AccountingRepository $AccountingRepository) {
+		$this->accounting = $AccountingRepository;
+		parent::__construct();
+	}
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index() {
 
-        // module icon
-        $this->module_icon = 'fas fa-money-bill';
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('accounting.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
-        // module model name, path
-        $this->module_model = "Modules\Accounting\Entities\Accounting";
-    }
+            return redirect()->back();
+        }
 
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
-    {    
-        return view(
-            "accounting::backend.{$this->module_name}.index_datatable",
-            ['module_title' => $this->module_title,
-             'module_name' => $this->module_name,
-             'module_icon' => $this->module_icon,
-             'module_name_singular' => Str::singular($this->module_name),
-             'module_action' => 'List',
-             ]
-        );
-    }
+        // First log
+        Log::info($this->user->email . ' starts to view accounting forms');
+		return $this->reload();
+	}
 
 
-      public function index_data()
-    {    
-        $module_name = $this->module_name;
-        $module_model = $this->module_model;
-        
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(AccountingRequest $request) {
 
-          $$module_name = Posting::get();
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('accounting.posting')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
-   //dd(Posting::get());
+            return redirect()->back();
+        }
 
-        return Datatables::of($$module_name)
-                        ->addColumn('action', function ($data) {
-                            $module_name = $this->module_name;
+        // First log
+        Log::info($this->user->email . ' completed account posting');
+        $transactionid = null;
 
-                            return view('backend.includes.action_column', compact('module_name', 'data'));
-                        })
-                         ->addColumn('debit', function ($data) {
-                           return $data->debit->entitled;
-                        })
-                           ->addColumn('credit', function ($data) {
-                           return $data->credit->entitled;
-                        })
-                        ->editColumn('created_at', function ($data) {
-                            $module_name = $this->module_name;
+		if (($transactionid = $this->accounting->complete($request->all())) != false) {
+			flash()->success(trans('accounting.you_have_done_accounting_transaction_successfully',['transactionid'=>$transactionid]));
+		  return $this->reload($transactionid);
+		}
 
-                           /// $diff = Carbon::now()->diffInHours($data->created_at);
-                             return $data->created_at->format('Y-m-d');
-                        })
-                        ->rawColumns(['id','debit_account_id','entitled','amount','note','description','created_at'])
-                        
-                        ->make(true);
+		flash()->success(trans('accounting.error_occured_while_completing_accounting_transaction'));
+		return $this->reload();
+	}
 
-                             
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view(
-            "accounting::backend.{$this->module_name}.create",
-             [
-                'module_title' => $this->module_title,
-                'module_name' => $this->module_name,
-                'module_icon' => $this->module_icon,
-                'module_name_singular' => Str::singular($this->module_name),
-                'module_action' => 'Create',
-             ]        
-        );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('accounting::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('accounting::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
+	/**
+	 * Reload accounting page
+	 * @param   $transactionid
+	 * @return
+	 */
+	private function reload($transactionid=null) {
+		return view('accounting.index',compact('transactionid'));
+	}
 }
