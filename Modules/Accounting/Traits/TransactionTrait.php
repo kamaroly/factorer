@@ -1,10 +1,9 @@
 <?php
 namespace Modules\Accounting\Traits;
 
-use Modules\Accounting\Models\Posting;
 use DateTime;
 use Illuminate\Support\Facades\DB;
-use Sentry;
+use Modules\Accounting\Models\Posting;
 
 trait TransactionTrait {
 	/**
@@ -15,7 +14,7 @@ trait TransactionTrait {
 		// $transactionid = Posting::select(DB::raw('MAX( CAST( id AS UNSIGNED) ) as transactionid'))
 		// 				->first()->transactionid;
         // Make sure we prefix this transaction with user
-        $transactionid = intval(date('Ymd') . (string) Sentry::getUser()->id.'01');
+        $transactionid = intval(date('Ymd') . (string) auth()->user()->id.'01');
         // $transactionid = intval(date('Ymd').'01');
 		do {
 			$transactionid++;
@@ -153,7 +152,7 @@ trait TransactionTrait {
 	 * @param  integer  $journalId
 	 * @return     bool
 	 */
-	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1,$wording=null,$cheque_number=null,$bank=null,$status='pending') {
+	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1,$wording=null,$cheque_number=null,$status='pending') {
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
@@ -162,12 +161,11 @@ trait TransactionTrait {
 		$posting['journal_id'] 			= $journalId; // We assume per default we are using journal 1
 		$posting['asset_type'] 			= null;
 		$posting['amount'] 				= $amount;
-		$posting['user_id'] 			= Sentry::getUser()->id;
+		$posting['user_id'] 			= auth()->user()->id;
 		$posting['account_period'] 		= date('Y');
 		$posting['transaction_type'] 	= $transactionType;
 		$posting['wording']				= $wording;
 		$posting['cheque_number']		= $cheque_number;
-		$posting['bank']				= $bank;
 		$posting['status']				= $status;
 
 		// Try to post the debit before crediting another account
@@ -180,7 +178,7 @@ trait TransactionTrait {
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
-	private function savePostings($transactionId, $journalId = 1, $debits = null, $credits = null,$wording=null,$cheque_number=null,$bank=null) {
+	private function savePostings($transactionId, $journalId = 1, $debits = null, $credits = null,$wording=null,$cheque_number=null) {
 
 		// Start by validating the information we
 		// are about to svae in our database
@@ -194,7 +192,7 @@ trait TransactionTrait {
 
 		foreach ($debits as $accountId => $amount) {
 
-			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Debit', $journalId,$wording,$cheque_number,$bank);
+			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Debit', $journalId,$wording,$cheque_number);
 			if (!$results) {
 				flash()->error(trans("posting.something_went_wrong_while_trying_to_debit_accounts_please_check_input_and_try_again"));
 				return false;
@@ -204,7 +202,7 @@ trait TransactionTrait {
 		//Crediting
 		$credits = (!is_null($credits)) ? $credits : $this->getCreditAccounts();
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Credit', $journalId,$wording,$cheque_number,$bank);
+			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Credit', $journalId,$wording,$cheque_number);
 			if (!$results) {
 			     flash()->error(trans("posting.something_went_wrong_while_trying_to_credit_accounts_please_check_input_and_try_again"));
 				return false;

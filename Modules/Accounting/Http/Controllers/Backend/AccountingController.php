@@ -11,6 +11,15 @@ use Modules\Accounting\Repositories\AccountingRepository;
 
 class AccountingController extends Controller {
 
+    protected $accounting;
+
+
+    public function __construct(AccountingRepository $accounting){
+
+
+        $this->accounting = $accounting;
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -31,6 +40,7 @@ class AccountingController extends Controller {
 	 * @return Response
 	 */
 	public function store(AccountingRequest $request) {
+
 
         // First log
         Log::info(auth()->user()->email . ' completed account posting');
