@@ -15,21 +15,7 @@ Route::group(['namespace' => '\Modules\Accounting\Http\Controllers\Backend', 'as
     * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
     */
 
-    /*
-     *
-     *  Tags Routes
-     *
-     * ---------------------------------------------------------------------
-     */
-    $module_name = 'accounting';
-    $controller_name = 'AccountingController';
-    Route::get("$module_name/index_list", ['as' => "$module_name.index", 'uses' => "$controller_name@index_list"]);
-    Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
-    Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
-    Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::get('/accounting', 'AccountingController@index')->name('accounting.index');
+    Route::post('/accounting/store', 'AccountingController@store')->name('accounting.store');
 
-    Route::view("$module_name/transaction", "accounting::backend.accounting.accounting");
-
-
-    Route::resource("$module_name", "$controller_name");
 });

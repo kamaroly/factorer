@@ -1,8 +1,0 @@
-<tr>
-	<td><?php echo config('ceb.resultant_de_la_period','8750'); ?></td>
-	<td><?php echo trans('report.resultat_de_la_periode'); ?></td>
-	<td style="text-align: center">
-		<?php echo number_format($balance); ?>
-
-	</td>
-</tr>

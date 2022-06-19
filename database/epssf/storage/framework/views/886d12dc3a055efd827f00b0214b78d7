@@ -1,8 +1,0 @@
-<section class="content-header">
-          <h1 class="sm:block text-gray-800 font-normal">
-            <?php echo $__env->yieldContent('content_title'); ?>
-            <small><?php echo $__env->yieldContent('content_descriptions'); ?></small>
-          </h1>
-
-<?php echo $__env->make('partials.breadcrumb', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-</section>

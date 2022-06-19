@@ -1,6 +1,0 @@
-<!--<div class="row mb-4">
-	<?php echo $__env->make('reports.dashboard', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-</div>-->
-<div class="row">
-	<?php echo $__env->make('reports.partials.reports_category', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-</div>

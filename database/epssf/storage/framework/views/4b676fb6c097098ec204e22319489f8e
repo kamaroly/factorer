@@ -1,9 +1,0 @@
-<tr>
- 	<td><?php echo e($contribution->created_at->format('Y-m-d')); ?></td>
- 	<td><?php echo e(trans('contribution.'.strtolower($contribution->transaction_type))); ?></td>
-	<td><?php echo e(trans('contribution.'.$contribution->transaction_reason)); ?></td>
-	<td><?php echo e(str_replace('contributions.contribution_for_the_month_of',trans('contributions.contribution_for_the_month_of'),strtolower($contribution->wording) )); ?></td>
-	<td><?php echo e((strtolower($contribution->transaction_type) == 'saving')?  moneyFormat($contribution->amount) :  0); ?></td>
-	<td><?php echo e((strtolower($contribution->transaction_type) == 'withdrawal')? moneyFormat($contribution->amount)  : 0); ?></td>
-	<td><?php echo e(moneyFormat($balance)); ?></td>
-</tr>

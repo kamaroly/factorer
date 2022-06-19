@@ -1,35 +1,26 @@
 <?php
 
-namespace Modules\Accounting\Http\Controllers;
-
-use Modules\Accounting\Http\Controllers\Controller;
-use Modules\Accounting\Http\Requests\AccountingRequest;
-use Modules\Accounting\Repositories\Accounting\AccountingRepository;
+namespace Modules\Accounting\Http\Controllers\Backend;
 
 use Log;
+use App\Http\Controllers\Controller;
+use Modules\Accounting\Models\Account;
+use Modules\Accounting\Http\Requests\AccountingRequest;
+use Modules\Accounting\Repositories\AccountingRepository;
+
 
 class AccountingController extends Controller {
 
-	function __construct(AccountingRepository $AccountingRepository) {
-		$this->accounting = $AccountingRepository;
-		parent::__construct();
-	}
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index() {
-
-		// First check if the user has the permission to do this
-        if (!$this->user->hasAccess('accounting.view')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
+	public function index()
+    {
 
         // First log
-        Log::info($this->user->email . ' starts to view accounting forms');
+        Log::info(auth()->user()->email . ' starts to view accounting forms');
 		return $this->reload();
 	}
 
@@ -41,15 +32,8 @@ class AccountingController extends Controller {
 	 */
 	public function store(AccountingRequest $request) {
 
-		// First check if the user has the permission to do this
-        if (!$this->user->hasAccess('accounting.posting')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
         // First log
-        Log::info($this->user->email . ' completed account posting');
+        Log::info(auth()->user()->email . ' completed account posting');
         $transactionid = null;
 
 		if (($transactionid = $this->accounting->complete($request->all())) != false) {
@@ -67,6 +51,10 @@ class AccountingController extends Controller {
 	 * @return
 	 */
 	private function reload($transactionid=null) {
-		return view('accounting.index',compact('transactionid'));
+		return view('accounting::backend.accounting.index',[
+            'transactionid' => $transactionid,
+            'accounts' => Account::pluck('entitled', 'id'),
+            'accounts_for_js' => Account::all(),
+        ]);
 	}
 }

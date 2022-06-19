@@ -1,8 +1,9 @@
 <?php
 
 namespace Modules\Accounting\Models;
-use Modules\Accounting\Models\Model;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model {
 
@@ -14,25 +15,25 @@ class Account extends Model {
 
 	/**
 	 * Get posting / accounting transactions made for this model
-	 * @return Ceb\Models\Posting
+	 * @return Posting
 	 */
 	public function postings()
 	{
-		return $this->hasMany('\Ceb\Models\Posting');
+		return $this->hasMany(Posting::class);
 	}
 
 	 /** Get posting / for  trial balance
-	 * @return Ceb\Models\Posting  withouth  closing transaction
+	 * @return Posting  withouth  closing transaction
 	 */
 	public function postingstrialBalance()
 	{
-		return $this->hasMany('\Ceb\Models\Posting');
+		return $this->hasMany(Posting::class);
 	}
 
 
 	/**
 	 * Debit transactions
-	 * @return Ceb\Models\Posting
+	 * @return Posting
 	 */
 	public function debits()
 	{
@@ -63,7 +64,7 @@ class Account extends Model {
 
 	/**
 	 * Debit transactions
-	 * @return Ceb\Models\Posting
+	 * @return Posting
 	 */
 	public function credits()
 	{

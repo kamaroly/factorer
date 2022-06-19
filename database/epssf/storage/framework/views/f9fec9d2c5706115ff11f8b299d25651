@@ -1,5 +1,0 @@
-<tr>
- 	<td><?php echo e($member->id); ?></td>
- 	<td><?php echo e($member->name); ?></td>
- 	<td><?php echo e($member->created_at); ?></td>
-</tr>

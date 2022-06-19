@@ -1,5 +1,0 @@
-         <div class="form-group">
-            <?php echo Form::label('name',trans('institution.name')); ?>
-
-            <?php echo Form::text('name', $institution->name,array('class' => 'form-control institution name')); ?>           
-        </div>

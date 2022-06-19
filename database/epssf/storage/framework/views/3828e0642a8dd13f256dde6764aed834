@@ -1,4 +1,0 @@
-  <label><?php echo e(trans('general.libelle')); ?></label>
-  <textarea name="wording" class="form-control loan-input" 
-  			placeholder="<?php echo e(trans('general.reason_for_this_transaction')); ?>"><?php echo e(isset($wording) ? $wording : null); ?></textarea>
-

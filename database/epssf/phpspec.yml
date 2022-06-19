@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: Ceb
-        psr4_prefix: Ceb
-        src_path: app

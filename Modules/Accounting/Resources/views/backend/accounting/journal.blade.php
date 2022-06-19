@@ -23,13 +23,4 @@
        	 {!! Form::input('text', 'cheque_number', null, ['class'=>'form-control','placeholder'=>trans('general.cheque_number')]) !!}
     </div>
 </div>
-<div class="col-xs-3 col-md-3">
-    <div class="form-group">
-        <label for="bank">
-        	 {{ trans('accounting.bank') }}
-         </label>
-       	 {!! Form::select('bank', $banks, null, ['class'=>'form-control']) !!}
-    </div>
-</div>
-
 </div>

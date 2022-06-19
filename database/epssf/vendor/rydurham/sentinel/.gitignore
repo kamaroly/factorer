@@ -1,7 +1,0 @@
-/vendor
-/.idea
-composer.phar
-composer.lock
-.DS_Store
-tests/_output/*
-tests/_output/*

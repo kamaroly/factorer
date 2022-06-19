@@ -1,4 +1,5 @@
-@extends('layouts.default')
+@extends('backend.layouts.app')
+
 
 @section('content_title')
 	@if (request()->route()->getName() === 'reconciliations.accounts.index')
@@ -9,18 +10,18 @@
 @stop
 
 @section('content')
-{{-- DO WE NEED TO PRINT PIECE DEBOURSE  --}}
 
-@if (!is_null($transactionid))
-	<script type="text/javascript">
-		OpenInNewTab("{!! route('piece.disbursed.accounting',['transactionid'=>$transactionid]) !!}")
-	</script>
-@endif
-{!! Form::open(['route'=>'accounting.store']) !!}
-	@include('accounting.journal')
+<div class="card">
+    <div class="card-body">
 
-	@include('accounting.form')
+    {!! Form::open(['route'=>'backend.accounting.store']) !!}
 
-	@include('partials.buttons',['cancelRoute'=>'accounting.index'])
+        @include('accounting::backend.accounting.journal')
 
-@stop
+        @include('accounting::backend.accounting.form')
+
+    {{ Form::close() }}
+
+</div>
+</div>
+@endsection

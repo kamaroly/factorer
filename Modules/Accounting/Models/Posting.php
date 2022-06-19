@@ -3,6 +3,7 @@
 namespace Modules\Accounting\Models;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 class Posting extends Model {
 
@@ -39,14 +40,6 @@ class Posting extends Model {
 		return $this->belongsTo(Contribution::class,'transactionid','transactionid');
 	}
 
-	/**
-	 * Relationship with user
-	 * @return Ceb\Models\user
-	 */
-	public function member()
-	{
-		return $this->belongsTo(User::class,'adhersion_id','member_adhersion_id');
-	}
 
 	/**
 	 * Relationship with user

@@ -2,6 +2,9 @@
 
 namespace Modules\Accounting\Models;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+
 class Journal extends Model {
 
 	/**

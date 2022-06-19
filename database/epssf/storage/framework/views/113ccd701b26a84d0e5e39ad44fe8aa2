@@ -1,7 +1,0 @@
-  <head>
-    <meta charset="UTF-8">
-    <title>EPSSF| <?php echo $__env->yieldContent('content_title'); ?></title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-    <?php echo $__env->make('partials.css', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-  </head>
