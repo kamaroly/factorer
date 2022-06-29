@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Http\Controllers\Backend;
 
-use App\Models\User;
+use Modules\Accounting\Repositories\AccountingRepository;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Support\Renderable;
 use App\Notifications\NewOrderNotification;
@@ -10,14 +10,17 @@ use Modules\Accounting\Entities\Posting;
 use Modules\Purchase\Entities\Purchase;
 use Modules\Client\Entities\Client;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Order\Entities\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
+use App\Models\User;
+
 
 class OrderController extends Controller
 {
-    public function __construct()
+    public function __construct(AccountingRepository $accountingRepo)
     {
         // Page Title
         $this->module_title = 'Commandes';
@@ -30,6 +33,8 @@ class OrderController extends Controller
 
         // module model name, path
         $this->module_model = "Modules\Order\Entities\Order";
+
+        $this->accountingRepo = $accountingRepo;
     }
 
     /**
@@ -87,7 +92,7 @@ class OrderController extends Controller
         $orderAttributes = $request->except(['_token', 'client_id']);
         $order  = [];
 
-        $orderTransactionId = now()->timestamp;
+        $orderTransactionId = $this->accountingRepo->getTransactionId();
         $orderTotal = 0;
 
         for($i=0; $i < count($orderAttributes['id']); $i++){
@@ -109,16 +114,9 @@ class OrderController extends Controller
             ];
         }
 
+     // Record transactions
        if(  Order::insert($order)){
-        // Now that the order has been saved, let us update postings
-        Posting::create([
-            'debit_account_id' => config('accounting.sale_debit_account_id', 1) , // Caisse
-            'credit_account_id' => config('accounting.sales_credit_account_id', 6), // Clients Vin TANGAWIZI WINE
-            'amount'            => $orderTotal,
-            'note'              => 'Sale - order transaction:'. $orderTransactionId,
-            'description'       => 'Sale made for Client:'. $request->client_id
-        ]);
-
+        $this->recordPostings($orderTransactionId, $orderTotal, $request->client_id);
 
         // Notify
         $this->notifyUsers($orderTransactionId, env('PROCESSING_STATUS', "processing"));
@@ -129,6 +127,26 @@ class OrderController extends Controller
 
 
        return redirect()->back();
+    }
+
+    /**
+     * Record postings
+     */
+    private function recordPostings($orderTransactionId, $orderTotal, $clientId)
+    {
+        // Now that the order has been saved, let us update postings
+        $journalId = env('ORDER_JOURNAL_ID', 1);
+        $debitAccountId = env('ORDER_DEBIT_ACCOUNT_ID', 571);
+        $creditAccountId = config('ORDER_CREDIT_ACCOUNT_ID', 411);
+        $wording = 'Sale - order transaction:'. $orderTransactionId. ' for client:'. $clientId;
+
+        // Debit and credit
+        DB::beginTransaction();
+
+        $this->accountingRepo->savePosting($debitAccountId, $orderTotal, $orderTransactionId, 'Debit', $journalId,$wording,$cheque_number = 'N/A');
+        $this->accountingRepo->savePosting($creditAccountId, $orderTotal, $orderTransactionId, 'Credit', $journalId,$wording,$cheque_number = 'N/A');
+
+        DB::commit();
     }
 
     /**

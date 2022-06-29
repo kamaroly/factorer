@@ -10,7 +10,7 @@ trait TransactionTrait {
 	 * Get unique transaction ID
 	 * @return string
 	 */
-	private function getTransactionId() {
+	public function getTransactionId() {
 		// $transactionid = Posting::select(DB::raw('MAX( CAST( id AS UNSIGNED) ) as transactionid'))
 		// 				->first()->transactionid;
         // Make sure we prefix this transaction with user
