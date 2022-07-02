@@ -18,4 +18,5 @@ Route::group(['namespace' => '\Modules\Accounting\Http\Controllers\Backend', 'as
     Route::get('/accounting', 'AccountingController@index')->name('accounting.index');
     Route::post('/accounting/store', 'AccountingController@store')->name('accounting.store');
 
+    Route::get('/accounting/postings', 'PostingsController@index')->name('accounting.postings.index');
 });
