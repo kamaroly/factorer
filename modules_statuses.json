@@ -7,5 +7,6 @@
     "Purchase": true,
     "Accounting": true,
     "Client": true,
-    "Order": true
+    "Order": true,
+    "Reports": true
 }
