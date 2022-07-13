@@ -11,6 +11,17 @@
 |
 */
 
-Route::prefix('reports')->group(function() {
-    Route::get('/', 'ReportsController@index');
+
+
+/*
+*
+* Backend Routes
+*
+* --------------------------------------------------------------------
+*/
+Route::group(['namespace' => '\Modules\Reports\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+
+    Route::prefix('reports')->group(function() {
+        Route::get('/', 'ReportsController@index');
+    });
 });
