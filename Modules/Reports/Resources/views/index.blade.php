@@ -24,8 +24,22 @@
               <div class="col">
                 <ul class="list-group">
                     <li class="list-group-item warning active" aria-current="true">Accounting Reports</li>
-                    <li class="list-group-item">Grand livre (ledge)</li>
-                    <li class="list-group-item">Journal</li>
+                    <li class="list-group-item">
+                        <a
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.grand.livre']) }}"
+                            target="_blank"
+                        >
+                            Grand livre (ledge)
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.journal']) }}"
+                            target="_blank"
+                        >
+                        Journal
+                        </a>
+                    </li>
                     <li class="list-group-item">Report 3</li>
                     <li class="list-group-item">Report 4</li>
                   </ul>
@@ -33,8 +47,22 @@
               <div class="col">
                 <ul class="list-group">
                     <li class="list-group-item active" aria-current="true">Inventory Reports</li>
-                    <li class="list-group-item">Rapport de stock matiere premiere</li>
-                    <li class="list-group-item">Rapport de stock produit finie(entre et sortie)</li>
+                    <li class="list-group-item">
+                        <a
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.stock-matiere-premiere']) }}"
+                            target="_blank"
+                        >
+                            Rapport de stock matiere premiere
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.stock.produit.finie']) }}"
+                            target="_blank"
+                        >
+                            Rapport de stock produit finie(entre et sortie)
+                        </a>
+                    </li>
                     <li class="list-group-item">Report 3</li>
                     <li class="list-group-item">Report 4</li>
                   </ul>
