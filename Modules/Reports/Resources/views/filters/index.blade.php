@@ -13,7 +13,7 @@
         </div>
 
         <div class="card-body">
-            <form action="#" action="_blank">
+            <form action="{{ route(request('report-route'), ['id'=>1]) }}" action="_blank">
                 <div class="container">
                     <div class="row">
 

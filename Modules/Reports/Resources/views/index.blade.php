@@ -49,7 +49,7 @@
                     <li class="list-group-item active" aria-current="true">Inventory Reports</li>
                     <li class="list-group-item">
                         <a
-                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.stock-matiere-premiere']) }}"
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.inventory']) }}"
                             target="_blank"
                         >
                             Rapport de stock matiere premiere
@@ -57,7 +57,7 @@
                     </li>
                     <li class="list-group-item">
                         <a
-                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.stock.produit.finie']) }}"
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'backend.reports.product-inventory']) }}"
                             target="_blank"
                         >
                             Rapport de stock produit finie(entre et sortie)
