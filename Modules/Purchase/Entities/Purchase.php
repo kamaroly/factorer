@@ -2,9 +2,10 @@
 
 namespace Modules\Purchase\Entities;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 USE App\Models\User;
 
 class Purchase extends Model
@@ -17,15 +18,15 @@ class Purchase extends Model
             'updated_at' => 'date',
             'created_at' => 'date',
         ];
-    
+
+
     function setCreatedAtAttribute(){
-        ////$this->received_at = Carbon::now()->format('Y-m-d H:i:s');
          $this->created_at = Carbon::now()->format('Y-m-d H:i:s');
     }
 
 
 
-      /**
+    /**
      * Get a client associated to this
      * order
      */
@@ -35,9 +36,11 @@ class Purchase extends Model
         return $this->hasOne(User::class, "id", "userid");
     }
 
-    public function users()
+    /**
+     * Get purchase between
+     */
+    public function scopeDateBetween($query, $startDate, $endDate)
     {
-        return $this->belongsTo(User::class,'userid','id');
+        return $query->whereBetween(DB::raw('DATE(created_at)'), [$startDate, $endDate]);
     }
-
 }

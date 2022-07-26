@@ -31,20 +31,3 @@
 
 @endsection
 
-@push('after-scripts')
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-
-    <script type="text/javascript">
-        $('.date').datepicker({
-                format: 'mm-dd-yyyy',
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "bottom left"
-         });
-    </script>
-@endpush
