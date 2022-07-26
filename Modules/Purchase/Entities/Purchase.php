@@ -43,4 +43,12 @@ class Purchase extends Model
     {
         return $query->whereBetween(DB::raw('DATE(created_at)'), [$startDate, $endDate]);
     }
+
+    /**
+     * Get records before
+     */
+    public function scopeBefore($query, $date)
+    {
+        return $query->where(DB::raw('DATE(created_at)'), '<', $date);
+    }
 }

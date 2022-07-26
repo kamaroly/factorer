@@ -29,6 +29,8 @@ class ProductInventoryController extends Controller
                         request()->end_date
                     )->get();
 
-        return view('reports::product-inventory', compact('purchases'));
+        $purchaseBefore = Purchase::before(request()->start_date)->get();
+
+        return view('reports::product-inventory', compact('purchases', 'purchaseBefore'));
     }
 }

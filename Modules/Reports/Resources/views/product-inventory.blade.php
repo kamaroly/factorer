@@ -23,20 +23,37 @@
 
             <tr>
                 <th colspan="3">Balance du jour precedant</th>
-                <th>10,000</th>
-                <th>4,500</th>
-                <th>5,500</th>
+                <th>{{ $purchaseBefore->where('item_qty', '>', 0 )->sum('item_qty') }}</th>
+                <th>{{ $purchaseBefore->where('item_qty', '<', 0 )->sum('item_qty') }}</th>
+                <th>{{ number_format($purchaseBefore->sum('item_qty') * config('order.products')[0]['price']) }}</th>
             </tr>
+
+            @php
+                $total = 0;
+            @endphp
+
+            @foreach ($purchases as $purchase)
+
+            @php
+                $total =  $total + $purchases->sum('item_qty') * config('order.products')[0]['price'];
+            @endphp
+
+                <tr>
+                    <td>{{ $purchase->created_at->format('d/m/Y') }}</td>
+                    <td>{{ $purchase->id }}</td>
+                    <td>{!! $purchase->item_comment !!}</td>
+                    <td>{{ ($purchase->item_qty > 0) ? $purchase->item_qty : '' }}</td>
+                    <td>{{ ($purchase->item_qty < 0) ? $purchase->item_qty : '' }}</td>
+                    <td>{{ number_format($total)  }}</td>
+                </tr>
+            @endforeach
 
             <tr>
-                <td>{{ date('d/m/Y') }}</td>
-                <td>1</td>
-                <td>Venue Due furnisseur</td>
-                <td>700</td>
-                <td>0</td>
-                <td>6,200</td>
+                <th colspan="3">Total Movement</th>
+                <th>{{ $purchases->where('item_qty', '>', 0 )->sum('item_qty') }}</th>
+                <th>{{ $purchases->where('item_qty', '<', 0 )->sum('item_qty') }}</th>
+                <th>{{ number_format($total) }}</th>
             </tr>
-
         </table>
     </div>
 </div>
