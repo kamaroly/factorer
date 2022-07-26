@@ -16,6 +16,7 @@ class ProductInventoryController extends Controller
      */
     public function index()
     {
+        collect(request()->all());
         return view('reports::product-inventory');
     }
 }

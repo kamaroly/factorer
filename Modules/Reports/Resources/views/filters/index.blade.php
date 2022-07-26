@@ -15,22 +15,9 @@
         <div class="card-body">
             <form action="{{ route(request('report-route'), ['id'=>1]) }}" action="_blank">
                 <div class="container">
-                    <div class="row">
 
-                        <div class="col-sm">
-                            <strong>Start Date:</strong>
-                            <input class="date form-control" type="text" name="start_date">
-                        </div>
-
-                        <div class="col-sm">
-                            <strong>End Date:</strong>
-                            <input class="date form-control" type="text" name="end_date">
-                        </div>
-
-                        <div class="col-sm"></div>
-                        <div class="col-sm"></div>
-                        <div class="col-sm"></div>
-                    </div>
+                    {{-- Filter using date --}}
+                    @include('reports::filters.date-filters')
 
                     <div class="row">
                         <div class="col-sm mt-2">
