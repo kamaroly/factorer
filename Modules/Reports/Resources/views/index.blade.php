@@ -26,7 +26,7 @@
                     <li class="list-group-item warning active" aria-current="true">Accounting Reports</li>
                     <li class="list-group-item">
                         <a
-                            href="{{ route('backend.reports.filter', ['report-route'=> 'backed.reports.ledger']) }}"
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'backend.reports.ledger']) }}"
                             target="_blank"
                         >
                             Grand livre (ledger)
@@ -34,7 +34,7 @@
                     </li>
                     <li class="list-group-item">
                         <a
-                            href="{{ route('backend.reports.filter', ['report-route'=> 'backed.reports.journal']) }}"
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'backend.reports.journal']) }}"
                             target="_blank"
                         >
                         Journal
