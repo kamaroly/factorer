@@ -49,7 +49,7 @@
                     <li class="list-group-item active" aria-current="true">Inventory Reports</li>
                     <li class="list-group-item">
                         <a
-                            href="{{ route('backend.reports.filter', ['report-route'=> 'admin.reports.inventory']) }}"
+                            href="{{ route('backend.reports.filter', ['report-route'=> 'backend.reports.raw-materials']) }}"
                             target="_blank"
                         >
                             Rapport de stock matiere premiere

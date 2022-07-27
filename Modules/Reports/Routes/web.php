@@ -27,7 +27,8 @@ Route::group(['namespace' => '\Modules\Reports\Http\Controllers\Backend', 'as' =
         Route::get('/filters', 'ReportFilterController@index')->name('reports.filter');
 
         // Produit Fini
-        Route::get('/product-inventory', 'ProductInventoryController@index')->name('reports.product-inventory');
+        Route::get('/product-inventory', 'ProductInventoryReportController@index')->name('reports.product-inventory');
+        Route::get('/raw-materials', 'RawMaterialReportController@index')->name('reports.raw-materials');
     });
 
 
