@@ -25,28 +25,28 @@
                 <th colspan="3">Balance du jour precedant</th>
                 <th>{{ $purchaseBefore->where('item_qty', '>', 0 )->sum('item_qty') }}</th>
                 <th>{{ $purchaseBefore->where('item_qty', '<', 0 )->sum('item_qty') }}</th>
-                <th>{{ number_format($purchaseBefore->sum('item_qty') * config('order.products')[0]['price']) }}</th>
+                <th>{{ number_format($purchaseBefore->sum('item_qty')) }}</th>
             </tr>
 
-            @php
-                $total = 0;
-            @endphp
+                @php
+                    $total = 0;
+                @endphp
 
-            @foreach ($purchases as $purchase)
+                @foreach ($purchases as $purchase)
 
-            @php
-                $total =  $total + $purchases->sum('item_qty') * config('order.products')[0]['price'];
-            @endphp
+                    @php
+                        $total =  $total + $purchases->sum('item_qty');
+                    @endphp
 
-                <tr>
-                    <td>{{ $purchase->created_at->format('d/m/Y') }}</td>
-                    <td>{{ $purchase->id }}</td>
-                    <td>{!! $purchase->item_comment !!}</td>
-                    <td>{{ ($purchase->item_qty > 0) ? $purchase->item_qty : '' }}</td>
-                    <td>{{ ($purchase->item_qty < 0) ? $purchase->item_qty : '' }}</td>
-                    <td>{{ number_format($total)  }}</td>
-                </tr>
-            @endforeach
+                    <tr>
+                        <td>{{ $purchase->created_at->format('d/m/Y') }}</td>
+                        <td>{{ $purchase->id }}</td>
+                        <td>{!! $purchase->item_comment !!}</td>
+                        <td>{{ ($purchase->item_qty > 0) ? $purchase->item_qty : '' }}</td>
+                        <td>{{ ($purchase->item_qty < 0) ? $purchase->item_qty : '' }}</td>
+                        <td>{{ number_format($total)  }}</td>
+                    </tr>
+                @endforeach
 
             <tr>
                 <th colspan="3">Total Movement</th>
